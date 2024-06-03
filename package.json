@@ -1,0 +1,19 @@
+{
+  "name": "backend-project",
+  "version": "1.0.0",
+  "description": "project build while learning backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AryanBhati7/Backend-Project.git"
+  },
+  "author": "aryanbhati",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AryanBhati7/Backend-Project/issues"
+  },
+  "homepage": "https://github.com/AryanBhati7/Backend-Project#readme"
+}
