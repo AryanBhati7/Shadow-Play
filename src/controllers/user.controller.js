@@ -271,7 +271,7 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
     const avatar = await uploadOnCloudinary(avatarLocalPath);
 
     if (!avatar.url) throw ApiError(501, "Error while uploading Avatar");
-
+    //TODO: delete file from cloudinary
     const user = await User.findByIdAndUpdate(
       req.user?._id,
       {
@@ -302,7 +302,7 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
 
     if (!coverImage.url)
       throw ApiError(501, "Error while uploading Cover Image");
-
+    //TODO: delete file from cloudinary by creating a utility function
     const user = await User.findByIdAndUpdate(
       req.user?._id,
       {
@@ -326,6 +326,77 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
   }
 });
 
+const getUserChannelProfile = asyncHandler(async (req, res) => {
+  const { username } = req.params;
+  if (!username?.trim()) throw new ApiError(400, "Username is missing");
+
+  try {
+    const channel = await User.aggregate([
+      {
+        $match: {
+          username: username?.toLowerCase(),
+        },
+      },
+      {
+        $lookup: {
+          from: "subscriptions",
+          localField: "_id",
+          foreignField: "channel",
+          as: "subscribers",
+        },
+      },
+      {
+        $lookup: {
+          from: "subscriptions",
+          localField: "_id",
+          foreignField: "subscriber",
+          as: "subscribedTo",
+        },
+      },
+      {
+        $addFields: {
+          subscribersCount: {
+            $size: "$subscribers",
+          },
+          subscribedToCount: {
+            $size: "$subscribedTo",
+          },
+          isSubscribed: {
+            $cond: {
+              if: { $in: [req.user?._id, "$subscribers.subscriber"] },
+              then: true,
+              else: false,
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          fullName: 1,
+          username: 1,
+          email: 1,
+          avatar: 1,
+          coverImage: 1,
+          subscribersCount: 1,
+          subscribedToCount: 1,
+          isSubscribed: 1,
+          createdAt: 1,
+        },
+      },
+    ]);
+    if (!channel?.length) throw new ApiError(404, "Channel deos not exist");
+    console.log(channel);
+
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(200, channel[0], "User channel fetched successfully")
+      );
+  } catch (error) {
+    throw new ApiError(501, error?.message || "User Channel fetching failed");
+  }
+});
+
 export {
   registerUser,
   loginUser,
@@ -336,4 +407,5 @@ export {
   updateAccountDetails,
   updateUserAvatar,
   updateUserCoverImage,
+  getUserChannelProfile,
 };
