@@ -99,7 +99,6 @@ const loginUser = asyncHandler(async (req, res) => {
   //password check
   //access and refresh token
   //send cookie
-
   const { email, username, password } = req.body;
 
   if (!(username || email))
@@ -150,7 +149,7 @@ const logoutUser = asyncHandler(async (req, res) => {
   await User.findByIdAndUpdate(
     userId,
     {
-      $set: { refreshToken: undefined },
+      $unset: { refreshToken: 1 }, //removes the field form document
     },
     {
       new: true,
@@ -300,7 +299,6 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
 
   try {
     const coverImage = await uploadOnCloudinary(coverImageLocalPath);
-
     if (!coverImage.url)
       throw ApiError(501, "Error while uploading Cover Image");
     //TODO: delete file from cloudinary by creating a utility function
