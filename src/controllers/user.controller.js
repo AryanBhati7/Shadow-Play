@@ -1,7 +1,11 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
-import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import { AVATAR_CL_PATH, COVER_IMG_CL_PATH } from "../constants.js";
+import {
+  uploadOnCloudinary,
+  deleteFromCloudinary,
+} from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
@@ -66,10 +70,10 @@ const registerUser = asyncHandler(async (req, res) => {
 
   if (!avatarLocalPath) throw new ApiError(400, "Avatar is required");
 
-  const avatar = await uploadOnCloudinary(avatarLocalPath, "YT-Clone/Avatar");
+  const avatar = await uploadOnCloudinary(avatarLocalPath, AVATAR_CL_PATH);
   const coverImage = await uploadOnCloudinary(
     coverImageLocalPath,
-    "YT-Clone/Cover_Image"
+    COVER_IMG_CL_PATH
   );
 
   if (!avatar) throw new ApiError(400, "Avatar uploading failed");
@@ -101,12 +105,6 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 const loginUser = asyncHandler(async (req, res) => {
-  //take data from req body
-  //username or email for login
-  //find the user
-  //password check
-  //access and refresh token
-  //send cookie
   const { email, username, password } = req.body;
 
   if (!(username || email))
@@ -209,6 +207,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     throw new ApiError(401, error?.message || "Invalid refresh token");
   }
 });
+
 const getCurrentUser = asyncHandler(async (req, res) => {
   return res
     .status(200)
@@ -235,7 +234,7 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
 
     return res
       .status(200)
-      .json(new ApiResponse(200, {}, "Password changed successfully"));
+      .json(new ApiResponse(200, null, "Password changed successfully"));
   } catch (error) {
     throw new ApiError(501, "Changing password failed");
   }
@@ -273,18 +272,23 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
 const updateUserAvatar = asyncHandler(async (req, res) => {
   const avatarLocalPath = req.file?.path;
 
-  if (!avatarLocalPath) throw ApiError(400, "Avatar file is missing");
+  if (!avatarLocalPath) throw new ApiError(400, "Avatar file is missing");
 
   try {
-    const avatar = await uploadOnCloudinary(avatarLocalPath);
+    const avatar = await uploadOnCloudinary(avatarLocalPath, AVATAR_CL_PATH);
 
-    if (!avatar.url) throw ApiError(501, "Error while uploading Avatar");
-    //TODO: delete file from cloudinary
+    if (!avatar.url) throw new ApiError(501, "Error while uploading Avatar");
+
+    await deleteFromCloudinary(req.user?.avatar.fileId);
+
     const user = await User.findByIdAndUpdate(
       req.user?._id,
       {
         $set: {
-          avatar: avatar.url,
+          avatar: {
+            fileId: avatar.public_id,
+            url: avatar.url,
+          },
         },
       },
       {
@@ -303,18 +307,26 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
 const updateUserCoverImage = asyncHandler(async (req, res) => {
   const coverImageLocalPath = req.file?.path;
 
-  if (!coverImageLocalPath) throw ApiError(400, "Cover Image file is missing");
+  if (!coverImageLocalPath)
+    throw new ApiError(400, "Cover Image file is missing");
 
   try {
-    const coverImage = await uploadOnCloudinary(coverImageLocalPath);
+    const coverImage = await uploadOnCloudinary(
+      coverImageLocalPath,
+      COVER_IMG_CL_PATH
+    );
     if (!coverImage.url)
-      throw ApiError(501, "Error while uploading Cover Image");
-    //TODO: delete file from cloudinary by creating a utility function
+      throw new ApiError(501, "Error while uploading Cover Image");
+
+    await deleteFromCloudinary(req.user?.coverImage.fileId);
     const user = await User.findByIdAndUpdate(
       req.user?._id,
       {
         $set: {
-          coverImage: coverImage.url,
+          coverImage: {
+            fileId: coverImage.public_id,
+            url: coverImage.url,
+          },
         },
       },
       {
