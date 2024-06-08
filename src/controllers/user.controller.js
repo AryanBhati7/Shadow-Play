@@ -53,7 +53,6 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   if (existedUser) throw new ApiError(409, "Email or Username already exists");
-
   const avatarLocalPath = req.files?.avatar[0]?.path;
 
   let coverImageLocalPath;
@@ -67,15 +66,24 @@ const registerUser = asyncHandler(async (req, res) => {
 
   if (!avatarLocalPath) throw new ApiError(400, "Avatar is required");
 
-  const avatar = await uploadOnCloudinary(avatarLocalPath);
-  const coverImage = await uploadOnCloudinary(coverImageLocalPath);
+  const avatar = await uploadOnCloudinary(avatarLocalPath, "YT-Clone/Avatar");
+  const coverImage = await uploadOnCloudinary(
+    coverImageLocalPath,
+    "YT-Clone/Cover_Image"
+  );
 
   if (!avatar) throw new ApiError(400, "Avatar uploading failed");
 
   const user = await User.create({
     fullName,
-    avatar: avatar.url,
-    coverImage: coverImage?.url || "",
+    avatar: {
+      fileId: avatar.public_id,
+      url: avatar.url,
+    },
+    coverImage: {
+      fileId: coverImage?.public_id || "",
+      url: coverImage?.url || "",
+    },
     email,
     password,
     username: username.toLowerCase(),

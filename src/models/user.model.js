@@ -26,11 +26,29 @@ const userSchema = new Schema(
       trim: true,
     },
     avatar: {
-      type: String,
+      _id: false,
+      type: {
+        fileId: {
+          type: String,
+          required: true,
+        },
+        url: {
+          type: String,
+          required: true,
+        },
+      },
       required: true,
     },
     coverImage: {
-      type: String,
+      _id: false,
+      type: {
+        fileId: {
+          type: String,
+        },
+        url: {
+          type: String,
+        },
+      },
     },
     password: {
       type: String,
