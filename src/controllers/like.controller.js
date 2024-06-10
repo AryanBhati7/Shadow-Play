@@ -6,7 +6,17 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 
 const toggleVideoLike = asyncHandler(async (req, res) => {
   const { videoId } = req.params;
-  //TODO: toggle like on video
+  const userId = req.user._id;
+
+  let likeVideo = await Like.findOne({ video: videoId, likedBy: userId });
+
+  if (likeVideo) {
+    await Like.findByIdAndDelete(likeVideo._id);
+    return res.status(200).json(new ApiResponse(200, null, "Video unliked"));
+  } else {
+    likeVideo = await Like.create({ video: videoId, likedBy: userId });
+    return res.status(200).json(new ApiResponse(200, null, "Video liked"));
+  }
 });
 
 const toggleCommentLike = asyncHandler(async (req, res) => {
