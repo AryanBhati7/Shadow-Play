@@ -9,7 +9,6 @@ import {
   uploadOnCloudinary,
   deleteFromCloudinary,
 } from "../utils/cloudinary.js";
-import { v2 as cloudinary } from "cloudinary";
 
 const getAllVideos = asyncHandler(async (req, res) => {
   const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query;
@@ -17,9 +16,18 @@ const getAllVideos = asyncHandler(async (req, res) => {
 });
 
 const publishAVideo = asyncHandler(async (req, res) => {
+  const { title, description, isPublished } = req.body;
+
+  if ([title, description, isPublished].some((field) => field?.trim() === "")) {
+    throw new ApiError(400, "All fields are required");
+  }
+
   const videoLocalPath = req.files?.video[0]?.path;
+
   if (!videoLocalPath) throw new ApiError(401, "Video is required to publish");
+
   const thumbnailLocalPath = req.files?.thumbnail[0]?.path;
+
   if (!thumbnailLocalPath)
     throw new ApiError(401, "Thumbnail is required to publish");
 
@@ -44,9 +52,9 @@ const publishAVideo = asyncHandler(async (req, res) => {
       url: thumbnailFile.url,
     },
     duration: videoFile.duration,
-    title: req.body.title,
-    description: req.body.description,
-    isPublished: req.body.isPublished,
+    title,
+    description,
+    isPublished,
     owner: req.user._id,
   });
 
@@ -58,7 +66,6 @@ const publishAVideo = asyncHandler(async (req, res) => {
 });
 
 const getVideoById = asyncHandler(async (req, res) => {
-  //TODO: get video by id
   const { videoId } = req.params;
   if (!videoId?.trim()) throw new ApiError(400, "Video Id is missing");
 
@@ -135,6 +142,18 @@ const deleteVideo = asyncHandler(async (req, res) => {
 
 const togglePublishStatus = asyncHandler(async (req, res) => {
   const { videoId } = req.params;
+
+  const video = await Video.findById(videoId);
+
+  if (!video) throw new ApiError(404, "Video not found");
+
+  video.isPublished = !video.isPublished;
+
+  await video.save({ validateBeforeSave: false });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, video, "Video publish status updated"));
 });
 
 export {
