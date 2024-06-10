@@ -9,6 +9,10 @@ export const avatar_upOptions = {
   folder: "YT-Clone/Avatar",
   resource_type: "image",
 };
+export const thumbnail_upOptions = {
+  folder: "YT-Clone/Thumbnails",
+  resource_type: "image",
+};
 
 export const video_upOptions = {
   folder: "YT-Clone/Videos",
