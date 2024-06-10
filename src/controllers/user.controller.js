@@ -1,7 +1,7 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
-import { AVATAR_CL_PATH, COVER_IMG_CL_PATH } from "../constants.js";
+import { coverImg_upOptions, avatar_upOptions } from "../constants.js";
 import {
   uploadOnCloudinary,
   deleteFromCloudinary,
@@ -70,10 +70,10 @@ const registerUser = asyncHandler(async (req, res) => {
 
   if (!avatarLocalPath) throw new ApiError(400, "Avatar is required");
 
-  const avatar = await uploadOnCloudinary(avatarLocalPath, AVATAR_CL_PATH);
+  const avatar = await uploadOnCloudinary(avatarLocalPath, avatar_upOptions);
   const coverImage = await uploadOnCloudinary(
     coverImageLocalPath,
-    COVER_IMG_CL_PATH
+    coverImg_upOptions
   );
 
   if (!avatar) throw new ApiError(400, "Avatar uploading failed");
@@ -275,7 +275,7 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
   if (!avatarLocalPath) throw new ApiError(400, "Avatar file is missing");
 
   try {
-    const avatar = await uploadOnCloudinary(avatarLocalPath, AVATAR_CL_PATH);
+    const avatar = await uploadOnCloudinary(avatarLocalPath, avatar_upOptions);
 
     if (!avatar.url) throw new ApiError(501, "Error while uploading Avatar");
 
@@ -313,7 +313,7 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
   try {
     const coverImage = await uploadOnCloudinary(
       coverImageLocalPath,
-      COVER_IMG_CL_PATH
+      coverImg_upOptions
     );
     if (!coverImage.url)
       throw new ApiError(501, "Error while uploading Cover Image");

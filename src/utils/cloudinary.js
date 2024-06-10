@@ -7,7 +7,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const uploadOnCloudinary = async (localFilePath, folder) => {
+const uploadOnCloudinary = async (localFilePath, upload_options) => {
   //YT-Clone/Avatar -> Avatar
   //YT-Clone/Cover_Images -> CoverImages
   //YT-Clone/Videos -> Videos
@@ -17,12 +17,13 @@ const uploadOnCloudinary = async (localFilePath, folder) => {
   //   { type: 'upload', resource_type: 'image' })
   // .then(console.log);
   try {
+    console.log("cloudinary function init");
     if (!localFilePath) return null;
     //upload the file on cloudinary
-    const response = await cloudinary.uploader.upload(localFilePath, {
-      folder,
-      resource_type: "auto",
-    });
+    const response = await cloudinary.uploader.upload(
+      localFilePath,
+      upload_options
+    );
     if (response) fs.unlinkSync(localFilePath);
     return response;
   } catch (error) {

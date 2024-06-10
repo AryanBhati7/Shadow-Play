@@ -3,8 +3,10 @@ import { Video } from "../models/video.model.js";
 import { User } from "../models/user.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import { video_upOptions } from "../constants.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import { v2 as cloudinary } from "cloudinary";
 
 const getAllVideos = asyncHandler(async (req, res) => {
   const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query;
@@ -12,8 +14,16 @@ const getAllVideos = asyncHandler(async (req, res) => {
 });
 
 const publishAVideo = asyncHandler(async (req, res) => {
-  const { title, description } = req.body;
   // TODO: get video, upload to cloudinary, create video
+  const videoLocalPath = req.file?.path;
+  if (!videoLocalPath) throw new ApiError(401, "Video is required to publish");
+
+  const video = await uploadOnCloudinary(videoLocalPath, video_upOptions);
+  // video.playback_url
+
+  console.log(video);
+
+  if (!video) throw new ApiError(500, "Failed to upload video");
 });
 
 const getVideoById = asyncHandler(async (req, res) => {
