@@ -8,7 +8,11 @@ import { Video } from "../models/video.model.js";
 const createPlaylist = asyncHandler(async (req, res) => {
   const { name, description } = req.body;
 
-  if ([name, description].some((field) => field?.trim() === "")) {
+  if (
+    [name, description].some(
+      (field) => field === undefined || field?.trim() === ""
+    )
+  ) {
     throw new ApiError(400, "Playlist name and description are required");
   }
 
@@ -36,7 +40,7 @@ const getUserPlaylists = asyncHandler(async (req, res) => {
   const playlist = await Playlist.aggregate([
     {
       $match: {
-        owner: mongoose.Types.ObjectId(userId),
+        owner: new mongoose.Types.ObjectId(userId),
       },
     },
     {
@@ -189,10 +193,7 @@ const addVideoToPlaylist = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Video not found");
   }
 
-  if (
-    (playlist.owner?.toString() && video.owner.toString()) !==
-    req.user?._id.toString()
-  ) {
+  if (playlist.owner?.toString() !== req.user?._id.toString()) {
     throw new ApiError(400, "only owner can add video to thier playlist");
   }
 
@@ -287,7 +288,11 @@ const updatePlaylist = asyncHandler(async (req, res) => {
   const { playlistId } = req.params;
   const { name, description } = req.body;
 
-  if ([name, description].some((field) => field?.trim() === "")) {
+  if (
+    [name, description].some(
+      (field) => field === undefined || field?.trim() === ""
+    )
+  ) {
     throw new ApiError(400, "All fields are required");
   }
 

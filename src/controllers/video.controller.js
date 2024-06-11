@@ -14,7 +14,10 @@ const getAllVideos = asyncHandler(async (req, res) => {
   const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query;
 
   const pipeline = [];
-
+  //first create a search index using atlas
+  //then use $search to search the videos
+  //search index is created on title and description fields
+  //here i have created "search-videos" index on "videos" collection
   if (query) {
     pipeline.push({
       $search: {
@@ -91,7 +94,11 @@ const getAllVideos = asyncHandler(async (req, res) => {
 const publishAVideo = asyncHandler(async (req, res) => {
   const { title, description, isPublished } = req.body;
 
-  if ([title, description, isPublished].some((field) => field?.trim() === "")) {
+  if (
+    [title, description, isPublished].some(
+      (field) => field === undefined || field?.trim() === ""
+    )
+  ) {
     throw new ApiError(400, "All fields are required");
   }
 
@@ -160,7 +167,11 @@ const updateVideo = asyncHandler(async (req, res) => {
   const { title, description } = req.body;
   const thumbnailLocalPath = req.file?.path;
 
-  if ([title, description].some((field) => field?.trim() === "")) {
+  if (
+    [title, description].some(
+      (field) => field === undefined || field?.trim() === ""
+    )
+  ) {
     throw new ApiError(400, "All fields are required");
   }
 
