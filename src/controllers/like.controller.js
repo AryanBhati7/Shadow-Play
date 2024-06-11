@@ -21,16 +21,124 @@ const toggleVideoLike = asyncHandler(async (req, res) => {
 
 const toggleCommentLike = asyncHandler(async (req, res) => {
   const { commentId } = req.params;
-  //TODO: toggle like on comment
+  const userId = req.user._id;
+
+  try {
+    let commentLike = await Like.findOne({
+      comment: commentId,
+      likedBy: userId,
+    });
+
+    if (commentLike) {
+      await Like.findByIdAndDelete(commentLike._id);
+      return res
+        .status(200)
+        .json(new ApiResponse(200, null, "Comment unliked"));
+    } else {
+      commentLike = await Like.create({ comment: commentId, likedBy: userId });
+      return res.status(200).json(new ApiResponse(200, null, "Comment liked"));
+    }
+  } catch (error) {
+    throw new ApiError(501, error?.message || "ToggleLike comment failed");
+  }
 });
 
 const toggleTweetLike = asyncHandler(async (req, res) => {
   const { tweetId } = req.params;
-  //TODO: toggle like on tweet
+
+  const userId = req.user._id;
+
+  try {
+    let tweetLike = await Like.findOne({
+      tweet: tweetId,
+      likedBy: userId,
+    });
+
+    if (tweetLike) {
+      await Like.findByIdAndDelete(tweetLike._id);
+      return res
+        .status(200)
+        .json(new ApiResponse(200, null, "Comment unliked"));
+    } else {
+      tweetLike = await Like.create({ tweet: tweetId, likedBy: userId });
+      return res.status(200).json(new ApiResponse(200, null, "Comment liked"));
+    }
+  } catch (error) {
+    throw new ApiError(501, error?.message || "toggleLike tweet failed");
+  }
 });
 
 const getLikedVideos = asyncHandler(async (req, res) => {
-  //TODO: get all liked videos
+  const userId = req.user?._id;
+
+  try {
+    const likedVideos = await Like.aggregate([
+      {
+        $match: {
+          likedBy: new mongoose.Types.ObjectId(userId),
+        },
+      },
+      {
+        $lookup: {
+          from: "videos",
+          localField: "video",
+          foreignField: "_id",
+          as: "likedVideo",
+          pipeline: [
+            {
+              $lookup: {
+                from: "users",
+                localField: "owner",
+                foreignField: "_id",
+                as: "ownerDetails",
+              },
+            },
+            {
+              $unwind: "$ownerDetails",
+            },
+          ],
+        },
+      },
+      {
+        $unwind: "$likedVideo",
+      },
+      {
+        $sort: {
+          createdAt: -1,
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          likedVideo: {
+            _id: 1,
+            "video.url": 1,
+            "thumbnail.url": 1,
+            owner: 1,
+            title: 1,
+            description: 1,
+            views: 1,
+            duration: 1,
+            createdAt: 1,
+            isPublished: 1,
+            ownerDetails: {
+              username: 1,
+              fullName: 1,
+              "avatar.url": 1,
+            },
+          },
+        },
+      },
+    ]);
+    if (!likedVideos) throw new ApiError(501, "No liked Video found");
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(200, likedVideos, "Liked Videos fetched successfully")
+      );
+  } catch (error) {
+    throw new ApiError(501, error?.message || "getting liked videos failed");
+  }
 });
 
 export { toggleCommentLike, toggleTweetLike, toggleVideoLike, getLikedVideos };
