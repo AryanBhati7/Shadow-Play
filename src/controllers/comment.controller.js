@@ -6,7 +6,6 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 const getVideoComments = asyncHandler(async (req, res) => {
-  //TODO: get all comments for a video
   const { videoId } = req.params;
   const { page = 1, limit = 10 } = req.query;
 
@@ -14,21 +13,82 @@ const getVideoComments = asyncHandler(async (req, res) => {
 
   if (!video) throw new ApiError(404, "Video not found");
 
-  const comments = await Comment.find({ video: videoId })
-    .populate("owner", "username")
-    .skip((page - 1) * limit)
-    .limit(limit);
+  const commentsAggregate = Comment.aggregate([
+    {
+      $match: {
+        video: new mongoose.Types.ObjectId(videoId),
+      },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "owner",
+        foreignField: "_id",
+        as: "owner",
+      },
+    },
+    {
+      $lookup: {
+        from: "likes",
+        localField: "_id",
+        foreignField: "comment",
+        as: "likes",
+      },
+    },
+    {
+      $addFields: {
+        likesCount: {
+          $size: "$likes",
+        },
+        owner: {
+          $first: "$owner",
+        },
+        isLiked: {
+          $cond: {
+            if: { $in: [req.user?._id, "$likes.likedBy"] },
+            then: true,
+            else: false,
+          },
+        },
+      },
+    },
+    {
+      $sort: {
+        createdAt: -1,
+      },
+    },
+    {
+      $project: {
+        content: 1,
+        createdAt: 1,
+        likesCount: 1,
+        owner: {
+          username: 1,
+          fullName: 1,
+          "avatar.url": 1,
+        },
+        isLiked: 1,
+      },
+    },
+  ]);
+  if (!commentsAggregate) {
+    throw new ApiError(500, "Error creating comments aggregate");
+  }
 
-  console.log(comments);
+  const options = {
+    page: parseInt(page, 10),
+    limit: parseInt(limit, 10),
+  };
 
-  return res.status(200).json(
-    new ApiResponse(200, {
-      comments,
-      total: comments.length,
-      page: parseInt(page),
-      limit: parseInt(limit),
-    })
-  );
+  const comments = await Comment.aggregatePaginate(commentsAggregate, options);
+
+  if (!comments) throw new ApiError(501, "Comments Pagination failed");
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, comments, "Video Comments fetched Successfully")
+    );
 });
 
 const addComment = asyncHandler(async (req, res) => {
