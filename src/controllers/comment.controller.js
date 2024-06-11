@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { isValidObjectId } from "mongoose";
 import { Comment } from "../models/comment.model.js";
 import { Video } from "../models/video.model.js";
 import { ApiError } from "../utils/ApiError.js";
@@ -8,6 +8,8 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 const getVideoComments = asyncHandler(async (req, res) => {
   const { videoId } = req.params;
   const { page = 1, limit = 10 } = req.query;
+
+  if (!isValidObjectId(videoId)) throw new ApiError(401, "Invalid VideoID");
 
   const video = await Video.findById(videoId);
 
@@ -116,22 +118,47 @@ const updateComment = asyncHandler(async (req, res) => {
 
   if (!content) throw new ApiError(404, "Comment content is required");
 
-  const comment = await Comment.findByIdAndUpdate(
+  if (!isValidObjectId(commentId)) {
+    throw new ApiError(400, "Invalid comment Id");
+  }
+
+  const comment = await Comment.findById(commentId);
+
+  if (!comment) {
+    throw new ApiError(404, "Comment not found");
+  }
+
+  if (comment?.owner.toString() !== req.user?._id.toString()) {
+    throw new ApiError(400, "only comment owner can edit their comment");
+  }
+
+  const updatedComment = await Comment.findByIdAndUpdate(
     commentId,
-    { content },
+    { $set: { content } },
     { new: true }
   );
-  if (!comment) throw new ApiError(500, "Error updating comment");
+  if (!updatedComment) throw new ApiError(500, "Error updating comment");
 
-  return res.status(200).json(new ApiResponse(200, comment, "Comment updated"));
+  return res
+    .status(200)
+    .json(new ApiResponse(200, updatedComment, "Comment updated"));
 });
 
 const deleteComment = asyncHandler(async (req, res) => {
   const { commentId } = req.params;
+  const userId = req.user?._id;
 
-  const comment = await Comment.findByIdAndDelete(commentId);
+  if (!isValidObjectId(commentId))
+    throw new ApiError(401, "Invalid Comment ID");
+
+  const comment = await Comment.findById(commentId);
 
   if (!comment) throw new ApiError(404, "Comment not found");
+
+  if (comment?.owner.toString() !== userId.toString()) {
+    throw new ApiError(400, "only owner can delete their Comment");
+  }
+  await Comment.findByIdAndDelete(commentId);
 
   return res.status(200).json(new ApiResponse(200, null, "Comment deleted"));
 });
