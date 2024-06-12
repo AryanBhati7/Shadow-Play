@@ -406,7 +406,6 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
       },
     ]);
     if (!channel?.length) throw new ApiError(404, "Channel deos not exist");
-    console.log(channel);
 
     return res
       .status(200)
