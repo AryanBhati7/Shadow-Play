@@ -7,13 +7,9 @@ import Sidebar from "./components/Sidebar";
 function App() {
   const [showSidebar, setShowSidebar] = useState(true); // state to control the visibility of the Sidebar
   return (
-    <div className="h-screen overflow-y-auto bg-[#121212] text-white">
-      <Header />
-      <main className="flex min-h-[calc(100vh-66px)] sm:min-h-[calc(100vh-82px)]">
-        {showSidebar && <Sidebar />}
-        <Outlet />
-      </main>
-    </div>
+    <main>
+      <Outlet />
+    </main>
   );
 }
 

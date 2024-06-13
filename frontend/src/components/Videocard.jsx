@@ -1,6 +1,6 @@
 import React from "react";
 
-function Videocard() {
+function Videocard({ video }) {
   return (
     <div className="w-full">
       <div className="relative mb-2 w-full pt-[56%]">

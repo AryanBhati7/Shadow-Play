@@ -3,7 +3,8 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./pages/Home.jsx";
+import { Signup, Home } from "./pages/index.js";
+import LayoutController from "./components/LayoutController.jsx";
 
 const router = createBrowserRouter([
   {
@@ -12,7 +13,19 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />,
+        element: (
+          <LayoutController authStatus>
+            <Home />
+          </LayoutController>
+        ),
+      },
+      {
+        path: "/signup",
+        element: (
+          <LayoutController authStatus={false} sidebar={false}>
+            <Signup />
+          </LayoutController>
+        ),
       },
     ],
   },
