@@ -229,14 +229,9 @@ function Header() {
             </li>
           </ul>
           <div className="mb-8 mt-auto flex w-full flex-wrap gap-4 px-4 sm:mb-0 sm:mt-0 sm:items-center sm:px-0">
-            <SpButton
-              text="Log in"
-              className={
-                "w-full bg-[#383737] px-3 py-2 hover:bg-[#4f4e4e] sm:w-auto sm:bg-transparent"
-              }
-            >
-              Log in
-            </SpButton>
+            <Link to="/login">
+              <Button>Log in</Button>
+            </Link>
             <Link to="/signup">
               <SpButton>Sign up</SpButton>
             </Link>
