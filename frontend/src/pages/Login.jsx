@@ -1,22 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Input, Logo, SpButton } from "../components/index.js";
+import { useLogin } from "../hooks/queries.js";
 
 function Login() {
+  const navigate = useNavigate();
   const schema = z.object({
-    email: z.string().email(),
-    username: z
-      .string()
-      .min(4)
-      .refine((value) => !value.includes(" "), {
-        message: "Username must not contain spaces",
-      })
-      .refine((value) => value === value.toLowerCase(), {
-        message: "Username must be all lowercase",
-      }),
+    usernameOrEmail: z.string().min(3),
     password: z.string().min(6),
   });
 
@@ -29,8 +22,15 @@ function Login() {
     resolver: zodResolver(schema),
   });
 
-  const createAccount = (data) => {
+  const { mutateAsync: login, isLoading } = useLogin();
+
+  const loginUser = async (data) => {
     console.log(data);
+    const session = await login(data);
+    if (session) {
+      console.log(session);
+      navigate("/");
+    }
   };
   return (
     <div className="h-screen overflow-y-auto bg-[#121212] text-white flex justify-center items-center">
@@ -49,7 +49,7 @@ function Login() {
             </Link>
           </span>
         </div>
-        <form onSubmit={handleSubmit(createAccount)} className="flex flex-col">
+        <form onSubmit={handleSubmit(loginUser)} className="flex flex-col">
           <Input
             label={"Username/Email*"}
             type="text"
