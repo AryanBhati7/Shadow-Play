@@ -1,15 +1,14 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:8000/api/v1",
+  baseURL: import.meta.env.API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials: true, // add this line
+  withCredentials: true,
 });
 
 export const login = async (formData) => {
-  console.log(formData, "api call login");
   try {
     const { data } = await API.post("/users/login", formData);
     return data?.data?.user;
