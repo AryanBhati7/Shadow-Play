@@ -1,5 +1,5 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { login, logout } from "../api/api";
+import { login, logout, getCurrentUser } from "../api/api";
 
 export const useLogin = () => {
   return useMutation({
@@ -12,3 +12,17 @@ export const useLogout = () => {
     mutationFn: () => logout(),
   });
 };
+
+export const useCurrentUser = () => {
+  return useQuery({
+    queryKey: ["currentUser"],
+    queryFn: () => getCurrentUser(),
+  });
+};
+
+// const loginMutation = useLogin();
+
+// const handleSubmit = (event) => {
+//   event.preventDefault();
+//   const user = { username: 'user', password: 'pass' };
+//   loginMutation.mutate(user);

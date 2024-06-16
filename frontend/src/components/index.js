@@ -7,8 +7,10 @@ import SpButton from "./SpButton";
 import Button from "./Button";
 import Videocard from "./Videocard";
 import Input from "./Input";
+import LoginPopup from "./LoginPopup";
 
 export {
+  LoginPopup,
   Input,
   LayoutController,
   Logo,

@@ -4,13 +4,17 @@ import Logo from "../Logo";
 import Button from "../Button";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogout } from "../../hooks/queries";
-function Header() {
-  const navigate = useNavigate();
+import { useDispatch } from "react-redux";
+import { unSetCurrentUser } from "../../features/authSlice";
+function Header({ authStatus }) {
+  const dispatch = useDispatch();
   const { mutateAsync: logout, isLoading } = useLogout();
 
   const handleLogout = async () => {
     const sessionStatus = await logout();
-    if (sessionStatus) navigate("/login");
+    if (sessionStatus) {
+      dispatch(unSetCurrentUser());
+    }
   };
 
   return (
@@ -238,13 +242,18 @@ function Header() {
             </li>
           </ul>
           <div className="mb-8 mt-auto flex w-full flex-wrap gap-4 px-4 sm:mb-0 sm:mt-0 sm:items-center sm:px-0">
-            <SpButton onClick={handleLogout}>Logout</SpButton>
-            <Link to="/login">
-              <Button>Log in</Button>
-            </Link>
-            <Link to="/signup">
-              <SpButton>Sign up</SpButton>
-            </Link>
+            {authStatus && <SpButton onClick={handleLogout}>Logout</SpButton>}
+
+            {!authStatus && (
+              <>
+                <Link to="/login">
+                  <Button>Log in</Button>
+                </Link>
+                <Link to="/signup">
+                  <SpButton>Sign up</SpButton>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </nav>

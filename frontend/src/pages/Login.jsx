@@ -5,9 +5,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Input, Logo, SpButton } from "../components/index.js";
 import { useLogin } from "../hooks/queries.js";
+import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
+import { setCurrentUser } from "../features/authSlice.js";
+// import { setCurrentUser } from "../features/authSlice.js";
 
 function Login() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const schema = z.object({
     usernameOrEmail: z.string().min(3),
     password: z.string().min(6),
@@ -22,16 +27,21 @@ function Login() {
     resolver: zodResolver(schema),
   });
 
-  const { mutateAsync: login, isLoading } = useLogin();
+  const { mutateAsync: login, isPending, isError, error } = useLogin();
+  // const login = useLogin();
+  //login.mutateAsync(data);
 
   const loginUser = async (data) => {
-    console.log(data);
     const session = await login(data);
     if (session) {
-      console.log(session);
+      dispatch(setCurrentUser(session));
       navigate("/");
     }
   };
+  if (error) {
+    toast.error(error);
+  }
+
   return (
     <div className="h-screen overflow-y-auto bg-[#121212] text-white flex justify-center items-center">
       <div className="mx-auto my-8 flex w-full max-w-sm flex-col px-4">
@@ -68,7 +78,9 @@ function Login() {
               required: true,
             })}
           />
-          <SpButton type="submit">Login</SpButton>
+          <SpButton type="submit">
+            {isPending ? "Logging In" : "Login"}
+          </SpButton>
         </form>
       </div>
     </div>
