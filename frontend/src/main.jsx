@@ -60,7 +60,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     </Provider>
     <ReactQueryDevtools initialIsOpen={false} />
     <Toaster
-      position="top-right"
+      position="bottom-right"
       reverseOrder={true}
       toastOptions={{
         error: {

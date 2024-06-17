@@ -1,10 +1,11 @@
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   login,
   logout,
   getCurrentUser,
   getVideos,
   getVideoById,
+  toggleSubscribe,
 } from "../api/api";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
@@ -24,6 +25,7 @@ export const useCurrentUser = () => {
   return useQuery({
     queryKey: ["currentUser"],
     queryFn: () => getCurrentUser(),
+    staleTime: 1000 * 60 * 2,
   });
 };
 
@@ -41,7 +43,22 @@ export const useVideos = () => {
 
 export const useVideoById = (videoId) => {
   return useQuery({
-    queryKey: ["videoId"],
+    queryKey: ["videos", videoId],
     queryFn: () => getVideoById(videoId),
+    staleTime: 1000 * 30,
   });
+};
+
+export const useSubscribe = () => {
+  return useMutation({
+    mutationFn: (channelId) => toggleSubscribe(channelId),
+  });
+};
+
+export const useInvalidator = () => {
+  const queryClient = useQueryClient();
+
+  return function invalidate(key) {
+    queryClient.invalidateQueries(key);
+  };
 };

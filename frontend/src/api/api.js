@@ -34,7 +34,6 @@ export const getCurrentUser = async () => {
     const { data } = await API.get("/users/current-user");
     return data?.data?.user;
   } catch (error) {
-    console.log(error);
     throw error?.response?.data?.error;
   }
 };
@@ -76,6 +75,29 @@ export const getVideoById = async (videoId) => {
     const { data } = await API.get(`/video/${videoId}`);
     return data?.data;
   } catch (error) {
+    toast.error(error?.response?.data?.error);
+    throw error?.response?.data?.error;
+  }
+};
+
+export const getUserChannelProfile = async (userId) => {
+  try {
+    const { data } = await API.get(`/users/${userId}`);
+    return data?.data;
+  } catch (error) {
+    toast.error(error?.response?.data?.error);
+    throw error?.response?.data?.error;
+  }
+};
+
+//Toggle Subscribe
+export const toggleSubscribe = async (channelId) => {
+  try {
+    const { data } = await API.post(`/subscription/c/${channelId}`);
+    toast.success(data?.message);
+    return data?.data;
+  } catch (error) {
+    console.log(error);
     toast.error(error?.response?.data?.error);
     throw error?.response?.data?.error;
   }
