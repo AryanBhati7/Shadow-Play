@@ -70,3 +70,13 @@ export const getVideos = async (
     throw error?.response?.data?.error;
   }
 };
+
+export const getVideoById = async (videoId) => {
+  try {
+    const { data } = await API.get(`/video/${videoId}`);
+    return data?.data;
+  } catch (error) {
+    toast.error(error?.response?.data?.error);
+    throw error?.response?.data?.error;
+  }
+};

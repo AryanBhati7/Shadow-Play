@@ -4,8 +4,8 @@ import Logo from "../Logo";
 import Button from "../Button";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogout } from "../../hooks/queries";
-import { useDispatch } from "react-redux";
-import { unSetCurrentUser } from "../../features/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { unSetUser } from "../../features/authSlice";
 function Header({ authStatus }) {
   const dispatch = useDispatch();
   const { mutateAsync: logout, isLoading } = useLogout();
@@ -13,9 +13,12 @@ function Header({ authStatus }) {
   const handleLogout = async () => {
     const sessionStatus = await logout();
     if (sessionStatus) {
-      dispatch(unSetCurrentUser());
+      dispatch(unSetUser());
     }
   };
+
+  const userData = useSelector((state) => state.auth.user);
+  console.log(userData);
 
   return (
     <header className="sticky inset-x-0 top-0 z-50 w-full border-b border-white text-white bg-[#121212] px-4">
@@ -242,7 +245,26 @@ function Header({ authStatus }) {
             </li>
           </ul>
           <div className="mb-8 mt-auto flex w-full flex-wrap gap-4 px-4 sm:mb-0 sm:mt-0 sm:items-center sm:px-0">
-            {authStatus && <SpButton onClick={handleLogout}>Logout</SpButton>}
+            {authStatus && userData && (
+              <>
+                <SpButton onClick={handleLogout}>Logout</SpButton>
+                <div className="mb-8 mt-auto px-4 sm:mb-0 sm:mt-0 sm:px-0">
+                  <Button className="flex w-full gap-4 text-left sm:items-center">
+                    <img
+                      src={userData.avatar?.url}
+                      alt={userData.username}
+                      className="h-16 w-16 shrink-0 rounded-full sm:h-12 sm:w-12"
+                    />
+                    <div className="w-full pt-2 sm:hidden">
+                      <h6 className="font-semibold">{userData.fullName}</h6>
+                      <p className="text-sm text-gray-300">
+                        {userData.username}
+                      </p>
+                    </div>
+                  </Button>
+                </div>
+              </>
+            )}
 
             {!authStatus && (
               <>

@@ -3,10 +3,10 @@ import Sidebar from "../components/Sidebar";
 import Videocard from "../components/Videocard";
 import { useVideos } from "../hooks/queries";
 import { useInView } from "react-intersection-observer";
+import { Link } from "react-router-dom";
 
 function Home() {
   const { data, fetchNextPage, isFetched } = useVideos();
-  console.log(data);
   const { ref, inView } = useInView();
   useEffect(() => {
     if (inView) {
@@ -21,12 +21,16 @@ function Home() {
           {isFetched &&
             data?.pages.map((page) => {
               return (
-                <React.Fragment key={page.page}>
+                <>
                   {isFetched &&
                     page.docs.map((video) => {
-                      return <Videocard key={video._id} video={video} />;
+                      return (
+                        <Link to={`/video/${video._id}`} key={video._id}>
+                          <Videocard video={video} />
+                        </Link>
+                      );
                     })}
-                </React.Fragment>
+                </>
               );
             })}
 

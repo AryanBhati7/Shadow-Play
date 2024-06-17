@@ -7,7 +7,7 @@ import { Input, Logo, SpButton } from "../components/index.js";
 import { useLogin } from "../hooks/queries.js";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
-import { setCurrentUser } from "../features/authSlice.js";
+import { setUser } from "../features/authSlice.js";
 // import { setCurrentUser } from "../features/authSlice.js";
 
 function Login() {
@@ -34,7 +34,7 @@ function Login() {
   const loginUser = async (data) => {
     const session = await login(data);
     if (session) {
-      dispatch(setCurrentUser(session));
+      dispatch(setUser(session));
       navigate("/");
     }
   };

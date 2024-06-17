@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Signup, Home, Login } from "./pages/index.js";
+import { Signup, Home, Login, VideoDetail } from "./pages/index.js";
 import AuthLayout from "./components/AuthLayout.jsx";
 import { Provider } from "react-redux";
 import store from "./store/store.js";
@@ -21,6 +21,14 @@ const router = createBrowserRouter([
         element: (
           <AuthLayout auth={false}>
             <Home />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/video/:videoId",
+        element: (
+          <AuthLayout auth={true}>
+            <VideoDetail />
           </AuthLayout>
         ),
       },

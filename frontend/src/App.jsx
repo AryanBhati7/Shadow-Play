@@ -4,19 +4,19 @@ import Footer from "./components/Footer/Footer";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import { useCurrentUser } from "./hooks/queries.js";
-import { setCurrentUser } from "./features/authSlice";
+import { setUser } from "./features/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 function App() {
   const dispatch = useDispatch();
   const authStatus = useSelector((state) => state.auth.authStatus);
 
-  const { data: currentUserData } = useCurrentUser();
+  const { data: userData } = useCurrentUser();
   useEffect(() => {
-    if (currentUserData) {
-      dispatch(setCurrentUser(currentUserData));
+    if (userData) {
+      dispatch(setUser(userData));
     }
-  }, [currentUserData]);
+  }, [userData]);
 
   return (
     <>

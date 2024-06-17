@@ -8,8 +8,12 @@ import Button from "./Button";
 import Videocard from "./Videocard";
 import Input from "./Input";
 import LoginPopup from "./LoginPopup";
+import Videolist from "./Videolist";
+import VideoPlayer from "./VideoPlayer";
 
 export {
+  VideoPlayer,
+  Videolist,
   LoginPopup,
   Input,
   LayoutController,
