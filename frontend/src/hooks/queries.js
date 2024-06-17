@@ -6,6 +6,7 @@ import {
   getVideos,
   getVideoById,
   toggleSubscribe,
+  toggleLike,
 } from "../api/api";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
@@ -61,4 +62,10 @@ export const useInvalidator = () => {
   return function invalidate(key) {
     queryClient.invalidateQueries(key);
   };
+};
+
+export const useLike = () => {
+  return useMutation({
+    mutationFn: (videoId) => toggleLike(videoId),
+  });
 };

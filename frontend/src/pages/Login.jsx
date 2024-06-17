@@ -33,6 +33,7 @@ function Login() {
 
   const loginUser = async (data) => {
     const session = await login(data);
+    console.log(session);
     if (session) {
       dispatch(setUser(session));
       navigate("/");

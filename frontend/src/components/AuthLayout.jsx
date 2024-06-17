@@ -6,7 +6,7 @@ import { set } from "react-hook-form";
 
 function AuthLayout({ auth, children }) {
   const authStatus = useSelector((state) => state.auth.authStatus);
-  console.log(authStatus);
+
   if (auth && authStatus) {
     return children;
   }

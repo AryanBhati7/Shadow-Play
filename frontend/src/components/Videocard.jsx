@@ -1,4 +1,5 @@
 import React from "react";
+import { timeAgo } from "../assets/timeAgo";
 
 function Videocard({ video }) {
   return (
@@ -25,9 +26,9 @@ function Videocard({ video }) {
         </div>
         <div className="w-full">
           <h6 className="mb-1 font-semibold">{video?.title}</h6>
-          <p className="flex text-sm text-gray-200">
-            {video?.views}· {video?.createdAt}
-          </p>
+          <span className="flex text-sm text-gray-200">
+            {video?.views} Views · {timeAgo(video?.createdAt)}
+          </span>
           <p className="text-sm text-gray-200">
             {video?.ownerDetails?.username}
           </p>

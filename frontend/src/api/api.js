@@ -102,3 +102,14 @@ export const toggleSubscribe = async (channelId) => {
     throw error?.response?.data?.error;
   }
 };
+
+export const toggleLike = async (videoId) => {
+  try {
+    const { data } = await API.post(`/like/toggle/v/${videoId}`);
+    toast.success(data?.message);
+    return data?.data;
+  } catch (error) {
+    toast.error(error?.response?.data?.error);
+    throw error?.response?.data?.error;
+  }
+};

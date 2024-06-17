@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import Header from "./components/Header/Header";
-import Footer from "./components/Footer/Footer";
+import { Header, LoadingSpinner } from "./components/index.js";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import { useCurrentUser } from "./hooks/queries.js";
@@ -9,14 +8,17 @@ import { useDispatch, useSelector } from "react-redux";
 
 function App() {
   const dispatch = useDispatch();
-  const authStatus = useSelector((state) => state.auth.authStatus);
 
-  const { data: userData } = useCurrentUser();
+  const { data: userData, isLoading } = useCurrentUser();
   useEffect(() => {
     if (userData) {
       dispatch(setUser(userData));
     }
   }, [userData]);
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <>

@@ -10,8 +10,16 @@ import Input from "./Input";
 import LoginPopup from "./LoginPopup";
 import Videolist from "./Videolist";
 import VideoPlayer from "./VideoPlayer";
+import LoadingSpinner from "./Loading/LoadingSpinner";
+import Like from "./VideoDetails/Like";
+import CommentBox from "./VideoDetails/CommentBox";
+import Comment from "./VideoDetails/Comment";
 
 export {
+  Comment,
+  CommentBox,
+  Like,
+  LoadingSpinner,
   VideoPlayer,
   Videolist,
   LoginPopup,

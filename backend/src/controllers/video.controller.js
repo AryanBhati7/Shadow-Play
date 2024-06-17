@@ -266,6 +266,9 @@ const updateVideo = asyncHandler(async (req, res) => {
   const { title, description } = req.body;
   const thumbnailLocalPath = req.file?.path;
 
+  const currentVideo = await Video.findById(videoId);
+
+  if (!currentVideo) throw new ApiError(401, "Video cannot be found");
   if (
     [title, description].some(
       (field) => field === undefined || field?.trim() === ""
@@ -274,7 +277,12 @@ const updateVideo = asyncHandler(async (req, res) => {
     throw new ApiError(400, "All fields are required");
   }
 
-  if (!currentVideo) throw new ApiError(401, "Video cannot be found");
+  if (currentVideo?.owner.toString() !== req.user?._id.toString()) {
+    throw new ApiError(
+      400,
+      "You can't edit this video as you are not the owner"
+    );
+  }
 
   let update = {
     $set: {

@@ -5,16 +5,17 @@ import Button from "../Button";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogout } from "../../hooks/queries";
 import { useDispatch, useSelector } from "react-redux";
-import { unSetUser } from "../../features/authSlice";
+import { setUser } from "../../features/authSlice";
 function Header() {
   const authStatus = useSelector((state) => state.auth.authStatus);
+
   const dispatch = useDispatch();
   const { mutateAsync: logout, isLoading } = useLogout();
 
   const handleLogout = async () => {
     const sessionStatus = await logout();
     if (sessionStatus) {
-      dispatch(unSetUser());
+      dispatch(setUser(null));
     }
   };
 
@@ -23,7 +24,9 @@ function Header() {
   return (
     <header className="sticky inset-x-0 top-0 z-50 w-full border-b border-white text-white bg-[#121212] px-4">
       <nav className="mx-auto flex max-w-7xl items-center py-2">
-        <Logo className={"mr-4 w-12 shrink-0 sm:w-16"} />
+        <Link to="/" className="flex items-center">
+          <Logo className={"mr-4 w-12 shrink-0 sm:w-16"} />
+        </Link>
 
         <div className="relative mx-auto hidden w-full max-w-md overflow-hidden sm:block">
           <input

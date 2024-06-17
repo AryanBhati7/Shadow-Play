@@ -11,6 +11,9 @@ const videoSlice = createSlice({
   name: "video",
   initialState,
   reducers: {
+    setVideo: (state, action) => {
+      state.video = action.payload;
+    },
     setVideos: (state, action) => {
       state.videos = action.payload;
     },
@@ -25,3 +28,8 @@ const videoSlice = createSlice({
     },
   },
 });
+
+export const { setVideo, setVideos, setPublishToggle, setUploading } =
+  videoSlice.actions;
+
+export default videoSlice.reducer;
