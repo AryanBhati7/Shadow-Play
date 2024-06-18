@@ -65,7 +65,12 @@ function VideoDetail() {
               <div className="w-full md:w-1/2 lg:w-full xl:w-1/2">
                 <div className="flex items-center justify-between gap-x-4 md:justify-end lg:justify-between xl:justify-end">
                   {/* {Like button here} */}
-                  <Like />
+                  <Like
+                    type={"videos"}
+                    id={video && video?._id}
+                    isLiked={video && video?.isLiked}
+                    likesCount={video && video?.likesCount}
+                  />
                   <div className="relative block">
                     <button className="peer flex items-center gap-x-2 rounded-lg bg-white px-4 py-1.5 text-black">
                       <span className="inline-block w-5">
