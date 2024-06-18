@@ -32,3 +32,25 @@ export const addComment = async (videoId, comment) => {
     throw error?.response?.data?.error;
   }
 };
+
+export const updateComment = async (commentId, comment) => {
+  try {
+    const { data } = await API.patch(`/comment/c/${commentId}`, comment);
+    toast.success(data?.message);
+    return data?.data;
+  } catch (error) {
+    toast.error(error?.response?.data?.error);
+    throw error?.response?.data?.error;
+  }
+};
+
+export const deleteComment = async (commentId) => {
+  try {
+    const { data } = await API.delete(`/comment/c/${commentId}`);
+    toast.success(data?.message);
+    return data;
+  } catch (error) {
+    toast.error(error?.response?.data?.error);
+    throw error?.response?.data?.error;
+  }
+};

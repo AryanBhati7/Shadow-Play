@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Comment, Input } from "../index.js";
+import { Comment, Input, SpButton } from "../index.js";
 import { useSelector } from "react-redux";
 import { useInvalidator } from "../../hooks/queryClient.hook.js";
 import { useForm } from "react-hook-form";
@@ -15,6 +15,7 @@ function CommentBox() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(schema),
@@ -36,17 +37,23 @@ function CommentBox() {
     const res = await addComment({ videoId, comment: data.comment });
     if (res) {
       invalidate(["comments", videoId]);
+      reset();
     }
   };
+
+  const totalComments = comments?.pages[0]?.totalDocs;
   return (
     <>
       <button className="peer w-full rounded-lg border p-4 text-left duration-200 hover:bg-white/5 focus:bg-white/5 sm:hidden">
-        <h6 className="font-semibold">573 Comments...</h6>
+        <h6 className="font-semibold">{totalComments}...</h6>
       </button>
       <div className="fixed inset-x-0 top-full z-[60] h-[calc(100%-69px)] overflow-auto rounded-lg border bg-[#121212] p-4 duration-200 hover:top-[67px] peer-focus:top-[67px] sm:static sm:h-auto sm:max-h-[500px] lg:max-h-none">
         <div className="block">
-          <h6 className="mb-4 font-semibold">573 Comments</h6>
-          <form onSubmit={handleSubmit(handleAddComment)}>
+          <h6 className="mb-4 font-semibold">{totalComments} Comments</h6>
+          <form
+            onSubmit={handleSubmit(handleAddComment)}
+            className="w-full flex items-center justify-center gap-3"
+          >
             <Input
               type="text"
               placeholder="Add a Comment"
@@ -56,13 +63,7 @@ function CommentBox() {
                 required: true,
               })}
             />
-
-            <button
-              type="submit"
-              className="mt-2 bg-blue-500 text-white rounded-lg px-4 py-1"
-            >
-              Send
-            </button>
+            <SpButton type="submit">Send</SpButton>
           </form>
         </div>
         <hr className="my-4 border-white" />
@@ -80,7 +81,6 @@ function CommentBox() {
             })}
 
           <div ref={ref}></div>
-          <Comment />
         </div>
       </div>
     </>

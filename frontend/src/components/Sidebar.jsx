@@ -10,6 +10,7 @@ import { IconContext } from "react-icons";
 import { CiSettings } from "react-icons/ci";
 import { RxQuestionMarkCircled } from "react-icons/rx";
 import { useSelector } from "react-redux";
+import Logo from "./Logo";
 
 function Sidebar() {
   const fullSize = useSelector((state) => state.ui.sideBarFullSize);
@@ -18,44 +19,53 @@ function Sidebar() {
       name: "Home",
       path: "/",
       icon: <AiOutlineHome />,
+      onMobile: true,
     },
     {
       name: "Liked Videos",
       path: "/liked-videos",
       icon: <BiLike />,
+      onMobile: false,
     },
     {
       name: "History",
       path: "/history",
       icon: <LuHistory />,
+      onMobile: true,
     },
     {
       name: "My Content",
       path: "/my-content",
       icon: <GoDeviceCameraVideo />,
+      onMobile: false,
     },
     {
       name: "Collections",
       path: "/collections",
       icon: <BsCollectionPlay />,
+      onMobile: true,
     },
     {
       name: "Subscribers",
       path: "/subscribers",
       icon: <LiaUserCheckSolid />,
+      onMobile: true,
     },
   ];
 
   return (
     <aside
-      className={`group fixed inset-x-0 bottom-0 z-[9999] w-full shrink-0 border-t border-white bg-[#121212] px-2 py-2 sm:absolute sm:inset-y-0 sm:max-w-[70px] sm:border-r sm:border-t-0 sm:py-6 sm:hover:max-w-[250px] ${
+      className={`z-[9999] group fixed inset-x-0 bottom-0 w-full shrink-0 border-t border-white bg-[#121212] px-2 py-2 sm:absolute sm:inset-y-0 sm:max-w-[70px] sm:border-r sm:border-t-0 sm:py-6 sm:hover:max-w-[250px] ${
         fullSize ? "lg:sticky lg:max-w-[250px]" : ""
       }`}
     >
       <IconContext.Provider value={{ className: "w-6 h-6" }}>
         <ul className="flex justify-around gap-y-2 sm:sticky sm:top-[106px] sm:min-h-[calc(100vh-130px)] sm:flex-col">
           {sidebarItems.map((item, index) => (
-            <li key={index} className="hidden sm:block">
+            <li
+              key={index}
+              className={`${item.onMobile ? "" : "hidden"} sm:block`}
+            >
               <Link
                 to={item.path}
                 className="flex flex-col items-center justify-center border-white py-1 focus:text-[#ae7aff] sm:w-full sm:flex-row sm:border sm:p-1.5 sm:hover:bg-[#ae7aff] sm:hover:text-black sm:focus:border-[#ae7aff] sm:focus:bg-[#ae7aff] sm:focus:text-black sm:group-hover:justify-start sm:group-hover:px-4 lg:justify-start lg:px-4"

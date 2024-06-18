@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useInvalidator } from "../hooks/queryClient.hook.js";
 import { useSubscribe } from "../hooks/subscription.hook.js";
 import { useVideoById } from "../hooks/video.hook.js";
@@ -29,7 +29,9 @@ function VideoDetail() {
     await subscribe(channelId);
     invalidate(["videos", videoId]);
   };
-
+  console.log(video);
+  const userId = useSelector((state) => state.auth.user?._id);
+  const isOwner = video?.owner?._id === userId ? true : false;
   useEffect(() => {
     dispatch(setSideBarFullSize(false));
     if (video) {
@@ -47,8 +49,13 @@ function VideoDetail() {
         <div className="col-span-12 w-full">
           <div className="relative mb-4 w-full pt-[56%]">
             <div className="absolute inset-0">
-              <div className="h-full w-full">
-                {video && <VideoPlayer src={video.video.url} />}
+              <div className="h-full w-full cursor-pointer">
+                {video && (
+                  <VideoPlayer
+                    src={video?.video?.url}
+                    poster={video?.thumbnail?.url}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -66,12 +73,13 @@ function VideoDetail() {
               </div>
               <div className="w-full md:w-1/2 lg:w-full xl:w-1/2">
                 <div className="flex items-center justify-between gap-x-4 md:justify-end lg:justify-between xl:justify-end">
-                  {/* {Like button here} */}
                   <Like
                     type={"videos"}
                     id={video && video?._id}
                     isLiked={video && video?.isLiked}
                     likesCount={video && video?.likesCount}
+                    className={"px-4"}
+                    iconSize={"w-8"}
                   />
                   <div className="relative block">
                     <button className="peer flex items-center gap-x-2 rounded-lg bg-white px-4 py-1.5 text-black">
@@ -313,32 +321,31 @@ function VideoDetail() {
                 </div>
               </div>
 
-              <SpButton
-                onClick={() => handleSubscribe(video?.owner?._id)}
-                className="flex justify-center items-center gap-4"
-              >
-                {video?.owner?.isSubscribed ? (
-                  <>
-                    <LiaUserCheckSolid className="w-5 h-5" />
-                    Subscribed
-                  </>
-                ) : (
-                  <>
-                    <HiOutlineUserAdd className="w-5 h-5" />
-                    Subscribe
-                  </>
-                )}
-                {/* <span className="inline-block w-5">
-                    
-                  </span> */}
-              </SpButton>
+              {!isOwner && (
+                <SpButton
+                  onClick={() => handleSubscribe(video?.owner?._id)}
+                  className="flex justify-center items-center gap-4"
+                >
+                  {video?.owner?.isSubscribed ? (
+                    <>
+                      <LiaUserCheckSolid className="w-5 h-5" />
+                      Subscribed
+                    </>
+                  ) : (
+                    <>
+                      <HiOutlineUserAdd className="w-5 h-5" />
+                      Subscribe
+                    </>
+                  )}
+                </SpButton>
+              )}
             </div>
             <hr className="my-4 border-white" />
             <div className="h-5 overflow-hidden group-focus:h-auto">
               <p className="text-sm">{video && video.description}</p>
             </div>
           </div>
-          {/* Comments Box */}
+
           <CommentBox />
         </div>
         {/* More Videos */}

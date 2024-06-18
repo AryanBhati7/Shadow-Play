@@ -1,5 +1,5 @@
 import React from "react";
-import { timeAgo } from "../assets/timeAgo";
+import { formatDuration, timeAgo } from "../assets/timeAgo";
 
 function Videocard({ video }) {
   return (
@@ -13,7 +13,7 @@ function Videocard({ video }) {
           />
         </div>
         <span className="absolute bottom-1 right-1 inline-block rounded bg-black px-1.5 text-sm">
-          {video?.duration}
+          {video && formatDuration(video?.duration)}
         </span>
       </div>
       <div className="flex gap-x-2">

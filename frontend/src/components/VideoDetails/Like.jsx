@@ -5,7 +5,7 @@ import { FaThumbsUp } from "react-icons/fa";
 import { useInvalidator } from "../../hooks/queryClient.hook";
 import { useLike } from "../../hooks/like.hook";
 
-function Like({ id, isLiked, likesCount, type }) {
+function Like({ id, isLiked, likesCount, type, className, iconSize }) {
   const invalidate = useInvalidator();
   let like;
 
@@ -22,13 +22,13 @@ function Like({ id, isLiked, likesCount, type }) {
   };
 
   return (
-    <div className="flex  rounded-lg border">
-      <IconContext.Provider value={{ className: "w-8" }}>
+    <div className={`flex justify-center items-center  rounded-lg border `}>
+      <IconContext.Provider value={{ className: ` ${iconSize}` }}>
         <button
           onClick={() => handleLike()}
-          className="group/btn flex items-center gap-x-2 border-r border-gray-700 px-4 py-1.5  hover:bg-white/10"
+          className={`${className} w-full flex items-center gap-x-1  py-1.5  hover:bg-white/10`}
         >
-          <span className="inline-block w-5 ">
+          <span className="inline-block">
             {isLiked ? <FaThumbsUp /> : <FaRegThumbsUp />}
           </span>
           <span>
