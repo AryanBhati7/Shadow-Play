@@ -40,14 +40,14 @@ function Sidebar() {
       onMobile: false,
     },
     {
-      name: "Collections",
-      path: "/collections",
+      name: "My Studio",
+      path: "/my-studio",
       icon: <BsCollectionPlay />,
       onMobile: true,
     },
     {
-      name: "Subscribers",
-      path: "/subscribers",
+      name: "Subscriptions",
+      path: "/subscriptions",
       icon: <LiaUserCheckSolid />,
       onMobile: true,
     },

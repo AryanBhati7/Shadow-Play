@@ -8,10 +8,11 @@ import { LiaUserCheckSolid } from "react-icons/lia";
 import { HiOutlineUserAdd } from "react-icons/hi";
 import {
   VideoPlayer,
-  Videolist,
+  NextVideoCard,
   SpButton,
   Like,
   CommentBox,
+  Button,
 } from "../components/index.js";
 import { setSideBarFullSize } from "../features/uiSlice.js";
 import { setVideo } from "../features/videoSlice.js";
@@ -29,19 +30,20 @@ function VideoDetail() {
     await subscribe(channelId);
     invalidate(["videos", videoId]);
   };
-  console.log(video);
+
   const userId = useSelector((state) => state.auth.user?._id);
   const isOwner = video?.owner?._id === userId ? true : false;
   useEffect(() => {
     dispatch(setSideBarFullSize(false));
     if (video) {
+      invalidate(["watchHistory"]);
       dispatch(setVideo(video));
     }
 
     return () => {
       dispatch(setSideBarFullSize(true));
     };
-  }, [video, dispatch]);
+  }, [dispatch]);
 
   return (
     <section className="w-full pb-[70px] sm:ml-[70px]  sm:pb-0">
@@ -49,11 +51,12 @@ function VideoDetail() {
         <div className="col-span-12 w-full">
           <div className="relative mb-4 w-full pt-[56%]">
             <div className="absolute inset-0">
-              <div className="h-full w-full cursor-pointer">
+              <div className="h-full w-full ">
                 {video && (
                   <VideoPlayer
                     src={video?.video?.url}
-                    poster={video?.thumbnail?.url}
+                    thumbnail={video?.thumbnail?.url}
+                    title={video?.title}
                   />
                 )}
               </div>
@@ -322,22 +325,25 @@ function VideoDetail() {
               </div>
 
               {!isOwner && (
-                <SpButton
-                  onClick={() => handleSubscribe(video?.owner?._id)}
-                  className="flex justify-center items-center gap-4"
-                >
+                <>
                   {video?.owner?.isSubscribed ? (
-                    <>
+                    <Button
+                      onClick={() => handleSubscribe(video?.owner?._id)}
+                      className={` flex justify-center items-center gap-3 mr-1  bg-[#b2b2b2] px-3 py-2 text-center font-bold text-black  transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4f4e4e] sm:w-auto `}
+                    >
                       <LiaUserCheckSolid className="w-5 h-5" />
                       Subscribed
-                    </>
+                    </Button>
                   ) : (
-                    <>
+                    <SpButton
+                      onClick={() => handleSubscribe(video?.owner?._id)}
+                      className="flex justify-center items-center gap-4"
+                    >
                       <HiOutlineUserAdd className="w-5 h-5" />
                       Subscribe
-                    </>
+                    </SpButton>
                   )}
-                </SpButton>
+                </>
               )}
             </div>
             <hr className="my-4 border-white" />
@@ -350,7 +356,12 @@ function VideoDetail() {
         </div>
         {/* More Videos */}
         <div className="col-span-12 flex w-full shrink-0 flex-col gap-3 lg:w-[350px] xl:w-[400px]">
-          <Videolist />
+          <NextVideoCard />
+          <NextVideoCard />
+          <NextVideoCard />
+          <NextVideoCard />
+          <NextVideoCard />
+          <NextVideoCard />
         </div>
       </div>
     </section>

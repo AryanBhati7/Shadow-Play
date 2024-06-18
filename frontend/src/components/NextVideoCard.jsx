@@ -1,6 +1,6 @@
 import React from "react";
 
-function VideoList() {
+function NextVideoCard({ video }) {
   return (
     <>
       <div className="w-full gap-x-2 border pr-2 md:flex">
@@ -41,4 +41,4 @@ function VideoList() {
   );
 }
 
-export default VideoList;
+export default NextVideoCard;

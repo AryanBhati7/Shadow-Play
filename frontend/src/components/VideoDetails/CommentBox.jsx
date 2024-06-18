@@ -45,7 +45,7 @@ function CommentBox() {
   return (
     <>
       <button className="peer w-full rounded-lg border p-4 text-left duration-200 hover:bg-white/5 focus:bg-white/5 sm:hidden">
-        <h6 className="font-semibold">{totalComments}...</h6>
+        <h6 className="font-semibold">{totalComments} Comments....</h6>
       </button>
       <div className="fixed inset-x-0 top-full z-[60] h-[calc(100%-69px)] overflow-auto rounded-lg border bg-[#121212] p-4 duration-200 hover:top-[67px] peer-focus:top-[67px] sm:static sm:h-auto sm:max-h-[500px] lg:max-h-none">
         <div className="block">

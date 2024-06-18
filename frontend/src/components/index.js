@@ -7,20 +7,22 @@ import Button from "./Button";
 import Videocard from "./Videocard";
 import Input from "./Input";
 import LoginPopup from "./LoginPopup";
-import Videolist from "./Videolist";
+import NextVideoCard from "./NextVideoCard";
 import VideoPlayer from "./VideoPlayer";
 import LoadingSpinner from "./Loading/LoadingSpinner";
 import Like from "./VideoDetails/Like";
 import CommentBox from "./VideoDetails/CommentBox";
 import Comment from "./VideoDetails/Comment";
+import VideolistCard from "./Videocards/VideolistCard";
 
 export {
+  VideolistCard,
   Comment,
   CommentBox,
   Like,
   LoadingSpinner,
   VideoPlayer,
-  Videolist,
+  NextVideoCard,
   LoginPopup,
   Input,
   Logo,

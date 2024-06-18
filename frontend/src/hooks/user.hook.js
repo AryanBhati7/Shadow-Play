@@ -1,5 +1,10 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { login, logout, getCurrentUser } from "../api/user.api";
+import {
+  login,
+  logout,
+  getCurrentUser,
+  getWatchHistory,
+} from "../api/user.api";
 
 export const useLogin = () => {
   return useMutation({
@@ -17,6 +22,12 @@ export const useCurrentUser = () => {
   return useQuery({
     queryKey: ["currentUser"],
     queryFn: () => getCurrentUser(),
-    staleTime: 1000 * 60 * 2,
+  });
+};
+
+export const useWatchHistory = () => {
+  return useQuery({
+    queryKey: ["watchHistory"],
+    queryFn: () => getWatchHistory(),
   });
 };

@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import SpButton from "../SpButton";
 import Logo from "../Logo";
 import Button from "../Button";
 import { Link } from "react-router-dom";
-import { useLogout } from "../../hooks/auth.hook";
+import { useLogout } from "../../hooks/user.hook";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../features/authSlice";
 
@@ -12,6 +12,7 @@ import { GoDeviceCameraVideo } from "react-icons/go";
 import { RxQuestionMarkCircled } from "react-icons/rx";
 import { CiSettings } from "react-icons/ci";
 import { IconContext } from "react-icons";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 
 function Header() {
   const authStatus = useSelector((state) => state.auth.authStatus);
@@ -50,6 +51,15 @@ function Header() {
       icon: <CiSettings />,
     },
   ];
+
+  const [sideBar, setSideBar] = useState(true);
+
+  const openSideBar = () => {
+    setSideBar(true);
+  };
+  const closeSideBar = () => {
+    setSideBar(false);
+  };
 
   return (
     <header className="z-[9999] sticky inset-x-0 top-0 w-full border-b border-white text-white bg-[#121212] px-4">
@@ -98,85 +108,76 @@ function Header() {
             ></path>
           </svg>
         </button>
-        <button className="group peer ml-4 flex w-6 shrink-0 flex-wrap gap-y-1.5 sm:hidden">
+        <button
+          onClick={openSideBar}
+          className="group peer ml-4 flex w-6 shrink-0 flex-wrap gap-y-1.5 sm:hidden"
+        >
           <span className="block h-[2px] w-full bg-white group-hover:bg-[#ae7aff]"></span>
           <span className="block h-[2px] w-2/3 bg-white group-hover:bg-[#ae7aff]"></span>
           <span className="block h-[2px] w-full bg-white group-hover:bg-[#ae7aff]"></span>
         </button>
-        <div className="fixed inset-y-0 right-0 flex w-full max-w-xs shrink-0 translate-x-full flex-col border-l border-white bg-[#121212] duration-200 hover:translate-x-0 peer-focus:translate-x-0 sm:static sm:ml-4 sm:w-auto sm:translate-x-0 sm:border-none">
-          {" "}
-          <div className="relative flex w-full items-center justify-between border-b border-white px-4 py-2 sm:hidden">
-            <Link to="/" className="inline-block w-12">
-              <Logo />
-            </Link>
-            <button className="inline-block w-8">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                ></path>
-              </svg>
-            </button>
-          </div>
-          <ul className="my-4 flex w-full flex-wrap gap-2 px-4 sm:hidden">
-            <IconContext.Provider value={{ className: "w-6 h-6" }}>
-              {mobileSidebarItems.map((item, index) => (
-                <li key={index} className="w-full">
-                  <Link
-                    to={item.path}
-                    className="flex w-full items-center justify-start gap-x-4 border border-white px-4 py-1.5 text-left hover:bg-[#ae7aff] hover:text-black focus:border-[#ae7aff] focus:bg-[#ae7aff] focus:text-black"
-                  >
-                    <span className="inline-block w-full max-w-[20px] group-hover:mr-4 lg:mr-4">
-                      {item.icon}
-                    </span>
-                    <span>{item.name}</span>
-                  </Link>
-                </li>
-              ))}
-            </IconContext.Provider>
-          </ul>
-          <div className="mb-8 mt-auto flex w-full flex-wrap gap-4 px-4 sm:mb-0 sm:mt-0 sm:items-center sm:px-0">
-            {authStatus && userData && (
-              <>
-                <SpButton onClick={handleLogout}>Logout</SpButton>
-                <div className="mb-8 mt-auto px-4 sm:mb-0 sm:mt-0 sm:px-0">
-                  <Button className="flex w-full gap-4 text-left sm:items-center">
-                    <img
-                      src={userData.avatar?.url}
-                      alt={userData.username}
-                      className="h-16 w-16 shrink-0 rounded-full sm:h-12 sm:w-12"
-                    />
-                    <div className="w-full pt-2 sm:hidden">
-                      <h6 className="font-semibold">{userData.fullName}</h6>
-                      <p className="text-sm text-gray-300">
-                        {userData.username}
-                      </p>
+        <IconContext.Provider value={{ className: "w-6 h-6" }}>
+          {sideBar && (
+            <div className="fixed inset-y-0 right-0 flex w-full max-w-xs shrink-0 translate-x-full flex-col border-l border-white bg-[#121212] duration-200 hover:translate-x-0 peer-focus:translate-x-0 sm:static sm:ml-4 sm:w-auto sm:translate-x-0 sm:border-none">
+              <div className="relative flex w-full items-center justify-between border-b border-white px-4 py-2 sm:hidden">
+                <Link to="/" className="inline-block w-12">
+                  <Logo />
+                </Link>
+                <button onClick={closeSideBar} className="inline-block w-8">
+                  <IoIosCloseCircleOutline />
+                </button>
+              </div>
+              <ul className="my-4 flex w-full flex-wrap gap-2 px-4 sm:hidden">
+                {mobileSidebarItems.map((item, index) => (
+                  <li key={index} className="w-full">
+                    <Link
+                      to={item.path}
+                      className="flex w-full items-center justify-start gap-x-4 border border-white px-4 py-1.5 text-left hover:bg-[#ae7aff] hover:text-black focus:border-[#ae7aff] focus:bg-[#ae7aff] focus:text-black"
+                    >
+                      <span className="inline-block w-full max-w-[20px] group-hover:mr-4 lg:mr-4">
+                        {item.icon}
+                      </span>
+                      <span>{item.name}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <div className="mb-8 mt-auto flex w-full flex-wrap gap-4 px-4 sm:mb-0 sm:mt-0 sm:items-center sm:px-0">
+                {authStatus && userData && (
+                  <>
+                    <SpButton onClick={handleLogout}>Logout</SpButton>
+                    <div className="mb-8 mt-auto px-4 sm:mb-0 sm:mt-0 sm:px-0">
+                      <Button className="flex w-full gap-4 text-left sm:items-center">
+                        <img
+                          src={userData.avatar?.url}
+                          alt={userData.username}
+                          className="object-cover h-16 w-16 shrink-0 rounded-full sm:h-12 sm:w-12"
+                        />
+                        <div className="w-full pt-2 sm:hidden">
+                          <h6 className="font-semibold">{userData.fullName}</h6>
+                          <p className="text-sm text-gray-300">
+                            {userData.username}
+                          </p>
+                        </div>
+                      </Button>
                     </div>
-                  </Button>
-                </div>
-              </>
-            )}
+                  </>
+                )}
 
-            {!authStatus && (
-              <>
-                <Link to="/login">
-                  <Button>Log in</Button>
-                </Link>
-                <Link to="/signup">
-                  <SpButton>Sign up</SpButton>
-                </Link>
-              </>
-            )}
-          </div>
-        </div>
+                {!authStatus && (
+                  <>
+                    <Link to="/login">
+                      <Button>Log in</Button>
+                    </Link>
+                    <Link to="/signup">
+                      <SpButton>Sign up</SpButton>
+                    </Link>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+        </IconContext.Provider>
       </nav>
     </header>
   );

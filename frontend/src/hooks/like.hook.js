@@ -1,5 +1,9 @@
-import { useMutation } from "@tanstack/react-query";
-import { toggleCommentLike, toggleVideoLike } from "../api/like.api";
+import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
+import {
+  toggleCommentLike,
+  toggleVideoLike,
+  getLikedVideos,
+} from "../api/like.api";
 
 export const useLike = (type) => {
   if (type === "video") {
@@ -13,4 +17,11 @@ export const useLike = (type) => {
       mutationFn: (commentId) => toggleCommentLike(commentId),
     });
   }
+};
+
+export const useLikedVideos = () => {
+  return useQuery({
+    queryKey: ["likedVideos"],
+    queryFn: () => getLikedVideos(),
+  });
 };

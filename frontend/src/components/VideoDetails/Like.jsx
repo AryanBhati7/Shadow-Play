@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { IconContext } from "react-icons";
 import { FaRegThumbsUp } from "react-icons/fa";
 import { FaThumbsUp } from "react-icons/fa";
@@ -6,6 +6,8 @@ import { useInvalidator } from "../../hooks/queryClient.hook";
 import { useLike } from "../../hooks/like.hook";
 
 function Like({ id, isLiked, likesCount, type, className, iconSize }) {
+  const [isLikedState, setIsLikedState] = useState(isLiked);
+  const [likesCountState, setLikesCountState] = useState(likesCount);
   const invalidate = useInvalidator();
   let like;
 
@@ -17,6 +19,12 @@ function Like({ id, isLiked, likesCount, type, className, iconSize }) {
   }
 
   const handleLike = async () => {
+    setIsLikedState(!isLikedState);
+    if (!isLikedState) {
+      setLikesCountState(likesCountState + 1);
+    } else {
+      setLikesCountState(likesCountState - 1);
+    }
     await like(id);
     invalidate([type, id]);
   };
@@ -29,10 +37,10 @@ function Like({ id, isLiked, likesCount, type, className, iconSize }) {
           className={`${className} w-full flex items-center gap-x-1  py-1.5  hover:bg-white/10`}
         >
           <span className="inline-block">
-            {isLiked ? <FaThumbsUp /> : <FaRegThumbsUp />}
+            {isLikedState ? <FaThumbsUp /> : <FaRegThumbsUp />}
           </span>
           <span>
-            <span className="text-md text-gray-400">{likesCount}</span>
+            <span className="text-md text-gray-400">{likesCountState}</span>
           </span>
         </button>
       </IconContext.Provider>

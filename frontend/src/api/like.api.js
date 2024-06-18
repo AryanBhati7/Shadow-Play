@@ -28,3 +28,13 @@ export const toggleCommentLike = async (commentId) => {
     throw error?.response?.data?.error;
   }
 };
+
+export const getLikedVideos = async () => {
+  try {
+    const { data } = await API.get("/like/videos");
+    return data?.data;
+  } catch (error) {
+    toast.error(error?.response?.data?.error);
+    throw error?.response?.data?.error;
+  }
+};

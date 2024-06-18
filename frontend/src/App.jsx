@@ -2,19 +2,20 @@ import { useEffect } from "react";
 import { Header, LoadingSpinner } from "./components/index.js";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
-import { useCurrentUser } from "./hooks/auth.hook.js";
+import { useCurrentUser } from "./hooks/user.hook.js";
 import { setUser } from "./features/authSlice";
 import { useDispatch } from "react-redux";
 
 function App() {
   const dispatch = useDispatch();
 
-  const { data: userData, isLoading } = useCurrentUser();
+  const { data: userData, isLoading, error } = useCurrentUser();
+
   useEffect(() => {
     if (userData) {
       dispatch(setUser(userData));
     }
-  }, [userData]);
+  }, []);
 
   if (isLoading) {
     return <LoadingSpinner />;

@@ -8,7 +8,7 @@ const API = axios.create({
 });
 
 export const getVideos = async (
-  page = 1,
+  page = null,
   userId = null,
   sortBy = null,
   sortType = null,
@@ -29,7 +29,8 @@ export const getVideos = async (
       url.searchParams.set("sortBy", sortBy);
       url.searchParams.set("sortType", sortType);
     }
-    const response = await API.get(url.href);
+
+    const response = await API.get(url.href + "/");
 
     return response?.data?.data;
   } catch (error) {
@@ -40,6 +41,7 @@ export const getVideos = async (
 };
 
 export const getVideoById = async (videoId) => {
+  console.log("Getvideo by id called");
   try {
     const { data } = await API.get(`/video/${videoId}`);
     return data?.data;

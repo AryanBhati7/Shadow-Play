@@ -3,7 +3,17 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Signup, Home, Login, VideoDetail } from "./pages/index.js";
+import {
+  Signup,
+  Home,
+  Login,
+  VideoDetail,
+  LikedVideos,
+  MyContent,
+  MyStudio,
+  Subscriptions,
+  History,
+} from "./pages/index.js";
 import AuthLayout from "./components/AuthLayout.jsx";
 import { Provider } from "react-redux";
 import store from "./store/store.js";
@@ -29,6 +39,46 @@ const router = createBrowserRouter([
         element: (
           <AuthLayout auth={true}>
             <VideoDetail />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/liked-videos",
+        element: (
+          <AuthLayout auth={true}>
+            <LikedVideos />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/history",
+        element: (
+          <AuthLayout auth={true}>
+            <History />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/my-content",
+        element: (
+          <AuthLayout auth={true}>
+            <MyContent />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/my-studio",
+        element: (
+          <AuthLayout auth={true}>
+            <MyStudio />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/subscriptions",
+        element: (
+          <AuthLayout auth={true}>
+            <Subscriptions />
           </AuthLayout>
         ),
       },

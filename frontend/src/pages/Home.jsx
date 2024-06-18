@@ -33,7 +33,6 @@ function Home() {
                 </React.Fragment>
               );
             })}
-
           <div ref={ref}></div>
         </div>
       </section>

@@ -434,15 +434,15 @@ const getWatchHistory = asyncHandler(async (req, res) => {
           pipeline: [
             {
               $lookup: {
-                from: "user",
+                from: "users",
                 localField: "owner",
                 foreignField: "_id",
                 as: "owner",
                 pipeline: [
                   {
                     $project: {
-                      fullName: 1,
                       username: 1,
+                      fullName: 1,
                       avatar: 1,
                     },
                   },

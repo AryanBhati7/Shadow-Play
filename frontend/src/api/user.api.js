@@ -9,7 +9,6 @@ const API = axios.create({
 
 export const login = async (formData) => {
   try {
-    console.log(formData);
     const { data } = await API.post("/users/login", formData);
     toast.success(data?.message);
     return data?.data?.user;
@@ -42,6 +41,17 @@ export const getCurrentUser = async () => {
 export const getUserChannelProfile = async (userId) => {
   try {
     const { data } = await API.get(`/users/${userId}`);
+    return data?.data;
+  } catch (error) {
+    toast.error(error?.response?.data?.error);
+    throw error?.response?.data?.error;
+  }
+};
+
+export const getWatchHistory = async () => {
+  console.log("Get watch history called");
+  try {
+    const { data } = await API.get("/users/watch-history");
     return data?.data;
   } catch (error) {
     toast.error(error?.response?.data?.error);
