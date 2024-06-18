@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { useInvalidator, useSubscribe, useVideoById } from "../hooks/queries";
+import { useInvalidator } from "../hooks/queryClient.hook.js";
+import { useSubscribe } from "../hooks/subscription.hook.js";
+import { useVideoById } from "../hooks/video.hook.js";
 import { LiaUserCheckSolid } from "react-icons/lia";
 import { HiOutlineUserAdd } from "react-icons/hi";
 import {

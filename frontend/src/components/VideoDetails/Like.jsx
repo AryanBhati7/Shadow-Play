@@ -2,7 +2,8 @@ import React from "react";
 import { IconContext } from "react-icons";
 import { FaRegThumbsUp } from "react-icons/fa";
 import { FaThumbsUp } from "react-icons/fa";
-import { useInvalidator, useLike } from "../../hooks/queries";
+import { useInvalidator } from "../../hooks/queryClient.hook";
+import { useLike } from "../../hooks/like.hook";
 
 function Like({ id, isLiked, likesCount, type }) {
   const invalidate = useInvalidator();

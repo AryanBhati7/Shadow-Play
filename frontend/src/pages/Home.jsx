@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
-import Sidebar from "../components/Sidebar";
 import Videocard from "../components/Videocard";
-import { useVideos } from "../hooks/queries";
+import { useVideos } from "../hooks/video.hook";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 

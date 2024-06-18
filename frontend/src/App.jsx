@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Header, LoadingSpinner } from "./components/index.js";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
-import { useCurrentUser } from "./hooks/queries.js";
+import { useCurrentUser } from "./hooks/auth.hook.js";
 import { setUser } from "./features/authSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 function App() {
   const dispatch = useDispatch();
@@ -34,4 +34,3 @@ function App() {
 }
 
 export default App;
-// {/* <ReactQueryDevtools initialIsOpen={false} /> */}

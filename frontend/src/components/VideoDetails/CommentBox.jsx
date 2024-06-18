@@ -1,16 +1,12 @@
 import React, { useEffect } from "react";
 import { Comment, Input } from "../index.js";
 import { useSelector } from "react-redux";
-import {
-  useAddComment,
-  useComments,
-  useInvalidator,
-} from "../../hooks/queries";
+import { useInvalidator } from "../../hooks/queryClient.hook.js";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useInView } from "react-intersection-observer";
-
+import { useComments, useAddComment } from "../../hooks/comment.hook.js";
 const schema = z.object({
   comment: z.string().min(1),
 });

@@ -1,4 +1,3 @@
-import LayoutController from "./LayoutController";
 import Logo from "./Logo";
 import Sidebar from "./Sidebar";
 import Header from "./Header/Header";
@@ -24,7 +23,6 @@ export {
   Videolist,
   LoginPopup,
   Input,
-  LayoutController,
   Logo,
   Sidebar,
   Header,
