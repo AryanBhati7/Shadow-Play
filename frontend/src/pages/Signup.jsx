@@ -4,9 +4,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { MdOutlineCloudUpload } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useLogin, useRegisterUser } from "../hooks/auth.hook.js";
+import { useDispatch } from "react-redux";
+import { setUser } from "../features/authSlice.js";
 
 function Signup() {
+  const dispatch = useDispatch();
   const schema = z.object({
     email: z.string().email(),
     username: z
@@ -18,23 +22,9 @@ function Signup() {
       .refine((value) => value === value.toLowerCase(), {
         message: "Username must be all lowercase",
       }),
-    // .refine(
-    //   (value) => {
-    //     const isUnique = users.every((user) => user.username !== value);
-    //     return isUnique;
-    //   },
-    //   {
-    //     message: "Username already exists",
-    //   }
-    // ),
-    fullName: z.string().min(6),
+    fullName: z.string().min(4),
     password: z.string().min(6),
-    // confirmPassword: z.string().min(6),
   });
-  // .refine((data) => data.password === data.confirmPassword, {
-  //   message: "Passwords should match",
-  //   path: ["confirmPassword"],
-  // });
 
   const {
     register,
@@ -44,9 +34,23 @@ function Signup() {
   } = useForm({
     resolver: zodResolver(schema),
   });
-
-  const createAccount = (data) => {
-    console.log(data);
+  const navigate = useNavigate();
+  const { mutateAsync: registerUser } = useRegisterUser();
+  const { mutateAsync: loginUser } = useLogin();
+  const createAccount = async (data) => {
+    data.avatar = profilePic;
+    data.coverImage = coverPic;
+    const registeredUser = await registerUser(data);
+    if (registeredUser) {
+      const loggedInUser = await loginUser({
+        usernameOrEmail: data.email,
+        password: data.password,
+      });
+      if (loggedInUser) {
+        dispatch(setUser(loggedInUser));
+        navigate("/");
+      }
+    }
   };
   const [profilePic, setProfilePic] = useState(null);
   const [coverPic, setCoverPic] = useState(null);
@@ -177,11 +181,10 @@ function Signup() {
               required: true,
             })}
           />
-          <SpButton type="submit">Signup</SpButton>
+          <SpButton type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Creating an Account..." : "Sign Up"}
+          </SpButton>
         </form>
-        {/* <button className="bg-[#ae7aff] px-4 py-3 text-black">
-          Sign up with Email
-        </button> */}
       </div>
     </div>
   );

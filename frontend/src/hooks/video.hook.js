@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getVideos, getVideoById } from "../api/video.api";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
@@ -10,12 +10,19 @@ export const useVideos = () => {
       if (lastPage.hasNextPage === false) return;
       return lastPage.nextPage;
     },
+    staleTime: 1000 * 60 * 5, // 5 minutes
   });
 };
 
 export const useVideoById = (videoId) => {
+  const queryClient = useQueryClient();
+
   return useQuery({
-    queryKey: ["videos", videoId],
+    queryKey: ["video", videoId],
     queryFn: () => getVideoById(videoId),
+    // staleTime: 1000 * 60 * 5, // 5 minutes
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["watchHistory"] });
+    },
   });
 };

@@ -28,23 +28,25 @@ function VideoDetail() {
 
   const handleSubscribe = async (channelId) => {
     await subscribe(channelId);
-    invalidate(["videos", videoId]);
   };
+  console.log(video);
 
   const userId = useSelector((state) => state.auth.user?._id);
   const isOwner = video?.owner?._id === userId ? true : false;
   useEffect(() => {
     dispatch(setSideBarFullSize(false));
     if (video) {
-      invalidate(["watchHistory"]);
       dispatch(setVideo(video));
     }
 
     return () => {
       dispatch(setSideBarFullSize(true));
     };
-  }, [dispatch]);
+  }, [dispatch, video]);
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   return (
     <section className="w-full pb-[70px] sm:ml-[70px]  sm:pb-0">
       <div className="flex w-full flex-wrap gap-4 p-4 lg:flex-nowrap">
@@ -352,7 +354,7 @@ function VideoDetail() {
             </div>
           </div>
 
-          <CommentBox />
+          <CommentBox videoId={video && video?._id} />
         </div>
         {/* More Videos */}
         <div className="col-span-12 flex w-full shrink-0 flex-col gap-3 lg:w-[350px] xl:w-[400px]">

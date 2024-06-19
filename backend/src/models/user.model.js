@@ -57,12 +57,21 @@ const userSchema = new Schema(
     refreshToken: {
       type: String,
     },
-    watchHistory: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Video",
-      },
-    ],
+    watchHistory: {
+      _id: false,
+      type: [
+        {
+          video: {
+            type: Schema.Types.ObjectId,
+            ref: "Video",
+          },
+          watchedAt: {
+            type: Date,
+            default: Date.now,
+          },
+        },
+      ],
+    },
   },
   { timestamps: true }
 );

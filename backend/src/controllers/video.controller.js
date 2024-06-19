@@ -251,8 +251,8 @@ const getVideoById = asyncHandler(async (req, res) => {
   await User.findByIdAndUpdate(req.user?._id, {
     $push: {
       watchHistory: {
-        $each: [videoId],
-        $position: 0,
+        video: videoId,
+        watchedAt: Date.now(),
       },
     },
   });

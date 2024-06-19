@@ -8,7 +8,6 @@ import { useLike } from "../../hooks/like.hook";
 function Like({ id, isLiked, likesCount, type, className, iconSize }) {
   const [isLikedState, setIsLikedState] = useState(isLiked);
   const [likesCountState, setLikesCountState] = useState(likesCount);
-  const invalidate = useInvalidator();
   let like;
 
   if (type === "comments") {
@@ -26,7 +25,6 @@ function Like({ id, isLiked, likesCount, type, className, iconSize }) {
       setLikesCountState(likesCountState - 1);
     }
     await like(id);
-    invalidate([type, id]);
   };
 
   return (

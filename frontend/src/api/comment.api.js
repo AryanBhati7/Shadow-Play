@@ -8,6 +8,7 @@ const API = axios.create({
 });
 
 export const getAllComments = async (videoId = null, page = null) => {
+  console.log(videoId, page);
   try {
     const url = new URL(`${BASE_URL}/comment/${videoId}`);
 

@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Input, Logo, SpButton } from "../components/index.js";
-import { useLogin } from "../hooks/user.hook.js";
+import { useLogin } from "../hooks/auth.hook.js";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { setUser } from "../features/authSlice.js";
@@ -20,7 +20,6 @@ function Login() {
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(schema),

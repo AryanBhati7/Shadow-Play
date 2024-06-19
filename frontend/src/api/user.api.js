@@ -7,40 +7,9 @@ const API = axios.create({
   withCredentials: true,
 });
 
-export const login = async (formData) => {
+export const getWatchHistory = async () => {
   try {
-    const { data } = await API.post("/users/login", formData);
-    toast.success(data?.message);
-    return data?.data?.user;
-  } catch (error) {
-    toast.error(error?.response?.data?.error);
-    throw error?.response?.data?.error;
-  }
-};
-
-export const logout = async () => {
-  try {
-    const { data } = await API.post("/users/logout");
-    toast.success(data?.message);
-    return data;
-  } catch (error) {
-    toast.error(error?.response?.data?.error);
-    throw error?.response?.data?.error;
-  }
-};
-
-export const getCurrentUser = async () => {
-  try {
-    const { data } = await API.get("/users/current-user");
-    return data?.data?.user;
-  } catch (error) {
-    throw error?.response?.data?.error;
-  }
-};
-
-export const getUserChannelProfile = async (userId) => {
-  try {
-    const { data } = await API.get(`/users/${userId}`);
+    const { data } = await API.get("/users/watch-history");
     return data?.data;
   } catch (error) {
     toast.error(error?.response?.data?.error);
@@ -48,10 +17,9 @@ export const getUserChannelProfile = async (userId) => {
   }
 };
 
-export const getWatchHistory = async () => {
-  console.log("Get watch history called");
+export const getUserChannelProfile = async (userId) => {
   try {
-    const { data } = await API.get("/users/watch-history");
+    const { data } = await API.get(`/users/${userId}`);
     return data?.data;
   } catch (error) {
     toast.error(error?.response?.data?.error);

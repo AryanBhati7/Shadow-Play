@@ -2,15 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import { timeAgo } from "../../assets/timeAgo";
 import Like from "./Like";
 import { useDeleteComment, useEditComment } from "../../hooks/comment.hook";
-import { useInvalidator } from "../../hooks/queryClient.hook";
 import { useSelector } from "react-redux";
 
 function Comment({ comment }) {
-  const invalidate = useInvalidator();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedComment, setEditedComment] = useState(comment?.content);
-  const videoId = useSelector((state) => state.video.video?._id);
   const userId = useSelector((state) => state.auth.user?._id);
 
   const isOwner = comment?.owner?._id === userId ? true : false;
@@ -36,17 +33,13 @@ function Comment({ comment }) {
       comment: editedComment,
     });
     if (data) {
-      invalidate("comments", videoId);
       setIsEditing(false);
     }
   };
 
   const handleDeleteComment = async () => {
     const data = await deleteComment(comment?._id);
-    if (data) {
-      invalidate("comments", videoId);
-      setIsMenuOpen(false);
-    }
+    if (data) setIsMenuOpen(false);
   };
   const dropdownRef = useRef(null);
   useEffect(() => {

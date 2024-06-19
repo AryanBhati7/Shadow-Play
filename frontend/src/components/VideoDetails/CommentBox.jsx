@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 import { Comment, Input, SpButton } from "../index.js";
-import { useSelector } from "react-redux";
-import { useInvalidator } from "../../hooks/queryClient.hook.js";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -11,7 +9,7 @@ const schema = z.object({
   comment: z.string().min(1),
 });
 
-function CommentBox() {
+function CommentBox({ videoId }) {
   const {
     register,
     handleSubmit,
@@ -21,24 +19,18 @@ function CommentBox() {
     resolver: zodResolver(schema),
   });
 
-  const invalidate = useInvalidator();
-  const videoId = useSelector((state) => state.video.video?._id);
   const { data: comments, fetchNextPage, isFetched } = useComments(videoId);
   const { ref, inView } = useInView();
 
   useEffect(() => {
-    if (inView) {
-      fetchNextPage();
-    }
+    if (inView) fetchNextPage();
   }, [inView]);
 
   const { mutateAsync: addComment } = useAddComment();
+
   const handleAddComment = async (data) => {
     const res = await addComment({ videoId, comment: data.comment });
-    if (res) {
-      invalidate(["comments", videoId]);
-      reset();
-    }
+    if (res) reset();
   };
 
   const totalComments = comments?.pages[0]?.totalDocs;

@@ -3,7 +3,7 @@ import SpButton from "../SpButton";
 import Logo from "../Logo";
 import Button from "../Button";
 import { Link } from "react-router-dom";
-import { useLogout } from "../../hooks/user.hook";
+import { useLogout } from "../../hooks/auth.hook";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../features/authSlice";
 
@@ -16,6 +16,7 @@ import { IoIosCloseCircleOutline } from "react-icons/io";
 
 function Header() {
   const authStatus = useSelector((state) => state.auth.authStatus);
+  const userData = useSelector((state) => state.auth.user);
 
   const dispatch = useDispatch();
   const { mutateAsync: logout, isLoading } = useLogout();
@@ -26,8 +27,6 @@ function Header() {
       dispatch(setUser(null));
     }
   };
-
-  const userData = useSelector((state) => state.auth.user);
 
   const mobileSidebarItems = [
     {
