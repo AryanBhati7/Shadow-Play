@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { setSideBarFullSize } from "../features/uiSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useChannelStats } from "../hooks/studio.hook";
-import { VideoStats } from "../components/index.js";
+import { VideoStats, UploadVideo } from "../components/index.js";
 
 import { FaRegEye } from "react-icons/fa";
 import { FaUserFriends } from "react-icons/fa";
@@ -49,42 +49,46 @@ function MyStudio() {
   ];
 
   return (
-    <div className="mx-auto flex w-full max-w-7xl flex-col gap-y-6 px-4 py-8">
-      <div className="flex flex-wrap justify-between gap-4">
-        <div className="block">
-          <h1 className="text-2xl font-bold">
-            Welcome Back, {channelInfo?.fullName}
-          </h1>
-          <p className="text-sm text-gray-300">
-            Seamless Video Management, Elevated Results.
-          </p>
+    <>
+      <div className="mx-auto overflow-x-hidden flex w-full max-w-7xl flex-col gap-y-6 px-4 py-8">
+        <div className="flex flex-wrap justify-between gap-4">
+          <div className="block">
+            <h1 className="text-2xl font-bold">
+              Welcome Back, {channelInfo?.fullName}
+            </h1>
+            <p className="text-sm text-gray-300">
+              Seamless Video Management, Elevated Results.
+            </p>
+          </div>
+          <div className="block">
+            <button className="inline-flex items-center gap-x-2 bg-[#ae7aff] px-3 py-2 font-semibold text-black">
+              <CiSquarePlus className="text-black font-bold text-2xl" />
+              Upload video
+            </button>
+          </div>
         </div>
-        <div className="block">
-          <button className="inline-flex items-center gap-x-2 bg-[#ae7aff] px-3 py-2 font-semibold text-black">
-            <CiSquarePlus className="text-black font-bold text-2xl" />
-            Upload video
-          </button>
-        </div>
-      </div>
-      <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-4">
-        <IconContext.Provider value={{ className: "text-2xl font-bold" }}>
-          {channelStatsItems.map((item, index) => (
-            <div key={index} className="border p-4">
-              <div className="mb-4 block">
-                <span className="h-9 w-9 flex justify-center items-center rounded-full bg-[#E4D3FF] p-1 text-[#ae7aff]">
-                  {item.icon}
-                </span>
+
+        <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-4">
+          <IconContext.Provider value={{ className: "text-2xl font-bold" }}>
+            {channelStatsItems.map((item, index) => (
+              <div key={index} className="border p-4">
+                <div className="mb-4 block">
+                  <span className="h-9 w-9 flex justify-center items-center rounded-full bg-[#E4D3FF] p-1 text-[#ae7aff]">
+                    {item.icon}
+                  </span>
+                </div>
+                <h6 className="text-gray-300">{item.title}</h6>
+                <p className="text-3xl font-semibold">{item.value}</p>
               </div>
-              <h6 className="text-gray-300">{item.title}</h6>
-              <p className="text-3xl font-semibold">{item.value}</p>
-            </div>
-          ))}
-        </IconContext.Provider>
+            ))}
+          </IconContext.Provider>
+        </div>
+        <UploadVideo />
+        <div className="w-full overflow-auto">
+          <VideoStats />
+        </div>
       </div>
-      <div class="w-full overflow-auto">
-        <VideoStats />
-      </div>
-    </div>
+    </>
   );
 }
 

@@ -15,8 +15,12 @@ import CommentBox from "./VideoDetails/CommentBox";
 import Comment from "./VideoDetails/Comment";
 import VideolistCard from "./Videocards/VideolistCard";
 import VideoStats from "./VideoStats";
+import UploadVideo from "./UploadVideo/UploadVideo";
+import VideoDropZone from "./UploadVideo/VideoDropZone";
 
 export {
+  VideoDropZone,
+  UploadVideo,
   VideoStats,
   VideolistCard,
   Comment,

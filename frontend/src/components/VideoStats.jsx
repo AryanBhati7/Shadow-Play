@@ -5,41 +5,41 @@ function VideoStats() {
   const { data: channelVideos, isLoading } = useChannelVideos();
 
   return (
-    <table class="w-full min-w-[1200px] border-collapse border text-white">
+    <table className="w-full min-w-[1200px] border-collapse border text-white">
       <thead>
         <tr>
-          <th class="border-collapse border-b p-4">Status</th>
-          <th class="border-collapse border-b p-4">Status</th>
-          <th class="border-collapse border-b p-4">Uploaded</th>
-          <th class="border-collapse border-b p-4">Rating</th>
-          <th class="border-collapse border-b p-4">Date uploaded</th>
-          <th class="border-collapse border-b p-4"></th>
+          <th className="border-collapse border-b p-4">Status</th>
+          <th className="border-collapse border-b p-4">Status</th>
+          <th className="border-collapse border-b p-4">Uploaded</th>
+          <th className="border-collapse border-b p-4">Rating</th>
+          <th className="border-collapse border-b p-4">Date uploaded</th>
+          <th className="border-collapse border-b p-4"></th>
         </tr>
       </thead>
       <tbody>
         {channelVideos &&
           channelVideos.map((video) => (
-            <tr class="group border">
-              <td class="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
-                <div class="flex justify-center">
+            <tr className="group border">
+              <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
+                <div className="flex justify-center">
                   <label
-                    for="vid-pub-1"
-                    class="relative inline-block w-12 cursor-pointer overflow-hidden"
+                    htmlFor="vid-pub-1"
+                    className="relative inline-block w-12 cursor-pointer overflow-hidden"
                   >
                     <input
                       type="checkbox"
                       id="vid-pub-1"
-                      class="peer sr-only"
+                      className="peer sr-only"
                       checked={video?.isPublished}
                     />
-                    <span class="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#ae7aff] peer-checked:after:left-7"></span>
+                    <span className="inline-block h-6 w-full rounded-2xl bg-gray-200 duration-200 after:absolute after:bottom-1 after:left-1 after:top-1 after:h-4 after:w-4 after:rounded-full after:bg-black after:duration-200 peer-checked:bg-[#ae7aff] peer-checked:after:left-7"></span>
                   </label>
                 </div>
               </td>
-              <td class="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
-                <div class="flex justify-center">
+              <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
+                <div className="flex justify-center">
                   <span
-                    class={`inline-block rounded-2xl border px-1.5 py-0.5 ${
+                    className={`inline-block rounded-2xl border px-1.5 py-0.5 ${
                       video?.isPublished
                         ? "border-green-600 text-green-600"
                         : "border-orange-600 text-orange-600"
@@ -49,36 +49,36 @@ function VideoStats() {
                   </span>
                 </div>
               </td>
-              <td class="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
-                <div class="flex items-center gap-4">
+              <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
+                <div className="flex items-center gap-4">
                   <img
-                    class="h-10 w-10 rounded-full"
+                    className="h-10 w-10 rounded-full"
                     src={video?.thumbnail.url}
                     alt={video?.title}
                   />
-                  <h3 class="font-semibold">{video?.title}</h3>
+                  <h3 className="font-semibold">{video?.title}</h3>
                 </div>
               </td>
-              <td class="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
-                <div class="flex justify-center gap-4">
-                  <span class="inline-block rounded-xl bg-green-200 px-1.5 py-0.5 text-green-700">
+              <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
+                <div className="flex justify-center gap-4">
+                  <span className="inline-block rounded-xl bg-green-200 px-1.5 py-0.5 text-green-700">
                     {video?.likesCount} likes
                   </span>
                 </div>
               </td>
-              <td class="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
+              <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
                 {video?.createdAt}
               </td>
-              <td class="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
-                <div class="flex gap-4">
-                  <button class="h-5 w-5 hover:text-[#ae7aff]">
+              <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none">
+                <div className="flex gap-4">
+                  <button className="h-5 w-5 hover:text-[#ae7aff]">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke-width="1.5"
                       stroke="currentColor"
-                      aria-hidden="true"
+                      ariaHidden="true"
                     >
                       <path
                         stroke-linecap="round"
@@ -87,14 +87,14 @@ function VideoStats() {
                       ></path>
                     </svg>
                   </button>
-                  <button class="h-5 w-5 hover:text-[#ae7aff]">
+                  <button className="h-5 w-5 hover:text-[#ae7aff]">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke-width="1.5"
                       stroke="currentColor"
-                      aria-hidden="true"
+                      ariaHidden="true"
                     >
                       <path
                         stroke-linecap="round"
