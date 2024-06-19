@@ -11,15 +11,15 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 import { upload } from "../middlewares/multer.middleware.js";
 
 const router = Router();
-router.use(verifyJWT); // Apply verifyJWT middleware to all routes in this file
 
 router
   .route("/")
   .get(getAllVideos)
   .post(
+    verifyJWT,
     upload.fields([
       {
-        name: "video",
+        name: "videoFile",
         maxCount: 1,
       },
       {
@@ -31,11 +31,11 @@ router
   );
 
 router
-  .route("/:videoId")
-  .get(getVideoById)
-  .delete(deleteVideo)
-  .patch(upload.single("thumbnail"), updateVideo);
+  .route("/v/:videoId")
+  .get(verifyJWT, getVideoById)
+  .delete(verifyJWT, deleteVideo)
+  .patch(verifyJWT, upload.single("thumbnail"), updateVideo);
 
-router.route("/toggle/publish/:videoId").patch(togglePublishStatus);
+router.route("/toggle/publish/:videoId").patch(verifyJWT, togglePublishStatus);
 
 export default router;

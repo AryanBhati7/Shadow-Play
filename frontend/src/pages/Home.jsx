@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 function Home() {
   const { data, fetchNextPage, isFetched } = useVideos();
   const { ref, inView } = useInView();
+  console.log(data);
 
   useEffect(() => {
     if (inView) {

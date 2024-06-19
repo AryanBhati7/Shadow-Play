@@ -84,11 +84,11 @@ const getAllVideos = asyncHandler(async (req, res) => {
     limit: parseInt(limit, 10),
   };
 
-  const video = await Video.aggregatePaginate(videoAggregate, options);
+  const videos = await Video.aggregatePaginate(videoAggregate, options);
 
   return res
     .status(200)
-    .json(new ApiResponse(200, video, "Videos fetched successfully"));
+    .json(new ApiResponse(200, videos, "Videos fetched successfully"));
 });
 
 const publishAVideo = asyncHandler(async (req, res) => {

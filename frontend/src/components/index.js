@@ -14,8 +14,10 @@ import Like from "./VideoDetails/Like";
 import CommentBox from "./VideoDetails/CommentBox";
 import Comment from "./VideoDetails/Comment";
 import VideolistCard from "./Videocards/VideolistCard";
+import VideoStats from "./VideoStats";
 
 export {
+  VideoStats,
   VideolistCard,
   Comment,
   CommentBox,
