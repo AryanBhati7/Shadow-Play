@@ -65,7 +65,7 @@ function UploadVideo() {
 
   return (
     <div className="mt-16 ml-0 overflow-x-hidden sm:ml-8 absolute  inset-0 z-10 bg-black/50 px-4 w-full  pb-[80px] pt-4 sm:px-14 sm:py-8">
-      <div className="h-full  overflow-y-auto border bg-[#121212] ">
+      <div className="h-full  border bg-[#121212] ">
         <div className="flex items-center justify-between border-b p-4">
           <h2 className="text-xl font-semibold">Upload Video</h2>
           <button onClick={handleClose}>

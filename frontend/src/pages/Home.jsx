@@ -5,15 +5,19 @@ import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 
 function Home() {
-  const { data, fetchNextPage, isFetched } = useVideos();
+  const { data, fetchNextPage, isFetched, isFetching } = useVideos();
   const { ref, inView } = useInView();
-  console.log(data);
 
   useEffect(() => {
     if (inView) {
       fetchNextPage();
     }
   }, [inView]);
+  console.log(isFetching, "isLoading");
+
+  if (isFetching) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <>

@@ -95,9 +95,7 @@ function MyStudio() {
 
         {uploadVideoModal && <UploadVideo />}
 
-        <div className="w-full overflow-auto">
-          <VideoStats />
-        </div>
+        <VideoStats />
       </div>
     </>
   );

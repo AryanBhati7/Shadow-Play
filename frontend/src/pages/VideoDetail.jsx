@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useInvalidator } from "../hooks/queryClient.hook.js";
 import { useSubscribe } from "../hooks/subscription.hook.js";
 import { useVideoById } from "../hooks/video.hook.js";
 import { LiaUserCheckSolid } from "react-icons/lia";
@@ -21,7 +20,6 @@ import { timeAgo } from "../assets/timeAgo.js";
 function VideoDetail() {
   const dispatch = useDispatch();
   const { videoId } = useParams();
-  const invalidate = useInvalidator();
 
   const { mutateAsync: subscribe } = useSubscribe();
   const { data: video, isLoading, isError } = useVideoById(videoId);
@@ -29,7 +27,6 @@ function VideoDetail() {
   const handleSubscribe = async (channelId) => {
     await subscribe(channelId);
   };
-  console.log(video);
 
   const userId = useSelector((state) => state.auth.user?._id);
   const isOwner = video?.owner?._id === userId ? true : false;
@@ -354,7 +351,7 @@ function VideoDetail() {
             </div>
           </div>
 
-          <CommentBox videoId={video && video?._id} />
+          {video && <CommentBox videoId={video && video?._id} />}
         </div>
         {/* More Videos */}
         <div className="col-span-12 flex w-full shrink-0 flex-col gap-3 lg:w-[350px] xl:w-[400px]">
