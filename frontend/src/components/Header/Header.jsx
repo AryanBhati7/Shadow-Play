@@ -79,7 +79,7 @@ function Header() {
               viewBox="0 0 24 24"
               strokeWidth="1.5"
               stroke="currentColor"
-              ariaHidden="true"
+              aria-hidden="true"
               className="h-4 w-4"
             >
               <path
@@ -97,7 +97,7 @@ function Header() {
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            ariaHidden="true"
+            aria-hidden="true"
             className="h-6 w-6"
           >
             <path

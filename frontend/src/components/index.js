@@ -17,8 +17,10 @@ import VideolistCard from "./Videocards/VideolistCard";
 import VideoStats from "./VideoStats";
 import UploadVideo from "./UploadVideo/UploadVideo";
 import VideoDropZone from "./UploadVideo/VideoDropZone";
+import ProgressBar from "./ProgressBar";
 
 export {
+  ProgressBar,
   VideoDropZone,
   UploadVideo,
   VideoStats,

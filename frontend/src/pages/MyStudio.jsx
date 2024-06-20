@@ -3,6 +3,7 @@ import { setSideBarFullSize } from "../features/uiSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useChannelStats } from "../hooks/studio.hook";
 import { VideoStats, UploadVideo } from "../components/index.js";
+import { setShowUploadVideo } from "../features/uiSlice";
 
 import { FaRegEye } from "react-icons/fa";
 import { FaUserFriends } from "react-icons/fa";
@@ -14,6 +15,7 @@ import { IconContext } from "react-icons";
 function MyStudio() {
   const dispatch = useDispatch();
   const channelInfo = useSelector((state) => state.auth.user);
+  const uploadVideoModal = useSelector((state) => state.ui.showUploadVideo);
 
   useEffect(() => {
     dispatch(setSideBarFullSize(false));
@@ -48,9 +50,13 @@ function MyStudio() {
     },
   ];
 
+  const handleUploadVideoClick = () => {
+    dispatch(setShowUploadVideo(true));
+  };
+
   return (
     <>
-      <div className="mx-auto overflow-x-hidden flex w-full max-w-7xl flex-col gap-y-6 px-4 py-8">
+      <div className="mx-auto  flex w-full max-w-7xl flex-col gap-y-6 px-4 py-8">
         <div className="flex flex-wrap justify-between gap-4">
           <div className="block">
             <h1 className="text-2xl font-bold">
@@ -61,7 +67,10 @@ function MyStudio() {
             </p>
           </div>
           <div className="block">
-            <button className="inline-flex items-center gap-x-2 bg-[#ae7aff] px-3 py-2 font-semibold text-black">
+            <button
+              onClick={handleUploadVideoClick}
+              className="inline-flex items-center gap-x-2 bg-[#ae7aff] px-3 py-2 font-semibold text-black"
+            >
               <CiSquarePlus className="text-black font-bold text-2xl" />
               Upload video
             </button>
@@ -83,7 +92,9 @@ function MyStudio() {
             ))}
           </IconContext.Provider>
         </div>
-        <UploadVideo />
+
+        {uploadVideoModal && <UploadVideo />}
+
         <div className="w-full overflow-auto">
           <VideoStats />
         </div>

@@ -50,3 +50,29 @@ export const getVideoById = async (videoId) => {
     throw error?.response?.data?.error;
   }
 };
+
+export const uploadVideo = async (data, onUploadProgress) => {
+  const videoData = new FormData();
+  videoData.append("video", data.video);
+  videoData.append("thumbnail", data.thumbnail);
+  videoData.append("title", data.title);
+  videoData.append("description", data.description);
+  videoData.append("isPublished", false);
+  try {
+    const { data } = await API.post("/video/", videoData, {
+      onUploadProgress: (progressEvent) => {
+        var percentCompleted = Math.round(
+          (progressEvent.loaded * 80) / progressEvent.total
+        );
+        onUploadProgress(percentCompleted);
+      },
+    });
+    // When the response is received, set progress to 100%
+    onUploadProgress(100);
+    toast.success(data?.message);
+    return data?.data;
+  } catch (error) {
+    toast.error(error?.response?.data?.error);
+    throw error?.response?.data?.error;
+  }
+};

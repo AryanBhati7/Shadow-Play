@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getVideos, getVideoById } from "../api/video.api";
+import { getVideos, getVideoById, uploadVideo } from "../api/video.api";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useState } from "react";
 
 export const useVideos = () => {
   return useInfiniteQuery({
@@ -25,4 +26,20 @@ export const useVideoById = (videoId) => {
       queryClient.invalidateQueries({ queryKey: ["watchHistory"] });
     },
   });
+};
+
+export const useUploadVideo = () => {
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: (data) => uploadVideo(data, setUploadProgress),
+    onSuccess: () => {
+      queryClient.invalidateQueries("videos");
+    },
+  });
+
+  return {
+    ...mutation,
+    uploadProgress,
+  };
 };

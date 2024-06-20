@@ -95,7 +95,7 @@ function VideoDetail() {
                           viewBox="0 0 24 24"
                           strokeWidth="1.5"
                           stroke="currentColor"
-                          ariaHidden="true"
+                          aria-hidden="true"
                         >
                           <path
                             strokeLinecap="round"
@@ -128,7 +128,7 @@ function VideoDetail() {
                                 viewBox="0 0 24 24"
                                 strokeWidth="3"
                                 stroke="currentColor"
-                                ariaHidden="true"
+                                aria-hidden="true"
                               >
                                 <path
                                   strokeLinecap="round"
@@ -157,7 +157,7 @@ function VideoDetail() {
                                 viewBox="0 0 24 24"
                                 strokeWidth="3"
                                 stroke="currentColor"
-                                ariaHidden="true"
+                                aria-hidden="true"
                               >
                                 <path
                                   strokeLinecap="round"
@@ -186,7 +186,7 @@ function VideoDetail() {
                                 viewBox="0 0 24 24"
                                 strokeWidth="3"
                                 stroke="currentColor"
-                                ariaHidden="true"
+                                aria-hidden="true"
                               >
                                 <path
                                   strokeLinecap="round"
@@ -215,7 +215,7 @@ function VideoDetail() {
                                 viewBox="0 0 24 24"
                                 strokeWidth="3"
                                 stroke="currentColor"
-                                ariaHidden="true"
+                                aria-hidden="true"
                               >
                                 <path
                                   strokeLinecap="round"
@@ -244,7 +244,7 @@ function VideoDetail() {
                                 viewBox="0 0 24 24"
                                 strokeWidth="3"
                                 stroke="currentColor"
-                                ariaHidden="true"
+                                aria-hidden="true"
                               >
                                 <path
                                   strokeLinecap="round"
@@ -273,7 +273,7 @@ function VideoDetail() {
                                 viewBox="0 0 24 24"
                                 strokeWidth="3"
                                 stroke="currentColor"
-                                ariaHidden="true"
+                                aria-hidden="true"
                               >
                                 <path
                                   strokeLinecap="round"

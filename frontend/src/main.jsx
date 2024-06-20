@@ -61,7 +61,7 @@ const router = createBrowserRouter([
       {
         path: "/my-content",
         element: (
-          <AuthLayout auth={true}>
+          <AuthLayout auth>
             <MyContent />
           </AuthLayout>
         ),
@@ -69,7 +69,7 @@ const router = createBrowserRouter([
       {
         path: "/my-studio",
         element: (
-          <AuthLayout auth={true}>
+          <AuthLayout auth>
             <MyStudio />
           </AuthLayout>
         ),
@@ -77,7 +77,7 @@ const router = createBrowserRouter([
       {
         path: "/subscriptions",
         element: (
-          <AuthLayout auth={true}>
+          <AuthLayout auth>
             <Subscriptions />
           </AuthLayout>
         ),

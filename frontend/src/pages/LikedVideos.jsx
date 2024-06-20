@@ -8,8 +8,8 @@ function LikedVideos() {
 
   console.log(likedVideos);
   return (
-    <section class="w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
-      <div class="flex flex-col gap-4 p-4">
+    <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
+      <div className="flex flex-col gap-4 p-4">
         {likedVideos &&
           likedVideos.map((video) => (
             <Link to={`/video/${video?.likedVideo?._id}`}>
