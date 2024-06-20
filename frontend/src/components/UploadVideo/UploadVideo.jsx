@@ -11,6 +11,8 @@ import { BsCardImage } from "react-icons/bs";
 import { useUploadVideo } from "../../hooks/video.hook.js";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { setShowUploadVideo } from "../../features/uiSlice.js";
+import toast from "react-hot-toast";
+import { cancelUpload } from "../../api/video.api.js";
 
 function UploadVideo() {
   const dispatch = useDispatch();
@@ -48,31 +50,43 @@ function UploadVideo() {
 
   const {
     mutateAsync: uploadVideo,
-    uploadProgress,
     isPending,
+    isError,
+    isSuccess,
   } = useUploadVideo();
   const onSave = async (data) => {
-    console.log("Hello onSave called");
     data.video = video;
     data.thumbnail = thumbnail;
-    const res = await uploadVideo(data);
-    console.log(res, "return by hook");
+    await uploadVideo(data);
   };
 
   const handleClose = () => {
     dispatch(setShowUploadVideo(false));
   };
 
+  if (isSuccess) {
+    toast.success("Video uploaded successfully");
+    dispatch(setShowUploadVideo(false));
+  }
+
+  const handleCancelUpload = () => {
+    cancelUpload();
+  };
+
   return (
-    <div className="mt-16 ml-0 overflow-x-hidden sm:ml-8 absolute  inset-0 z-10 bg-black/50 px-4 w-full  pb-[80px] pt-4 sm:px-14 sm:py-8">
-      <div className="h-full  border bg-[#121212] ">
+    <div className="mt-16 ml-0 overflow-x-hidden  sm:ml-8 absolute  inset-0 z-10 bg-black/50 px-4 w-full  pb-[80px] pt-4 sm:px-14 sm:py-8">
+      <div className="h-full overflow-auto border bg-[#121212] ">
         <div className="flex items-center justify-between border-b p-4">
-          <h2 className="text-xl font-semibold">Upload Video</h2>
+          <h2 className="text-xl font-semibold">
+            {isPending && <span>Uploading your Video...</span>}
+            {!isPending && "Upload Video"}
+          </h2>
           <button onClick={handleClose}>
             <IoIosCloseCircleOutline className="w-8 h-8" />
           </button>
         </div>
-        <ProgressBar progress={uploadProgress} />
+        {isPending && <ProgressBar />}
+
         <div className="w-full flex  justify-center items-center flex-col sm:flex-row">
           <div className=" left-side  flex sm:w-7/12 max-w-3xl flex-col gap-y-4 p-4 w-full">
             {video ? (
@@ -167,7 +181,7 @@ function UploadVideo() {
           <div className="right-side h-full  sm:w-4/12 p-4 w-full  mb-[12rem]">
             <div className="flex flex-col w-full h-full gap-6">
               <h3 className="text-[1.2rem]  text-white mx-auto font-extrabold">
-                Your Video will look like this
+                Your Video will look something like this
               </h3>
               <div className="w-full bg-gray-800 rounded-lg shadow-md overflow-hidden text-white">
                 <div className="relative mb-2 w-full pt-[56%]">
@@ -206,13 +220,23 @@ function UploadVideo() {
                 <p className="text-lg font-bold mb-2">
                   Looks Great right? Click here to Upload
                 </p>
-                <SpButton
-                  onClick={handleSubmit(onSave)}
-                  className="min-w-[8rem]"
-                >
-                  {" "}
-                  Save{" "}
-                </SpButton>
+
+                {isSubmitting ? (
+                  <SpButton
+                    onClick={handleCancelUpload}
+                    className="min-w-[8rem]"
+                  >
+                    Cancel
+                  </SpButton>
+                ) : (
+                  <SpButton
+                    onClick={handleSubmit(onSave)}
+                    className="min-w-[8rem]"
+                  >
+                    {" "}
+                    Save{" "}
+                  </SpButton>
+                )}
               </div>
             </div>
           </div>

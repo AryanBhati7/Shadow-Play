@@ -10,7 +10,6 @@ const API = axios.create({
 export const toggleVideoLike = async (videoId) => {
   try {
     const { data } = await API.post(`/like/toggle/v/${videoId}`);
-    toast.success(data?.message);
     return data?.data;
   } catch (error) {
     toast.error(error?.response?.data?.error);
@@ -21,7 +20,6 @@ export const toggleVideoLike = async (videoId) => {
 export const toggleCommentLike = async (commentId) => {
   try {
     const { data } = await API.post(`/like/toggle/c/${commentId}`);
-    toast.success(data?.message);
     return data?.data;
   } catch (error) {
     toast.error(error?.response?.data?.error);

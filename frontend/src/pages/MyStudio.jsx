@@ -94,7 +94,6 @@ function MyStudio() {
         </div>
 
         {uploadVideoModal && <UploadVideo />}
-
         <VideoStats />
       </div>
     </>

@@ -13,7 +13,6 @@ function Home() {
       fetchNextPage();
     }
   }, [inView]);
-  console.log(isFetching, "isLoading");
 
   if (isFetching) {
     return <h1>Loading...</h1>;

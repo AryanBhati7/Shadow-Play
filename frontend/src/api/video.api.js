@@ -49,7 +49,9 @@ export const getVideoById = async (videoId) => {
   }
 };
 
-export const uploadVideo = async (data, onUploadProgress) => {
+let cancelTokenSource;
+export const uploadVideo = async (data) => {
+  cancelTokenSource = axios.CancelToken.source();
   const videoData = new FormData();
   videoData.append("video", data.video);
   videoData.append("thumbnail", data.thumbnail);
@@ -58,15 +60,28 @@ export const uploadVideo = async (data, onUploadProgress) => {
   videoData.append("isPublished", false);
   try {
     const { data } = await API.post("/video/", videoData, {
-      onUploadProgress: (progressEvent) => {
-        var percentCompleted = Math.round(
-          (progressEvent.loaded * 80) / progressEvent.total
-        );
-        onUploadProgress(percentCompleted);
-      },
+      cancelToken: cancelTokenSource.token,
     });
-    // When the response is received, set progress to 100%
-    onUploadProgress(100);
+    return data?.data;
+  } catch (error) {
+    if (axios.isCancel(error)) {
+      console.log("Request cancelled", error.message);
+    } else {
+      toast.error(error?.response?.data?.error);
+    }
+    throw error?.response?.data?.error;
+  }
+};
+
+export const cancelUpload = () => {
+  if (cancelTokenSource) {
+    cancelTokenSource.cancel("User cancelled the upload");
+  }
+};
+
+export const togglePublishStatus = async (videoId) => {
+  try {
+    const { data } = await API.patch(`/video/toggle/publish/${videoId}`);
     toast.success(data?.message);
     return data?.data;
   } catch (error) {
@@ -75,9 +90,22 @@ export const uploadVideo = async (data, onUploadProgress) => {
   }
 };
 
-export const togglePublishStatus = async (videoId) => {
+export const deleteVideo = async (videoId) => {
+  console.log("delete videocalled");
   try {
-    const { data } = await API.patch(`/video/toggle/publish/${videoId}`);
+    const { data } = await API.delete(`/video/v/${videoId}`);
+    toast.success(data?.message);
+    return data?.data;
+  } catch (error) {
+    console.log(error);
+    toast.error(error?.response?.data?.error);
+    throw error?.response?.data?.error;
+  }
+};
+
+export const editVideo = async (videoId, newVideo) => {
+  try {
+    const { data } = await API.patch(`/video/v/${videoId}`, newVideo);
     toast.success(data?.message);
     return data?.data;
   } catch (error) {

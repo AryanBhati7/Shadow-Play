@@ -18,10 +18,10 @@ import VideoStats from "./VideoStats";
 import UploadVideo from "./UploadVideo/UploadVideo";
 import VideoDropZone from "./UploadVideo/VideoDropZone";
 import ProgressBar from "./ProgressBar";
-import PublishToggle from "./PublishToggle";
+import DeletePopup from "./DeletePopup";
 
 export {
-  PublishToggle,
+  DeletePopup,
   ProgressBar,
   VideoDropZone,
   UploadVideo,

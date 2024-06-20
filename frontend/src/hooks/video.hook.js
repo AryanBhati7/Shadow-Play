@@ -3,6 +3,8 @@ import {
   getVideos,
   getVideoById,
   uploadVideo,
+  deleteVideo,
+  editVideo,
   togglePublishStatus,
 } from "../api/video.api";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -35,25 +37,41 @@ export const useVideoById = (videoId) => {
 };
 
 export const useUploadVideo = () => {
-  const [uploadProgress, setUploadProgress] = useState(0);
   const queryClient = useQueryClient();
-  const mutation = useMutation({
-    mutationFn: (data) => uploadVideo(data, setUploadProgress),
+  return useMutation({
+    mutationFn: (data) => uploadVideo(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["channelVideos"] });
     },
   });
-
-  return {
-    ...mutation,
-    uploadProgress,
-  };
 };
 
 export const useTogglePublish = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (videoId) => togglePublishStatus(videoId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["videos"] });
+      queryClient.invalidateQueries({ queryKey: ["channelVideos"] });
+    },
+  });
+};
+
+export const useDeleteVideo = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (videoId) => deleteVideo(videoId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["videos"] });
+      queryClient.invalidateQueries({ queryKey: ["channelVideos"] });
+    },
+  });
+};
+
+export const useEditVideo = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data) => editVideo(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["videos"] });
       queryClient.invalidateQueries({ queryKey: ["channelVideos"] });

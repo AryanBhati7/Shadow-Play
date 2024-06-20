@@ -19,7 +19,7 @@ function Header() {
   const userData = useSelector((state) => state.auth.user);
 
   const dispatch = useDispatch();
-  const { mutateAsync: logout, isLoading } = useLogout();
+  const { mutateAsync: logout } = useLogout();
 
   const handleLogout = async () => {
     const sessionStatus = await logout();

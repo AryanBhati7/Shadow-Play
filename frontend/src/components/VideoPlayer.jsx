@@ -11,7 +11,15 @@ import {
 
 function VideoPlayer({ src, thumbnail, title }) {
   return (
-    <MediaPlayer title={title} src={src} autoPlay playsInline>
+    <MediaPlayer
+      title={title}
+      src={src}
+      autoPlay
+      playsInline
+      load="eager"
+      viewType="video"
+      storage="video-player-settings"
+    >
       <MediaProvider />
       <PlyrLayout thumbnails={thumbnail} icons={plyrLayoutIcons} />
     </MediaPlayer>
@@ -19,18 +27,3 @@ function VideoPlayer({ src, thumbnail, title }) {
 }
 
 export default VideoPlayer;
-
-{
-  /* <Player>
-  <Hls version="latest" poster={poster}>
-    <source data-src={src} type="application/x-mpegURL" />
-  </Hls>
-
-  <DefaultUi noControls>
-    <Spinner showWhenMediaLoading={true} />
-    <DefaultControls hideOnMouseLeave activeDuration={2000} />
-    <DblClickFullscreen />
-    <ClickToPlay useOnMobile={true} />
-  </DefaultUi>
-</Player> */
-}

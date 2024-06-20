@@ -5,6 +5,19 @@
 * {
   box-sizing: border-box;
 }
+
+@keyframes slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(400%);
+  }
+}
+
+.animate-slide {
+  animation-name: slide;
+}
 .plyr {
   --plyr-color-main: hsl(280, 95%, 39%);
   --plyr-border-radius: 10px;

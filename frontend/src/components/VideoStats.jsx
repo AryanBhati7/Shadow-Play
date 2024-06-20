@@ -1,25 +1,39 @@
-import React, { useCallback } from "react";
+import React, { useState } from "react";
 import { useChannelVideos } from "../hooks/studio.hook";
 import { MdModeEditOutline } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
-import { useTogglePublish } from "../hooks/video.hook";
+import {
+  useDeleteVideo,
+  useEditVideo,
+  useTogglePublish,
+} from "../hooks/video.hook";
+import DeletePopup from "./DeletePopup";
 
 function VideoStats() {
-  const { data: channelVideos } = useChannelVideos();
+  const [deletePopupId, setDeletePopupId] = useState(null);
+  const { data: channelVideos, isFetching } = useChannelVideos();
 
   const { mutateAsync: toggleVideoPublishStatus } = useTogglePublish();
-
-  // const togglePublishStatus = useCallback(
-  //   async (videoId) => {
-  //     console.
-  //     await toggleVideoPublishStatus(videoId);
-  //   },
-  //   [toggleVideoPublishStatus]
-  // );
+  const { mutateAsync: deleteVideo } = useDeleteVideo();
+  const { mutateAsync: editVideo } = useEditVideo();
 
   const togglePublishStatus = async (videoId) => {
     await toggleVideoPublishStatus(videoId);
   };
+
+  const handleDelete = async (videoId) => {
+    setDeletePopupId(videoId);
+  };
+
+  const deleteConfirm = async (videoId) => {
+    await deleteVideo(videoId);
+
+    setDeletePopupId(null);
+  };
+
+  if (isFetching) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <>
@@ -92,7 +106,10 @@ function VideoStats() {
                       <button className="h-5 w-5 hover:text-[#ae7aff]">
                         <MdModeEditOutline className="w-6 h-6" />
                       </button>
-                      <button className="h-5 w-5 hover:text-[#ae7aff]">
+                      <button
+                        className="h-5 w-5 hover:text-[#ae7aff]"
+                        onClick={() => handleDelete(video._id)}
+                      >
                         <MdDelete className="w-6 h-6" />
                       </button>
                     </div>
@@ -124,6 +141,12 @@ function VideoStats() {
                       />
                       <h3 className="font-semibold">{video?.title}</h3>
                     </div>
+                    {deletePopupId === video._id && (
+                      <DeletePopup
+                        onDeleteConfirm={() => deleteConfirm(video._id)}
+                        onCancel={() => setDeletePopupId(null)}
+                      />
+                    )}
                     <label className="relative inline-block w-12 cursor-pointer ">
                       <input
                         type="checkbox"
@@ -157,15 +180,25 @@ function VideoStats() {
                       <button className="h-5 w-5 hover:text-[#ae7aff]">
                         <MdModeEditOutline className="w-6 h-6" />
                       </button>
-                      <button className="h-5 w-5 hover:text-[#ae7aff]">
+                      <button
+                        className="h-5 w-5 hover:text-[#ae7aff]"
+                        onClick={() => handleDelete(video._id)}
+                      >
                         <MdDelete className="w-6 h-6" />
                       </button>
                     </div>
                   </div>
+                  {deletePopupId === video._id && (
+                    <DeletePopup
+                      onDeleteConfirm={() => deleteConfirm(video._id)}
+                      onCancel={() => setDeletePopupId(null)}
+                    />
+                  )}
                 </div>
               </div>
             </div>
           ))}
+        <div className="mb-[14rem]"></div>
       </div>
     </>
   );

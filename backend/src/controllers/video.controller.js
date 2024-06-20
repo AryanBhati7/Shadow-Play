@@ -5,6 +5,8 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { video_upOptions, thumbnail_upOptions } from "../constants.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import { Like } from "../models/like.model.js";
+import { Comment } from "../models/comment.model.js";
 import {
   uploadOnCloudinary,
   deleteFromCloudinary,
@@ -111,16 +113,17 @@ const publishAVideo = asyncHandler(async (req, res) => {
   if (!thumbnailLocalPath)
     throw new ApiError(401, "Thumbnail is required to publish");
 
-  const videoFile = await uploadOnCloudinary(videoLocalPath, video_upOptions);
+  const [videoFile, thumbnailFile] = await Promise.all([
+    uploadOnCloudinary(videoLocalPath, video_upOptions),
+    uploadOnCloudinary(thumbnailLocalPath, thumbnail_upOptions),
+  ]);
 
-  if (!videoFile) throw new ApiError(500, "Failed to upload video");
-
-  const thumbnailFile = await uploadOnCloudinary(
-    thumbnailLocalPath,
-    thumbnail_upOptions
-  );
-
-  if (!thumbnailFile) throw new ApiError(500, "Failed to upload thumbnail");
+  if (!videoFile || !thumbnailFile) {
+    let errorMessage = "";
+    if (!videoFile) errorMessage += "Failed to upload video. ";
+    if (!thumbnailFile) errorMessage += "Failed to upload thumbnail.";
+    throw new ApiError(500, errorMessage);
+  }
 
   const video = await Video.create({
     video: {
@@ -349,7 +352,7 @@ const deleteVideo = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, {}, "Video deleted Successfully"));
+    .json(new ApiResponse(200, null, "Video deleted Successfully"));
 });
 
 const togglePublishStatus = asyncHandler(async (req, res) => {
