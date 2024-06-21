@@ -16,14 +16,18 @@ import Comment from "./VideoDetails/Comment";
 import VideolistCard from "./Videocards/VideolistCard";
 import VideoStats from "./VideoStats";
 import UploadVideo from "./UploadVideo/UploadVideo";
-import VideoDropZone from "./UploadVideo/VideoDropZone";
 import ProgressBar from "./ProgressBar";
 import DeletePopup from "./DeletePopup";
+import EditVideo from "./EditVideo/EditVideo";
+import VideoPreviewCard from "./VideoPreviewCard";
+import Dropzone from "./Dropzone";
 
 export {
+  Dropzone,
+  VideoPreviewCard,
+  EditVideo,
   DeletePopup,
   ProgressBar,
-  VideoDropZone,
   UploadVideo,
   VideoStats,
   VideolistCard,

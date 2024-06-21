@@ -56,6 +56,7 @@ function VideoDetail() {
                     src={video?.video?.url}
                     thumbnail={video?.thumbnail?.url}
                     title={video?.title}
+                    duration={video?.duration}
                   />
                 )}
               </div>

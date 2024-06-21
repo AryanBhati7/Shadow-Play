@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import SpButton from "../SpButton";
 import Logo from "../Logo";
 import Button from "../Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLogout } from "../../hooks/auth.hook";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../features/authSlice";
@@ -13,8 +13,10 @@ import { RxQuestionMarkCircled } from "react-icons/rx";
 import { CiSettings } from "react-icons/ci";
 import { IconContext } from "react-icons";
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import { setShowUploadVideo } from "../../features/uiSlice";
 
 function Header() {
+  const navigate = useNavigate();
   const authStatus = useSelector((state) => state.auth.authStatus);
   const userData = useSelector((state) => state.auth.user);
 
@@ -26,6 +28,11 @@ function Header() {
     if (sessionStatus) {
       dispatch(setUser(null));
     }
+  };
+
+  const handleUploadVideo = () => {
+    navigate("/my-studio");
+    dispatch(setShowUploadVideo(true));
   };
 
   const mobileSidebarItems = [
@@ -142,9 +149,15 @@ function Header() {
                 ))}
               </ul>
               <div className="mb-8 mt-auto flex w-full flex-wrap gap-4 px-4 sm:mb-0 sm:mt-0 sm:items-center sm:px-0">
+                {authStatus ? (
+                  <SpButton onClick={handleUploadVideo}>Upload Video</SpButton>
+                ) : (
+                  <Button onClick={handleUploadVideo}>Upload Video</Button>
+                )}
+
                 {authStatus && userData && (
                   <>
-                    <SpButton onClick={handleLogout}>Logout</SpButton>
+                    <Button onClick={handleLogout}>Logout</Button>
                     <div className="mb-8 mt-auto px-4 sm:mb-0 sm:mt-0 sm:px-0">
                       <Button className="flex w-full gap-4 text-left sm:items-center">
                         <img
@@ -166,10 +179,7 @@ function Header() {
                 {!authStatus && (
                   <>
                     <Link to="/login">
-                      <Button>Log in</Button>
-                    </Link>
-                    <Link to="/signup">
-                      <SpButton>Sign up</SpButton>
+                      <SpButton>Log in</SpButton>
                     </Link>
                   </>
                 )}

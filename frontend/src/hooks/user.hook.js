@@ -6,5 +6,6 @@ export const useWatchHistory = () => {
   return useQuery({
     queryKey: ["watchHistory"],
     queryFn: () => getWatchHistory(),
+    refetchOnWindowFocus: true,
   });
 };

@@ -14,7 +14,7 @@ function VideoStats() {
   const { data: channelVideos, isFetching } = useChannelVideos();
 
   const { mutateAsync: toggleVideoPublishStatus } = useTogglePublish();
-  const { mutateAsync: deleteVideo } = useDeleteVideo();
+  const { mutateAsync: deleteVideo, isPending: isDeleting } = useDeleteVideo();
   const { mutateAsync: editVideo } = useEditVideo();
 
   const togglePublishStatus = async (videoId) => {
@@ -79,7 +79,15 @@ function VideoStats() {
                       </span>
                     </div>
                   </td>
+
                   <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none whitespace-nowrap">
+                    {deletePopupId === video._id && (
+                      <DeletePopup
+                        onDeleteConfirm={() => deleteConfirm(video._id)}
+                        onCancel={() => setDeletePopupId(null)}
+                        isDeleting={isDeleting}
+                      />
+                    )}
                     <div className="flex items-center gap-4">
                       <img
                         className="h-10 w-14 rounded-md object-cover"
@@ -124,10 +132,17 @@ function VideoStats() {
         {channelVideos &&
           channelVideos.map((video) => (
             <div
-              className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2"
               key={video._id}
+              className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2"
             >
               <div className="flex flex-col border-white border border-dashed rounded-lg shadow-md overflow-hidden">
+                {deletePopupId === video._id && (
+                  <DeletePopup
+                    onDeleteConfirm={() => deleteConfirm(video._id)}
+                    onCancel={() => setDeletePopupId(null)}
+                    isDeleting={isDeleting}
+                  />
+                )}
                 <div className="p-4 gap-3  flex flex-col ">
                   <div className="flex items-center justify-between">
                     <div
@@ -141,12 +156,7 @@ function VideoStats() {
                       />
                       <h3 className="font-semibold">{video?.title}</h3>
                     </div>
-                    {deletePopupId === video._id && (
-                      <DeletePopup
-                        onDeleteConfirm={() => deleteConfirm(video._id)}
-                        onCancel={() => setDeletePopupId(null)}
-                      />
-                    )}
+
                     <label className="relative inline-block w-12 cursor-pointer ">
                       <input
                         type="checkbox"
@@ -188,12 +198,6 @@ function VideoStats() {
                       </button>
                     </div>
                   </div>
-                  {deletePopupId === video._id && (
-                    <DeletePopup
-                      onDeleteConfirm={() => deleteConfirm(video._id)}
-                      onCancel={() => setDeletePopupId(null)}
-                    />
-                  )}
                 </div>
               </div>
             </div>

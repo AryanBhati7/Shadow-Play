@@ -49,9 +49,7 @@ export const getVideoById = async (videoId) => {
   }
 };
 
-let cancelTokenSource;
 export const uploadVideo = async (data) => {
-  cancelTokenSource = axios.CancelToken.source();
   const videoData = new FormData();
   videoData.append("video", data.video);
   videoData.append("thumbnail", data.thumbnail);
@@ -59,23 +57,12 @@ export const uploadVideo = async (data) => {
   videoData.append("description", data.description);
   videoData.append("isPublished", false);
   try {
-    const { data } = await API.post("/video/", videoData, {
-      cancelToken: cancelTokenSource.token,
-    });
+    const { data } = await API.post("/video/", videoData);
+    toast.success(data?.message);
     return data?.data;
   } catch (error) {
-    if (axios.isCancel(error)) {
-      console.log("Request cancelled", error.message);
-    } else {
-      toast.error(error?.response?.data?.error);
-    }
+    toast.error(error?.response?.data?.error);
     throw error?.response?.data?.error;
-  }
-};
-
-export const cancelUpload = () => {
-  if (cancelTokenSource) {
-    cancelTokenSource.cancel("User cancelled the upload");
   }
 };
 
@@ -91,7 +78,6 @@ export const togglePublishStatus = async (videoId) => {
 };
 
 export const deleteVideo = async (videoId) => {
-  console.log("delete videocalled");
   try {
     const { data } = await API.delete(`/video/v/${videoId}`);
     toast.success(data?.message);

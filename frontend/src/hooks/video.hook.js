@@ -18,8 +18,7 @@ export const useVideos = () => {
       if (lastPage.hasNextPage === false) return;
       return lastPage.nextPage;
     },
-    staleTime: 1000 * 60 * 5, // Add this line
-    refetchOnWindowFocus: true,
+    staleTime: 1000 * 60 * 5,
   });
 };
 
@@ -62,8 +61,9 @@ export const useDeleteVideo = () => {
   return useMutation({
     mutationFn: (videoId) => deleteVideo(videoId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["videos"] });
       queryClient.invalidateQueries({ queryKey: ["channelVideos"] });
+      queryClient.invalidateQueries({ queryKey: ["channelStats"] });
+      queryClient.invalidateQueries({ queryKey: ["videos"] });
     },
   });
 };
