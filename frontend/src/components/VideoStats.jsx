@@ -2,26 +2,26 @@ import React, { useState } from "react";
 import { useChannelVideos } from "../hooks/studio.hook";
 import { MdModeEditOutline } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
-import {
-  useDeleteVideo,
-  useEditVideo,
-  useTogglePublish,
-} from "../hooks/video.hook";
+import { setShowEditVideo } from "../features/uiSlice";
+import { useDispatch } from "react-redux";
+
+import { useDeleteVideo, useTogglePublish } from "../hooks/video.hook";
 import DeletePopup from "./DeletePopup";
+import { setVideoForEdit } from "../features/videoSlice";
+import VideoStatsSkeleton from "./Loading/VideoStatsSkeleton";
 
 function VideoStats() {
+  const dispatch = useDispatch();
   const [deletePopupId, setDeletePopupId] = useState(null);
   const { data: channelVideos, isFetching } = useChannelVideos();
-
   const { mutateAsync: toggleVideoPublishStatus } = useTogglePublish();
   const { mutateAsync: deleteVideo, isPending: isDeleting } = useDeleteVideo();
-  const { mutateAsync: editVideo } = useEditVideo();
 
   const togglePublishStatus = async (videoId) => {
     await toggleVideoPublishStatus(videoId);
   };
 
-  const handleDelete = async (videoId) => {
+  const handleDelete = (videoId) => {
     setDeletePopupId(videoId);
   };
 
@@ -31,9 +31,10 @@ function VideoStats() {
     setDeletePopupId(null);
   };
 
-  if (isFetching) {
-    return <p>Loading...</p>;
-  }
+  const handleEdit = (video) => {
+    dispatch(setVideoForEdit(video));
+    dispatch(setShowEditVideo(true));
+  };
 
   return (
     <>
@@ -111,7 +112,10 @@ function VideoStats() {
                   </td>
                   <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none whitespace-nowrap">
                     <div className="flex gap-4">
-                      <button className="h-5 w-5 hover:text-[#ae7aff]">
+                      <button
+                        onClick={() => handleEdit(video._id)}
+                        className="h-5 w-5 hover:text-[#ae7aff]"
+                      >
                         <MdModeEditOutline className="w-6 h-6" />
                       </button>
                       <button
@@ -187,12 +191,15 @@ function VideoStats() {
                       {new Date(video?.createdAt).toLocaleDateString("en-GB")}
                     </p>
                     <div className="flex   border-gray-700 gap-4">
-                      <button className="h-5 w-5 hover:text-[#ae7aff]">
+                      <button
+                        onClick={() => handleEdit(video)}
+                        className="h-5 w-5 hover:text-[#ae7aff]"
+                      >
                         <MdModeEditOutline className="w-6 h-6" />
                       </button>
                       <button
                         className="h-5 w-5 hover:text-[#ae7aff]"
-                        onClick={() => handleDelete(video._id)}
+                        onClick={() => handleDelete(video)}
                       >
                         <MdDelete className="w-6 h-6" />
                       </button>

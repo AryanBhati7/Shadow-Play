@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import Videocard from "../components/Videocard";
 import { useVideos } from "../hooks/video.hook";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
+import { Videocard, VideoCardSkeleton } from "../components/index.js";
 
 function Home() {
   const { data, fetchNextPage, isFetched, isFetching } = useVideos();
@@ -15,7 +15,15 @@ function Home() {
   }, [inView]);
 
   if (isFetching) {
-    return <h1>Loading...</h1>;
+    return (
+      <>
+        {Array(8)
+          .fill()
+          .map((_, index) => (
+            <VideoCardSkeleton key={index} />
+          ))}
+      </>
+    );
   }
 
   return (

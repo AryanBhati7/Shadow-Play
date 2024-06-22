@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   sideBarFullSize: true,
   showUploadVideo: false,
+  showEditVideo: false,
 };
 
 const uiSlice = createSlice({
@@ -15,8 +16,12 @@ const uiSlice = createSlice({
     setShowUploadVideo: (state, action) => {
       state.showUploadVideo = action.payload;
     },
+    setShowEditVideo: (state, action) => {
+      state.showEditVideo = action.payload;
+    },
   },
 });
 
-export const { setSideBarFullSize, setShowUploadVideo } = uiSlice.actions;
+export const { setSideBarFullSize, setShowUploadVideo, setShowEditVideo } =
+  uiSlice.actions;
 export default uiSlice.reducer;

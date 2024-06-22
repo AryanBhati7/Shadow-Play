@@ -1,10 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  videos: [],
   video: null,
-  publishToggle: false,
-  uploading: false,
+  videoForEdit: null,
 };
 
 const videoSlice = createSlice({
@@ -14,22 +12,12 @@ const videoSlice = createSlice({
     setVideo: (state, action) => {
       state.video = action.payload;
     },
-    setVideos: (state, action) => {
-      state.videos = action.payload;
-    },
-    setVideo: (state, action) => {
-      state.video = action.payload;
-    },
-    setPublishToggle: (state, action) => {
-      state.publishToggle = action.payload;
-    },
-    setUploading: (state, action) => {
-      state.uploading = action.payload;
+    setVideoForEdit: (state, action) => {
+      state.videoForEdit = action.payload;
     },
   },
 });
 
-export const { setVideo, setVideos, setPublishToggle, setUploading } =
-  videoSlice.actions;
+export const { setVideo, setVideoForEdit } = videoSlice.actions;
 
 export default videoSlice.reducer;

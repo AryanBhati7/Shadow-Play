@@ -8,13 +8,17 @@ export default function VideoPreviewCard({
   description,
   name,
 }) {
+  console.log(thumbnail);
+  if (thumbnail && typeof thumbnail !== "string") {
+    thumbnail = URL.createObjectURL(thumbnail);
+  }
   return (
     <div className="w-full bg-gray-800 rounded-lg shadow-md overflow-hidden text-white">
       <div className="relative mb-2 w-full pt-[56%]">
         <div className="absolute inset-0">
           {thumbnail && video ? (
             <img
-              src={URL.createObjectURL(thumbnail)}
+              src={thumbnail}
               alt="thumbnail-videocard"
               className="h-full w-full object-cover"
             />

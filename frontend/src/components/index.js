@@ -9,7 +9,6 @@ import Input from "./Input";
 import LoginPopup from "./LoginPopup";
 import NextVideoCard from "./NextVideoCard";
 import VideoPlayer from "./VideoPlayer";
-import LoadingSpinner from "./Loading/LoadingSpinner";
 import Like from "./VideoDetails/Like";
 import CommentBox from "./VideoDetails/CommentBox";
 import Comment from "./VideoDetails/Comment";
@@ -21,8 +20,17 @@ import DeletePopup from "./DeletePopup";
 import EditVideo from "./EditVideo/EditVideo";
 import VideoPreviewCard from "./VideoPreviewCard";
 import Dropzone from "./Dropzone";
+import { TitleInput, DescriptionInput } from "./TitleAndDescriptionIInput";
+
+import LoadingSpinner from "./Loading/LoadingSpinner";
+import VideoCardSkeleton from "./Loading/VideoCardSkeleton";
+import VideoStatsSkeleton from "./Loading/VideoStatsSkeleton";
 
 export {
+  TitleInput,
+  DescriptionInput,
+  VideoStatsSkeleton,
+  VideoCardSkeleton,
   Dropzone,
   VideoPreviewCard,
   EditVideo,

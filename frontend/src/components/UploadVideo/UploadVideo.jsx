@@ -2,7 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SpButton, ProgressBar, VideoPreviewCard, Dropzone } from "../index.js";
+import {
+  SpButton,
+  ProgressBar,
+  VideoPreviewCard,
+  Dropzone,
+  TitleInput,
+  DescriptionInput,
+} from "../index.js";
 import { useDispatch, useSelector } from "react-redux";
 import { useUploadVideo } from "../../hooks/video.hook.js";
 import { IoIosCloseCircleOutline } from "react-icons/io";
@@ -128,39 +135,26 @@ function UploadVideo() {
                 />
               </div>
               <div className="w-full">
-                <label htmlFor="title" className="mb-1 inline-block">
-                  Title
-                  <sup>*</sup>
-                  {errors.title && (
-                    <span className="text-red-500 px-2">
-                      {errors.title.message}
-                    </span>
-                  )}
-                </label>
-                <input
-                  id="title"
-                  type="text"
-                  className="w-full border bg-transparent px-2 py-2 outline-none"
+                <TitleInput
+                  title={title}
+                  setTitle={setTitle}
                   {...register("title")}
-                  onBlur={(e) => setTitle(e.target.value)}
                 />
+                {errors.title && (
+                  <span className="text-red-500 ">{errors.title.message}</span>
+                )}
               </div>
               <div className="w-full">
-                <label htmlFor="desc" className="mb-1 inline-block">
-                  Description
-                  <sup>*</sup>
-                </label>
+                <DescriptionInput
+                  description={description}
+                  setDescription={setDescription}
+                  {...register("description")}
+                />
                 {errors.description && (
-                  <span className="text-red-500 px-2">
+                  <span className="text-red-500 ">
                     {errors.description.message}
                   </span>
                 )}
-                <textarea
-                  id="desc"
-                  className="h-40 w-full resize-none border bg-transparent px-2 py-1 outline-none"
-                  {...register("description")}
-                  onBlur={(e) => setDescription(e.target.value)}
-                ></textarea>
               </div>
             </div>
             <div className="right-side h-full  sm:w-4/12 p-4 w-full  mb-[4rem]">
