@@ -22,7 +22,7 @@ function VideoDetail() {
   const { videoId } = useParams();
 
   const { mutateAsync: subscribe } = useSubscribe();
-  const { data: video, isLoading, isError } = useVideoById(videoId);
+  const { data: video, isError, isFetching } = useVideoById(videoId);
 
   const handleSubscribe = async (channelId) => {
     await subscribe(channelId);
@@ -41,7 +41,7 @@ function VideoDetail() {
     };
   }, [dispatch, video]);
 
-  if (isLoading) {
+  if (isFetching) {
     return <div>Loading...</div>;
   }
   return (

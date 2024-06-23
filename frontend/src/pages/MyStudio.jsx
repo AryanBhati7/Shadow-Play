@@ -95,7 +95,7 @@ function MyStudio() {
         </div>
 
         {/* {These are the modals only showned when their respective state in store changes} */}
-        {showUpload && <UploadVideo />}
+        <UploadVideo />
         {showEdit && <EditVideo />}
 
         <VideoStats />

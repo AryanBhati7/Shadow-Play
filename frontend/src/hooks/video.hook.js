@@ -28,10 +28,10 @@ export const useVideoById = (videoId) => {
   return useQuery({
     queryKey: ["video", videoId],
     queryFn: () => getVideoById(videoId),
-    staleTime: 1000 * 60 * 5,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["watchHistory"] });
     },
+    staleTime: 1000 * 60 * 2,
   });
 };
 

@@ -17,11 +17,15 @@ function Home() {
   if (isFetching) {
     return (
       <>
-        {Array(8)
-          .fill()
-          .map((_, index) => (
-            <VideoCardSkeleton key={index} />
-          ))}
+        <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
+          <div className="grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-4 p-4">
+            {Array(8)
+              .fill()
+              .map((_, index) => (
+                <VideoCardSkeleton key={index} />
+              ))}
+          </div>
+        </section>
       </>
     );
   }

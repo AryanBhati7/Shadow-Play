@@ -4,7 +4,7 @@ import VideoPlayer from "./VideoPlayer";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import formatFileSize from "../assets/formatFileSize.js";
 
-const Dropzone = forwardRef(({ type, setFile, file }, ref) => {
+const Dropzone = forwardRef(({ type, setFile, file, isPending }, ref) => {
   const fileTypes = {
     video: {
       "video/*": [".mp4", ".mov", ".avi", ".flv", ".wmv", ".mkv"],
@@ -13,6 +13,7 @@ const Dropzone = forwardRef(({ type, setFile, file }, ref) => {
       "image/*": [".jpg", ".jpeg", ".png"],
     },
   };
+  console.log(isPending);
 
   const { getRootProps, getInputProps, isDragReject, open } = useDropzone({
     accept: fileTypes[type],
@@ -66,8 +67,10 @@ const Dropzone = forwardRef(({ type, setFile, file }, ref) => {
           )}
 
           <button
+            type="button"
             className="px-6 py-3 w-4/12 border-none bg-[#ae7aff] text-black hover:bg-[#d6beff]"
             onClick={() => setFile(null)}
+            disabled={isPending}
           >
             Select another {type}
           </button>

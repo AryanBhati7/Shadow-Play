@@ -21,12 +21,14 @@ import EditVideo from "./EditVideo/EditVideo";
 import VideoPreviewCard from "./VideoPreviewCard";
 import Dropzone from "./Dropzone";
 import { TitleInput, DescriptionInput } from "./TitleAndDescriptionIInput";
+import VideoForm from "./VideoForm";
 
 import LoadingSpinner from "./Loading/LoadingSpinner";
 import VideoCardSkeleton from "./Loading/VideoCardSkeleton";
 import VideoStatsSkeleton from "./Loading/VideoStatsSkeleton";
 
 export {
+  VideoForm,
   TitleInput,
   DescriptionInput,
   VideoStatsSkeleton,

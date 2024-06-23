@@ -1,6 +1,6 @@
 import React, { useState, forwardRef } from "react";
 
-export const TitleInput = forwardRef(({ title, setTitle }, ref) => {
+export const TitleInput = forwardRef(({ title, setTitle, ...props }, ref) => {
   // Local state for handling input value
   const [localTitle, setLocalTitle] = useState(title);
 
@@ -15,16 +15,14 @@ export const TitleInput = forwardRef(({ title, setTitle }, ref) => {
         id="title"
         type="text"
         className="w-full border bg-transparent px-2 py-2 outline-none"
-        value={localTitle}
-        onChange={(e) => setLocalTitle(e.target.value)} // Update local state on change
-        onBlur={() => setTitle(localTitle)} // Update parent state on blur
+        {...props}
       />
     </div>
   );
 });
 
 export const DescriptionInput = forwardRef(
-  ({ description, setDescription }, ref) => {
+  ({ description, setDescription, ...props }, ref) => {
     // Local state for handling textarea value
     const [localDescription, setLocalDescription] = useState(description);
 
@@ -38,9 +36,7 @@ export const DescriptionInput = forwardRef(
           ref={ref} // Forwarding ref to the textarea element
           id="desc"
           className="h-40 w-full resize-none border bg-transparent px-2 py-1 outline-none"
-          value={localDescription}
-          onChange={(e) => setLocalDescription(e.target.value)} // Update local state on change
-          onBlur={() => setDescription(localDescription)} // Update parent state on blur
+          {...props}
         ></textarea>
       </div>
     );

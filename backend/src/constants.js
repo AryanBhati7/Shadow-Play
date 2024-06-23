@@ -1,21 +1,21 @@
 export const DB_NAME = "ytbackend";
 
 export const coverImg_upOptions = {
-  folder: "YT-Clone/Cover_Image",
+  folder: "yt-tweets/cover-image",
   resource_type: "image",
 };
 
 export const avatar_upOptions = {
-  folder: "YT-Clone/Avatar",
+  folder: "yt-tweets/avatar",
   resource_type: "image",
 };
 export const thumbnail_upOptions = {
-  folder: "YT-Clone/Thumbnails",
+  folder: "yt-tweets/thumbnail",
   resource_type: "image",
 };
 
 export const video_upOptions = {
-  folder: "YT-Clone/Videos",
+  folder: "yt-tweets/video",
   resource_type: "video",
   eager: [{ streaming_profile: "full_hd", format: "m3u8" }],
   eager_async: true,

@@ -2,14 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  SpButton,
-  ProgressBar,
-  VideoPreviewCard,
-  Dropzone,
-  TitleInput,
-  DescriptionInput,
-} from "../index.js";
+import { SpButton, ProgressBar, VideoForm } from "../index.js";
 import { useDispatch, useSelector } from "react-redux";
 import { useUploadVideo } from "../../hooks/video.hook.js";
 import { IoIosCloseCircleOutline } from "react-icons/io";
@@ -20,47 +13,20 @@ function UploadVideo() {
   const showStatus = useSelector((state) => state.ui.showUploadVideo);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
-  const schema = z.object({
-    title: z
-      .string()
-      .nonempty("Title is required")
-      .min(5, "Title is too short"),
-    description: z
-      .string()
-      .min(6, "Description must be at least 6 characters long."),
-  });
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({
-    resolver: zodResolver(schema),
-  });
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [thumbnail, setThumbnail] = useState(null);
-  const [video, setVideo] = useState(null);
+
+  const [resetStatus, setResetStatus] = useState(false);
+  const [closeStatus, setCloseStatus] = useState(false);
 
   const { mutateAsync: uploadVideo, isPending } = useUploadVideo();
   const onSave = async (data) => {
-    if (!video || !thumbnail) {
-      toast.error("Please upload both video and thumbnail");
-      return;
-    }
-    data.video = video;
-    data.thumbnail = thumbnail;
+    console.log(data);
     const res = await uploadVideo(data);
     if (res) {
-      setVideo(null);
-      setThumbnail(null);
-      setTitle("");
-      setDescription("");
-
       dispatch(setShowUploadVideo(false));
     }
+    return res;
   };
-
+  console.log(isPending);
   const handleClose = () => {
     if (isPending) {
       toast("Video is still uploading please wait", {
@@ -68,14 +34,7 @@ function UploadVideo() {
       });
       return;
     }
-
-    if (!thumbnail || !video) {
-      setVideo(null);
-      setThumbnail(null);
-      setTitle("");
-      setDescription("");
-      reset();
-    }
+    setResetStatus((prevStatus) => !prevStatus);
 
     dispatch(setShowUploadVideo(false));
   };
@@ -87,11 +46,7 @@ function UploadVideo() {
       });
       return;
     }
-    setVideo(null);
-    setThumbnail(null);
-    setTitle("");
-    setDescription("");
-    reset();
+    setResetStatus((prevStatus) => !prevStatus);
   };
 
   return (
@@ -113,84 +68,14 @@ function UploadVideo() {
             </button>
           </div>
         </div>
-        {isPending && <ProgressBar />}
-        <form onSubmit={handleSubmit(onSave)}>
-          <div className="w-full flex  justify-center items-center flex-col sm:flex-row">
-            <div className=" left-side  flex sm:w-7/12 max-w-3xl flex-col gap-y-4 p-4 w-full">
-              <div className="sm:h-[24rem] ">
-                <Dropzone file={video} setFile={setVideo} type="video" />
-              </div>
-
-              <div className="w-full">
-                <label htmlFor="thumbnail" className="mb-1 inline-block">
-                  Thumbnail
-                  <sup>*</sup>
-                </label>
-                <input
-                  id="thumbnail"
-                  type="file"
-                  accept="image/*"
-                  className="w-full border p-1 file:mr-4 file:border-none file:bg-[#ae7aff] file:px-3 file:py-1.5"
-                  onChange={(e) => setThumbnail(e.target.files[0])}
-                />
-              </div>
-              <div className="w-full">
-                <TitleInput
-                  title={title}
-                  setTitle={setTitle}
-                  {...register("title")}
-                />
-                {errors.title && (
-                  <span className="text-red-500 ">{errors.title.message}</span>
-                )}
-              </div>
-              <div className="w-full">
-                <DescriptionInput
-                  description={description}
-                  setDescription={setDescription}
-                  {...register("description")}
-                />
-                {errors.description && (
-                  <span className="text-red-500 ">
-                    {errors.description.message}
-                  </span>
-                )}
-              </div>
-            </div>
-            <div className="right-side h-full  sm:w-4/12 p-4 w-full  mb-[4rem]">
-              <div className="flex flex-col w-full h-full gap-6">
-                <h3 className="text-[1.2rem]  text-white mx-auto font-extrabold">
-                  Your Video will look something like this
-                </h3>
-                <VideoPreviewCard
-                  video={video}
-                  thumbnail={thumbnail}
-                  title={title}
-                  description={description}
-                  name={user?.fullName}
-                />
-                <div className="text-center p-2 rounded">
-                  {isPending ? (
-                    <p className="text-lg font-bold mb-2">
-                      ⌛ Uploading your Video...
-                    </p>
-                  ) : (
-                    <>
-                      <p className="text-lg font-bold mb-2">
-                        Looks Great 🤩 right? Click here to Upload
-                      </p>
-
-                      <SpButton type="submit" className="min-w-[8rem]">
-                        {" "}
-                        Save{" "}
-                      </SpButton>
-                    </>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
+        {isPending && <ProgressBar />}{" "}
+        <VideoForm
+          onSubmit={onSave}
+          closeStatus={closeStatus}
+          resetStatus={resetStatus}
+          user={user}
+          isPending={isPending}
+        />
       </div>
     </div>
   );
