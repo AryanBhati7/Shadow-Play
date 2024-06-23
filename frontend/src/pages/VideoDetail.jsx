@@ -12,21 +12,18 @@ import {
   Like,
   CommentBox,
   Button,
+  SubscribeButton,
 } from "../components/index.js";
 import { setSideBarFullSize } from "../features/uiSlice.js";
 import { setVideo } from "../features/videoSlice.js";
 import { timeAgo } from "../assets/timeAgo.js";
+import { BsTruckFlatbed } from "react-icons/bs";
 
 function VideoDetail() {
   const dispatch = useDispatch();
   const { videoId } = useParams();
 
-  const { mutateAsync: subscribe } = useSubscribe();
   const { data: video, isError, isFetching } = useVideoById(videoId);
-
-  const handleSubscribe = async (channelId) => {
-    await subscribe(channelId);
-  };
 
   const userId = useSelector((state) => state.auth.user?._id);
   const isOwner = video?.owner?._id === userId ? true : false;
@@ -325,25 +322,10 @@ function VideoDetail() {
               </div>
 
               {!isOwner && (
-                <>
-                  {video?.owner?.isSubscribed ? (
-                    <Button
-                      onClick={() => handleSubscribe(video?.owner?._id)}
-                      className={` flex justify-center items-center gap-3 mr-1  bg-[#b2b2b2] px-3 py-2 text-center font-bold text-black  transition-all duration-150 ease-in-out active:translate-x-[5px] active:translate-y-[5px] active:shadow-[0px_0px_0px_0px_#4f4e4e] sm:w-auto `}
-                    >
-                      <LiaUserCheckSolid className="w-5 h-5" />
-                      Subscribed
-                    </Button>
-                  ) : (
-                    <SpButton
-                      onClick={() => handleSubscribe(video?.owner?._id)}
-                      className="flex justify-center items-center gap-4"
-                    >
-                      <HiOutlineUserAdd className="w-5 h-5" />
-                      Subscribe
-                    </SpButton>
-                  )}
-                </>
+                <SubscribeButton
+                  isSubscribed={video?.owner?.isSubscribed}
+                  channelId={video?.owner?._id}
+                />
               )}
             </div>
             <hr className="my-4 border-white" />

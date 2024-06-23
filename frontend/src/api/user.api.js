@@ -17,9 +17,10 @@ export const getWatchHistory = async () => {
   }
 };
 
-export const getUserChannelProfile = async (userId) => {
+export const getUserChannelProfile = async (username) => {
   try {
-    const { data } = await API.get(`/users/${userId}`);
+    const { data } = await API.get(`users/c/${username}`);
+
     return data?.data;
   } catch (error) {
     toast.error(error?.response?.data?.error);

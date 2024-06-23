@@ -13,6 +13,10 @@ import {
   MyStudio,
   Subscriptions,
   History,
+  ChannelPlaylist,
+  ChannelSubscribed,
+  ChannelVideos,
+  ChannelTweets,
 } from "./pages/index.js";
 import AuthLayout from "./components/AuthLayout.jsx";
 import { Provider } from "react-redux";
@@ -59,12 +63,46 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/my-content",
+        path: "/channel/:username",
         element: (
           <AuthLayout auth>
             <MyContent />
           </AuthLayout>
         ),
+        children: [
+          {
+            path: "videos",
+            element: (
+              <AuthLayout auth>
+                <ChannelVideos />
+              </AuthLayout>
+            ),
+          },
+          {
+            path: "tweets",
+            element: (
+              <AuthLayout auth>
+                <ChannelTweets />
+              </AuthLayout>
+            ),
+          },
+          {
+            path: "playlist",
+            element: (
+              <AuthLayout auth>
+                <ChannelPlaylist />
+              </AuthLayout>
+            ),
+          },
+          {
+            path: "subscriptions",
+            element: (
+              <AuthLayout auth>
+                <ChannelSubscribed />
+              </AuthLayout>
+            ),
+          },
+        ],
       },
       {
         path: "/my-studio",

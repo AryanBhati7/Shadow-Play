@@ -43,7 +43,7 @@ function Header() {
     },
     {
       name: "My Content",
-      path: "/my-content",
+      path: `/channel/${userData?.username}/videos`,
       icon: <GoDeviceCameraVideo />,
     },
     {

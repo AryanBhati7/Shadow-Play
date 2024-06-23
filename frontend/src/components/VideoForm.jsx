@@ -26,14 +26,28 @@ function VideoForm({
   closeStatus,
   resetStatus,
 }) {
+  console.log(initialVideo, "VideoForm");
   const [video, setVideo] = useState(initialVideo?.video?.url || null);
   const [thumbnail, setThumbnail] = useState(
-    initialVideo?.thumbnail.url || null
+    initialVideo?.thumbnail?.url || null
   );
+
   const [title, setTitle] = useState(initialVideo?.title || "");
   const [description, setDescription] = useState(
     initialVideo?.description || ""
   );
+
+  useEffect(() => {
+    if (initialVideo) {
+      setVideo(initialVideo.video?.url || null);
+      setThumbnail(initialVideo.thumbnail?.url || null);
+      setTitle(initialVideo.title || "");
+      setDescription(initialVideo.description || "");
+    }
+  }, [initialVideo]);
+
+  console.log(thumbnail, "thumbnail");
+  console.log(video, "video");
 
   const {
     register,
@@ -89,26 +103,29 @@ function VideoForm({
         <div className="left-side flex sm:w-7/12 max-w-3xl flex-col gap-y-4 p-4 w-full">
           <div className="sm:h-[24rem]">
             <Dropzone
-              file={video}
-              setFile={setVideo}
-              type="video"
+              file={isEditing ? thumbnail : video}
+              setFile={isEditing ? setThumbnail : setVideo}
+              type={isEditing ? "image" : "video"}
               isPending={isPending}
             />
           </div>
 
-          <div className="w-full">
-            <label htmlFor="thumbnail" className="mb-1 inline-block">
-              Thumbnail<sup>*</sup>
-            </label>
-            <input
-              id="thumbnail"
-              type="file"
-              accept="image/*"
-              disabled={isPending}
-              className="w-full border p-1 file:mr-4 file:border-none file:bg-[#ae7aff] file:px-3 file:py-1.5"
-              onChange={(e) => setThumbnail(e.target.files[0])}
-            />
-          </div>
+          {!isEditing && (
+            <div className="w-full">
+              <label htmlFor="thumbnail" className="mb-1 inline-block">
+                Thumbnail<sup>*</sup>
+              </label>
+              <input
+                id="thumbnail"
+                type="file"
+                accept="image/*"
+                disabled={isPending}
+                className="w-full border p-1 file:mr-4 file:border-none file:bg-[#ae7aff] file:px-3 file:py-1.5"
+                onChange={(e) => setThumbnail(e.target.files[0])}
+              />
+            </div>
+          )}
+
           <div className="w-full">
             <TitleInput
               title={title}
@@ -155,7 +172,8 @@ function VideoForm({
             <div className="text-center p-2 rounded">
               {isPending ? (
                 <p className="text-lg font-bold mb-2">
-                  ⌛ Uploading your Video...
+                  <span className="rotate-animation">⌛</span> Uploading your
+                  Video...
                 </p>
               ) : (
                 <>

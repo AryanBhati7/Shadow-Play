@@ -19,14 +19,13 @@ function UploadVideo() {
 
   const { mutateAsync: uploadVideo, isPending } = useUploadVideo();
   const onSave = async (data) => {
-    console.log(data);
     const res = await uploadVideo(data);
     if (res) {
       dispatch(setShowUploadVideo(false));
     }
     return res;
   };
-  console.log(isPending);
+
   const handleClose = () => {
     if (isPending) {
       toast("Video is still uploading please wait", {
@@ -38,6 +37,8 @@ function UploadVideo() {
 
     dispatch(setShowUploadVideo(false));
   };
+
+  console.log("upload video");
 
   const handleReset = () => {
     if (isPending) {

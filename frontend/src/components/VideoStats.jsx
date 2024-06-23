@@ -113,7 +113,7 @@ function VideoStats() {
                   <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none whitespace-nowrap">
                     <div className="flex gap-4">
                       <button
-                        onClick={() => handleEdit(video._id)}
+                        onClick={() => handleEdit(video)}
                         className="h-5 w-5 hover:text-[#ae7aff]"
                       >
                         <MdModeEditOutline className="w-6 h-6" />

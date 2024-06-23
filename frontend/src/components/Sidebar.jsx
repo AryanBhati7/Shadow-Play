@@ -14,6 +14,7 @@ import Logo from "./Logo";
 
 function Sidebar() {
   const fullSize = useSelector((state) => state.ui.sideBarFullSize);
+  const username = useSelector((state) => state.auth.user?.username);
   const sidebarItems = [
     {
       name: "Home",
@@ -35,7 +36,7 @@ function Sidebar() {
     },
     {
       name: "My Content",
-      path: "/my-content",
+      path: `/channel/${username}`,
       icon: <GoDeviceCameraVideo />,
       onMobile: false,
     },

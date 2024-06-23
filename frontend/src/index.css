@@ -18,6 +18,23 @@
 .animate-slide {
   animation-name: slide;
 }
+
+@keyframes rotateAnimation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rotate-animation {
+  animation-name: rotateAnimation;
+  animation-duration: 2s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
 .plyr {
   --plyr-color-main: hsl(280, 95%, 39%);
   --plyr-border-radius: 10px;

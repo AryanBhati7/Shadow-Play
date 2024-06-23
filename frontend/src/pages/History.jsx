@@ -12,8 +12,8 @@ function History() {
         <div className="flex flex-col gap-4 p-4">
           {watchHistory &&
             watchHistory.map((video) => (
-              <Link to={`/video/${video?._id}`}>
-                <VideolistCard key={video._id} video={video} />
+              <Link to={`/video/${video?._id}`} key={video?._id}>
+                <VideolistCard key={video?._id} video={video} />
               </Link>
             ))}
         </div>

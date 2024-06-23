@@ -8,6 +8,11 @@ import MyContent from "./MyContent";
 import MyStudio from "./MyStudio";
 import Subscriptions from "./Subscriptions";
 
+import ChannelPlaylist from "./Channel/ChannelPlaylist";
+import ChannelSubscribed from "./Channel/ChannelSubscribed";
+import ChannelTweets from "./Channel/ChannelTweets";
+import ChannelVideos from "./Channel/ChannelVideos";
+
 export {
   Home,
   Signup,
@@ -18,4 +23,8 @@ export {
   MyStudio,
   MyContent,
   Subscriptions,
+  ChannelPlaylist,
+  ChannelSubscribed,
+  ChannelTweets,
+  ChannelVideos,
 };

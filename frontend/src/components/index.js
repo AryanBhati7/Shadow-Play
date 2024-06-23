@@ -22,12 +22,14 @@ import VideoPreviewCard from "./VideoPreviewCard";
 import Dropzone from "./Dropzone";
 import { TitleInput, DescriptionInput } from "./TitleAndDescriptionIInput";
 import VideoForm from "./VideoForm";
+import SubscribeButton from "./SubscribeButton";
 
 import LoadingSpinner from "./Loading/LoadingSpinner";
 import VideoCardSkeleton from "./Loading/VideoCardSkeleton";
 import VideoStatsSkeleton from "./Loading/VideoStatsSkeleton";
 
 export {
+  SubscribeButton,
   VideoForm,
   TitleInput,
   DescriptionInput,
