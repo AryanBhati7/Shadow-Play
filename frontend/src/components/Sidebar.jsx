@@ -36,7 +36,7 @@ function Sidebar() {
     },
     {
       name: "My Content",
-      path: `/channel/${username}`,
+      path: `/channel/${username}/videos`,
       icon: <GoDeviceCameraVideo />,
       onMobile: false,
     },

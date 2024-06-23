@@ -17,6 +17,8 @@ function Like({ id, isLiked, likesCount, type, className, iconSize }) {
     ({ mutateAsync: like } = useLike("comment"));
   } else if (type === "videos") {
     ({ mutateAsync: like } = useLike("video"));
+  } else {
+    ({ mutateAsync: like } = useLike("tweet"));
   }
 
   const handleLike = async () => {

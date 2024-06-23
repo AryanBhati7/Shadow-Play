@@ -17,7 +17,6 @@ import {
 import { setSideBarFullSize } from "../features/uiSlice.js";
 import { setVideo } from "../features/videoSlice.js";
 import { timeAgo } from "../assets/timeAgo.js";
-import { BsTruckFlatbed } from "react-icons/bs";
 
 function VideoDetail() {
   const dispatch = useDispatch();

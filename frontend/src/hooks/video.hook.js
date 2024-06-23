@@ -8,12 +8,12 @@ import {
   togglePublishStatus,
 } from "../api/video.api";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useState } from "react";
 
-export const useVideos = () => {
+export const useVideos = (userId) => {
   return useInfiniteQuery({
-    queryKey: ["videos"],
-    queryFn: ({ page = 1 }) => getVideos(page),
+    queryKey: userId ? ["videos", userId] : ["videos"],
+    queryFn: ({ pageParam = 1 }) =>
+      userId ? getVideos(pageParam, userId) : getVideos(pageParam),
     getNextPageParam: (lastPage) => {
       if (lastPage.hasNextPage === false) return;
       return lastPage.nextPage;
