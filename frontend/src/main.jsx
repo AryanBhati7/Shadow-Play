@@ -14,7 +14,7 @@ import {
   Subscriptions,
   History,
   ChannelPlaylist,
-  ChannelSubscribed,
+  ChannelSubscribers,
   ChannelVideos,
   ChannelTweets,
 } from "./pages/index.js";
@@ -98,7 +98,7 @@ const router = createBrowserRouter([
             path: "subscriptions",
             element: (
               <AuthLayout auth>
-                <ChannelSubscribed />
+                <ChannelSubscribers />
               </AuthLayout>
             ),
           },

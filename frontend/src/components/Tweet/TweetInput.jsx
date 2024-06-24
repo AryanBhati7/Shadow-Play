@@ -5,10 +5,9 @@ function TweetInput({ initialTweet }) {
   const [tweet, setTweet] = useState(initialTweet || "");
 
   const { mutateAsync: addTweet, isPending } = useAddTweet();
-  console.log("isPending", isPending);
-  // Function to handle the send action
+
   const sendTweet = async () => {
-    const res = await addTweet({ tweet });
+    await addTweet({ tweet });
     setTweet("");
   };
 

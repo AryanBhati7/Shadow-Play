@@ -9,7 +9,7 @@ import MyStudio from "./MyStudio";
 import Subscriptions from "./Subscriptions";
 
 import ChannelPlaylist from "./Channel/ChannelPlaylist";
-import ChannelSubscribed from "./Channel/ChannelSubscribed";
+import ChannelSubscribers from "./Channel/ChannelSubscribers";
 import ChannelTweets from "./Channel/ChannelTweets";
 import ChannelVideos from "./Channel/ChannelVideos";
 
@@ -24,7 +24,7 @@ export {
   MyContent,
   Subscriptions,
   ChannelPlaylist,
-  ChannelSubscribed,
+  ChannelSubscribers,
   ChannelTweets,
   ChannelVideos,
 };

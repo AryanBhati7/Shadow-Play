@@ -26,14 +26,14 @@ import SubscribeButton from "./SubscribeButton";
 import TweetInput from "./Tweet/TweetInput";
 import Tweet from "./Tweet/Tweet";
 import DropDown from "./DropDown";
-import SubscribedTo from "./SubscribedTo";
+import Subscriber from "./Subscriber";
 
 import LoadingSpinner from "./Loading/LoadingSpinner";
 import VideoCardSkeleton from "./Loading/VideoCardSkeleton";
 import VideoStatsSkeleton from "./Loading/VideoStatsSkeleton";
 
 export {
-  SubscribedTo,
+  Subscriber,
   DropDown,
   Tweet,
   TweetInput,

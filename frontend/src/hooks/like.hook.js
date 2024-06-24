@@ -7,13 +7,9 @@ import {
 } from "../api/like.api";
 
 export const useLike = (type) => {
-  const queryClient = useQueryClient();
   if (type === "video") {
     return useMutation({
       mutationFn: (videoId) => toggleVideoLike(videoId),
-      onSuccess: () => {
-        queryClient.invalidateQueries("likedVideos");
-      },
     });
   }
 

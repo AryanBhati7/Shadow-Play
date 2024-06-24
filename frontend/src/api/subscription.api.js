@@ -18,3 +18,25 @@ export const toggleSubscribe = async (channelId) => {
     throw error?.response?.data?.error;
   }
 };
+
+export const getSubscribedChannels = async (subscriberId) => {
+  try {
+    console.log(subscriberId);
+    const { data } = await API.get(`/subscription/u/${subscriberId}`);
+    console.log(data);
+    return data?.data;
+  } catch (error) {
+    console.log(error);
+    throw error?.response?.data?.error;
+  }
+};
+
+export const getChannelSubscribers = async (channelId) => {
+  try {
+    const { data } = await API.get(`/subscription/c/${channelId}`);
+    return data?.data;
+  } catch (error) {
+    console.log(error);
+    throw error?.response?.data?.error;
+  }
+};
