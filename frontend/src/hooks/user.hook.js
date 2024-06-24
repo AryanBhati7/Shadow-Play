@@ -1,6 +1,12 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { getWatchHistory, getUserChannelProfile } from "../api/user.api";
+import {
+  getWatchHistory,
+  getUserChannelProfile,
+  updateUserCoverImage,
+  updateUserProfile,
+  updateAccountDetails,
+} from "../api/user.api";
 
 export const useWatchHistory = () => {
   return useQuery({
@@ -15,5 +21,35 @@ export const useUserChannelInfo = (username) => {
     queryKey: ["channelInfo", username],
     queryFn: () => getUserChannelProfile(username),
     refetchOnWindowFocus: true,
+  });
+};
+
+export const useUpdateAvatar = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data) => updateUserProfile(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries("channelInfo");
+    },
+  });
+};
+
+export const useUpdateCoverImage = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data) => updateUserCoverImage(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries("channelInfo");
+    },
+  });
+};
+
+export const useUpdateAccountDetails = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data) => updateAccountDetails(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries("channelInfo");
+    },
   });
 };

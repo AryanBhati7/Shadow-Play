@@ -27,3 +27,47 @@ export const getUserChannelProfile = async (username) => {
     throw error?.response?.data?.error;
   }
 };
+
+export const updateUserProfile = async (data) => {
+  const formData = new FormData();
+
+  if (data) {
+    formData.append("avatar", data);
+  }
+
+  try {
+    const { data } = await API.patch("/users/avatar", formData);
+    console.log(data);
+    toast.success(data?.message);
+    return data;
+  } catch (error) {
+    toast.error(error?.response?.data?.error);
+    throw error?.response?.data?.error;
+  }
+};
+
+export const updateUserCoverImage = async (data) => {
+  const coverImageForm = new FormData();
+  if (data) {
+    coverImageForm.append("coverImage", data);
+  }
+  try {
+    const { data } = await API.patch("/users/cover-image", coverImageForm);
+    toast.success(data?.message);
+    return data;
+  } catch (error) {
+    toast.error(error?.response?.data?.error);
+    throw error?.response?.data?.error;
+  }
+};
+
+export const updateAccountDetails = async (newData) => {
+  try {
+    const { data } = await API.patch("/users/update-account", newData);
+    toast.success(data?.message);
+    return data;
+  } catch (error) {
+    toast.error(error?.response?.data?.error);
+    throw error?.response?.data?.error;
+  }
+};

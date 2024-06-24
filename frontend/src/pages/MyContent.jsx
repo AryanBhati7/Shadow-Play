@@ -46,7 +46,7 @@ function MyContent() {
         <div className="absolute inset-0 overflow-hidden">
           <img
             src={channelInfo?.coverImage?.url || defaultCover}
-            alt="cover-photo"
+            alt="cover-photo object-contain"
           />
         </div>
       </div>

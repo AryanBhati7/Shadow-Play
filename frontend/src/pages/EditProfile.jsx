@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { NavLink, Link, Outlet } from "react-router-dom";
 import defaultCoverImg from "../assets/default-cover-photo.jpg";
+import { AvatarInput, CoverImageInput } from "../components";
 
 function EditProfile() {
   const channelInfo = useSelector((state) => state.auth.user);
@@ -19,25 +20,18 @@ function EditProfile() {
       path: "change-password",
     },
   ];
-  console.log(channelInfo);
+
   return (
     <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
       <div className="relative min-h-[150px] w-full pt-[16.28%]">
         <div className="absolute inset-0 overflow-hidden">
-          <img
-            src={channelInfo?.coverImage?.url || defaultCoverImg}
-            alt="cover-photo"
-          />
+          <CoverImageInput coverImage={defaultCoverImg} setCoverImage={null} />
         </div>
       </div>
       <div className="px-4 pb-4">
         <div className="flex flex-wrap gap-4 pb-4 pt-6">
-          <span className="relative -mt-12 inline-block h-28 w-28 shrink-0 overflow-hidden rounded-full border-2">
-            <img
-              src={channelInfo?.avatar?.url || ""}
-              alt="channelAvatar"
-              className="h-full w-full object-cover"
-            />
+          <span className="relative -mt-12 inline-block h-28 w-28 shrink-0 rounded-full border-2">
+            <AvatarInput avatar={channelInfo?.avatar} setAvatar={null} />
           </span>
           <div className="mr-auto inline-block">
             <h1 className="font-bolg text-xl">{channelInfo?.fullName}</h1>

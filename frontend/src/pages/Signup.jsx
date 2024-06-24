@@ -60,17 +60,6 @@ function Signup() {
   );
   const [selectedCover, setSelectedCover] = useState("");
 
-  function handleImageSelect(e, setImage) {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
   return (
     <div className="h-screen overflow-y-auto bg-[#121212] text-white flex justify-center items-center">
       <div className="mx-auto my-8 flex w-full max-w-sm flex-col px-4">
@@ -95,30 +84,30 @@ function Signup() {
               backgroundImage: `url(${selectedCover})`,
             }}
           >
-            <label htmlFor="profileImg">
-              <div
-                className={`mx-auto mt-6 flex cursor-pointer justify-center w-[141px] h-[141px] bg-blue-300/20 rounded-full bg-cover bg-center bg-no-repeat border-2 border-purple-700 `}
-                style={{
-                  backgroundImage: `url(${selectedProfile})`,
-                }}
-              >
-                <div className="bg-white/90 flex justify-center items-center rounded-full w-7 h-7 text-center ml-28 mt-[106px]">
+            <div
+              className={`mx-auto mt-6 flex cursor-pointer justify-center w-[141px] h-[141px] bg-blue-300/20 rounded-full bg-cover bg-center bg-no-repeat border-2 border-purple-700 `}
+              style={{
+                backgroundImage: `url(${selectedProfile})`,
+              }}
+            >
+              <label htmlFor="profileImg" className="cursor-pointer">
+                <div className="bg-white/90 flex justify-center items-center rounded-full w-7 h-7 text-center ml-28 mt-[106px] cursor-pointer">
                   <MdOutlineCloudUpload />
                 </div>
-              </div>
 
-              <input
-                type="file"
-                style={{ display: "none" }}
-                id="profileImg"
-                accept="image/png, image/jpg, image/jpeg, image/gif"
-                {...register("profileImg", { required: true })}
-                onChange={(e) => {
-                  setProfilePic(e.target.files[0]);
-                  handleImageSelect(e, setSelectedProfile);
-                }}
-              />
-            </label>
+                <input
+                  type="file"
+                  style={{ display: "none" }}
+                  id="profileImg"
+                  accept="image/png, image/jpg, image/jpeg, image/gif"
+                  {...register("profileImg", { required: true })}
+                  onChange={(e) => {
+                    setSelectedProfile(URL.createObjectURL(e.target.files[0]));
+                    setProfilePic(e.target.files[0]);
+                  }}
+                />
+              </label>
+            </div>
             <div className="flex justify-end">
               <input
                 style={{ display: "none" }}
@@ -127,8 +116,8 @@ function Signup() {
                 accept="image/png, image/jpg, image/jpeg, image/gif"
                 {...register("coverphoto", { required: false })}
                 onChange={(e) => {
+                  setSelectedCover(URL.createObjectURL(e.target.files[0]));
                   setCoverPic(e.target.files[0]);
-                  handleImageSelect(e, setSelectedCover);
                 }}
               />
 
