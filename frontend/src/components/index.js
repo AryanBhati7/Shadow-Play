@@ -27,6 +27,7 @@ import TweetInput from "./Tweet/TweetInput";
 import Tweet from "./Tweet/Tweet";
 import DropDown from "./DropDown";
 import Subscriber from "./Subscriber";
+import ChannelSubscribed from "./ChannelSubscribed";
 
 import LoadingSpinner from "./Loading/LoadingSpinner";
 import VideoCardSkeleton from "./Loading/VideoCardSkeleton";
@@ -35,6 +36,7 @@ import VideolistCardSkeleton from "./Loading/VideolistCardSkeleton";
 import SubscriberSkeleton from "./Loading/SubscriberSkeleton";
 
 export {
+  ChannelSubscribed,
   SubscriberSkeleton,
   VideolistCardSkeleton,
   Subscriber,

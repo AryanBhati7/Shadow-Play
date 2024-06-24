@@ -12,8 +12,10 @@ function DeletePopup({ onCancel, onDeleteConfirm, isDeleting }) {
           </>
         ) : (
           <>
+            <h1 className="text-2xl font-bold mb-4">Delete Video</h1>
             <p className="text-xl font-medium mb-2">
-              Are you sure you want to delete this video?
+              Are you sure you want to delete this video? Once its deleted, you
+              will not be able to recover it.
             </p>
             <div className="flex gap-4">
               <button

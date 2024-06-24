@@ -157,7 +157,12 @@ function Header() {
 
                 {authStatus && userData && (
                   <>
-                    <Button onClick={handleLogout}>Logout</Button>
+                    <Button
+                      className="bg-gray-500 hover:bg-slate-400"
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </Button>
                     <div className="mb-8 mt-auto px-4 sm:mb-0 sm:mt-0 sm:px-0">
                       <Button className="flex w-full gap-4 text-left sm:items-center">
                         <img

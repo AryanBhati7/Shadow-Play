@@ -20,6 +20,8 @@ function LikedVideos() {
     );
   return (
     <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
+      <h1 className="text-3xl font-bold my-2 ml-4">Liked Videos</h1>
+
       <div className="flex flex-col gap-4 p-4">
         {likedVideos &&
           likedVideos.map((video) => (

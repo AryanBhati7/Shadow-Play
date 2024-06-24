@@ -35,8 +35,8 @@ function MyContent() {
       path: "tweets",
     },
     {
-      name: "Subscribed",
-      path: "subscriptions",
+      name: "Subscribers",
+      path: "subscribers",
     },
   ];
   return (

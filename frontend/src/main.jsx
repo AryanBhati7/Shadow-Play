@@ -95,7 +95,7 @@ const router = createBrowserRouter([
             ),
           },
           {
-            path: "subscriptions",
+            path: "subscribers",
             element: (
               <AuthLayout auth>
                 <ChannelSubscribers />
