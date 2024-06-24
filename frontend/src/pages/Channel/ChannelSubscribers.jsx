@@ -1,21 +1,26 @@
 import React from "react";
-import {
-  useChannelSubcribers,
-  useSubscribedChannels,
-} from "../../hooks/subscription.hook";
+import { useChannelSubcribers } from "../../hooks/subscription.hook";
 import { useSelector } from "react-redux";
-import Subscriber from "../../components/Subscriber";
+import { Subscriber, SubscriberSkeleton } from "../../components/index.js";
 
 function ChannelSubscribers() {
   const channelId = useSelector((state) => state.channel.channel?._id);
-  console.log(channelId);
 
   const { data: channelSubscribers, isLoading } =
     useChannelSubcribers(channelId);
 
   console.log(channelSubscribers);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className="flex flex-col gap-y-4 py-4">
+        {Array(5)
+          .fill()
+          .map((_, index) => (
+            <SubscriberSkeleton key={index} />
+          ))}
+      </div>
+    );
 
   if (channelSubscribers && channelSubscribers.length === 0) {
     return (

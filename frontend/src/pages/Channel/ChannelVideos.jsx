@@ -26,10 +26,10 @@ function ChannelVideos() {
 
   if (channelVideos?.pages?.length === 0) {
     return (
-      <div class="flex justify-center p-4">
-        <div class="w-full max-w-sm text-center">
-          <p class="mb-3 w-full">
-            <span class="inline-flex rounded-full bg-[#E4D3FF] p-2 text-[#AE7AFF]">
+      <div className="flex justify-center p-4">
+        <div className="w-full max-w-sm text-center">
+          <p className="mb-3 w-full">
+            <span className="inline-flex rounded-full bg-[#E4D3FF] p-2 text-[#AE7AFF]">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -37,7 +37,7 @@ function ChannelVideos() {
                 stroke-width="1.5"
                 stroke="currentColor"
                 aria-hidden="true"
-                class="w-6"
+                className="w-6"
               >
                 <path
                   stroke-linecap="round"
@@ -47,7 +47,7 @@ function ChannelVideos() {
               </svg>
             </span>
           </p>
-          <h5 class="mb-2 font-semibold">No videos uploaded</h5>
+          <h5 className="mb-2 font-semibold">No videos uploaded</h5>
           <p>
             This page has yet to upload a video. Search another page in order to
             find more videos.

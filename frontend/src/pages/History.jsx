@@ -1,11 +1,23 @@
 import React from "react";
 import { useWatchHistory } from "../hooks/user.hook";
-import { VideolistCard } from "../components/index";
+import { VideolistCard, VideolistCardSkeleton } from "../components/index";
 import { Link } from "react-router-dom";
 
 function History() {
-  const { data: watchHistory } = useWatchHistory();
+  const { data: watchHistory, isLoading } = useWatchHistory();
 
+  if (isLoading)
+    return (
+      <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
+        <div className="flex flex-col gap-4 p-4">
+          {Array(5)
+            .fill()
+            .map((_, index) => (
+              <VideolistCardSkeleton key={index} />
+            ))}
+        </div>
+      </section>
+    );
   return (
     <>
       <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">

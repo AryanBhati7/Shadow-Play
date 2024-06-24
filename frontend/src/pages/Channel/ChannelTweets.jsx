@@ -1,5 +1,5 @@
 import React from "react";
-import { Like, Tweet } from "../../components";
+import { Like, SubscriberSkeleton, Tweet } from "../../components";
 import { useTweets } from "../../hooks/tweet.hook";
 import { useSelector } from "react-redux";
 import { TweetInput } from "../../components/index";
@@ -11,7 +11,16 @@ function ChannelTweets() {
   const isOwner = channelId === currentUserId;
   const { data: channelTweets, isFetching } = useTweets(channelId);
 
-  if (isFetching) return <div>Loading...</div>;
+  if (isFetching)
+    return (
+      <div className="flex flex-col justify-center gap-3">
+        {Array(5)
+          .fill()
+          .map((_, index) => (
+            <SubscriberSkeleton key={index} />
+          ))}
+      </div>
+    );
 
   if (channelTweets && channelTweets.length === 0) {
     return (
