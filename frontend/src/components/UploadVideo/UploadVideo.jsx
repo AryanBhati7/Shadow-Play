@@ -27,6 +27,8 @@ function UploadVideo() {
     return res;
   };
 
+  console.log(isPending);
+
   const handleClose = () => {
     if (isPending) {
       toast("Video is still uploading please wait", {
@@ -48,6 +50,8 @@ function UploadVideo() {
     }
     setResetStatus((prevStatus) => !prevStatus);
   };
+
+  // console.log(user, isPending, resetStatus, closeStatus);
 
   return (
     <div

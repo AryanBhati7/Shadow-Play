@@ -1,7 +1,7 @@
 import React from "react";
 import { formatDuration, timeAgo } from "../../assets/timeAgo";
 
-const VideolistCard = ({ video }) => {
+const VideolistCard = ({ video, owner }) => {
   return (
     <>
       {video && (
@@ -23,8 +23,8 @@ const VideolistCard = ({ video }) => {
           <div className="flex gap-x-2 md:w-7/12">
             <div className="h-10 w-10 shrink-0 md:hidden">
               <img
-                src={video?.ownerDetails?.avatar?.url}
-                alt={video?.ownerDetails?.username}
+                src={video?.ownerDetails?.avatar?.url || owner?.avatar?.url}
+                alt={video?.ownerDetails?.username || owner?.username}
                 className="h-full w-full rounded-full object-cover"
               />
             </div>
@@ -38,13 +38,13 @@ const VideolistCard = ({ video }) => {
               <div className="flex items-center gap-x-4">
                 <div className="mt-2 hidden h-10 w-10 shrink-0 md:block">
                   <img
-                    src={video?.ownerDetails?.avatar?.url}
-                    alt={video?.ownerDetails?.username}
+                    src={video?.ownerDetails?.avatar?.url || owner?.avatar?.url}
+                    alt={video?.ownerDetails?.username || owner?.username}
                     className="h-full w-full rounded-full object-cover"
                   />
                 </div>
                 <p className="text-sm text-gray-200">
-                  {video?.ownerDetails?.username}
+                  {video?.ownerDetails?.username || owner?.username}
                 </p>
               </div>
               <p className="mt-2 hidden text-sm md:block">

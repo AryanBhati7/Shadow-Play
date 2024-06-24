@@ -1,17 +1,13 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useSubscribe } from "../hooks/subscription.hook.js";
 import { useVideoById } from "../hooks/video.hook.js";
-import { LiaUserCheckSolid } from "react-icons/lia";
-import { HiOutlineUserAdd } from "react-icons/hi";
+
 import {
   VideoPlayer,
   NextVideoCard,
-  SpButton,
   Like,
   CommentBox,
-  Button,
   SubscribeButton,
 } from "../components/index.js";
 import { setSideBarFullSize } from "../features/uiSlice.js";
@@ -21,6 +17,10 @@ import { timeAgo } from "../assets/timeAgo.js";
 function VideoDetail() {
   const dispatch = useDispatch();
   const { videoId } = useParams();
+
+  const allVideos = useSelector((state) => state.video.videos);
+
+  const nextVideos = allVideos.filter((video) => video._id !== videoId);
 
   const { data: video, isError, isFetching } = useVideoById(videoId);
 
@@ -40,6 +40,7 @@ function VideoDetail() {
   if (isFetching) {
     return <div>Loading...</div>;
   }
+
   return (
     <section className="w-full pb-[70px] sm:ml-[70px]  sm:pb-0">
       <div className="flex w-full flex-wrap gap-4 p-4 lg:flex-nowrap">
@@ -337,12 +338,11 @@ function VideoDetail() {
         </div>
         {/* More Videos */}
         <div className="col-span-12 flex w-full shrink-0 flex-col gap-3 lg:w-[350px] xl:w-[400px]">
-          <NextVideoCard />
-          <NextVideoCard />
-          <NextVideoCard />
-          <NextVideoCard />
-          <NextVideoCard />
-          <NextVideoCard />
+          {nextVideos.map((video) => (
+            <Link to={`/video/${video?._id}`} key={video._id}>
+              <NextVideoCard video={video} />
+            </Link>
+          ))}
         </div>
       </div>
     </section>

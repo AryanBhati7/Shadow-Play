@@ -8,7 +8,7 @@ function Subscriptions() {
   const userId = useSelector((state) => state.auth.user._id);
 
   const { data: subscriptions } = useSubscribedChannels(userId);
-  console.log(subscriptions);
+
   return (
     <div className="container mx-auto px-2">
       <h1 className="text-3xl font-bold my-2">Subscriptions</h1>
@@ -16,7 +16,7 @@ function Subscriptions() {
         {subscriptions &&
           subscriptions.map((channel) => (
             <ChannelSubscribed
-              key={channel._id}
+              key={channel?.subscribedChannel?._id}
               channel={channel?.subscribedChannel}
             />
           ))}
@@ -30,10 +30,15 @@ function Subscriptions() {
             subscriptions.map((channel) => (
               <Link
                 to={`/video/${channel?.subscribedChannel?.latestVideo?._id}`}
+                key={channel?.subscribedChannel._id}
               >
                 <VideolistCard
-                  key={channel._id}
                   video={channel?.subscribedChannel?.latestVideo}
+                  owner={{
+                    avatar: channel?.subscribedChannel?.avatar,
+                    username: channel?.subscribedChannel?.username,
+                    fullName: channel?.subscribedChannel?.fullName,
+                  }}
                 />
               </Link>
             ))}

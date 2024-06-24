@@ -1,38 +1,25 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  SpButton,
-  ProgressBar,
-  VideoPreviewCard,
-  Dropzone,
-  VideoForm,
-} from "../index.js";
+
+import { SpButton, ProgressBar, VideoForm } from "../index.js";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { useEditVideo, useVideoById } from "../../hooks/video.hook.js";
 import { setShowEditVideo } from "../../features/uiSlice.js";
-import { useEffect } from "react";
 import { setVideoForEdit } from "../../features/videoSlice.js";
+import { set } from "react-hook-form";
 
 function EditVideo() {
   const dispatch = useDispatch();
   const video = useSelector((state) => state.video.videoForEdit);
   const user = useSelector((state) => state.auth.user);
 
-  console.log("Edit Video component");
-
-  const [videoEdit, setVideoEdit] = useState(video);
-  const [resetStatus, setResetStatus] = useState(false);
-  const [closeStatus, setCloseStatus] = useState(false);
-
   const { mutateAsync: editVideo, isPending } = useEditVideo();
 
   const onEdit = async (data) => {
-    const res = await editVideo(data);
+    console.log(data);
+    const res = await editVideo({ videoId: video?._id, data });
     if (res) {
-      dispatch(setShowEditVideo(false));
+      dispatch(setVideoForEdit(null)), dispatch(setShowEditVideo(false));
     }
     return res;
   };
@@ -44,7 +31,6 @@ function EditVideo() {
       });
       return;
     }
-    setResetStatus((prevStatus) => !prevStatus);
   };
 
   const handleClose = () => {
@@ -84,10 +70,8 @@ function EditVideo() {
         {isPending && <ProgressBar />}
         <VideoForm
           isEditing={true}
-          initialVideo={videoEdit}
+          initialVideo={video}
           onSubmit={onEdit}
-          closeStatus={closeStatus}
-          resetStatus={resetStatus}
           user={user}
           isPending={isPending}
         />

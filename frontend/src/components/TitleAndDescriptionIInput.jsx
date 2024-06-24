@@ -3,6 +3,7 @@ import React, { useState, forwardRef } from "react";
 export const TitleInput = forwardRef(({ title, setTitle, ...props }, ref) => {
   // Local state for handling input value
   const [localTitle, setLocalTitle] = useState(title);
+  console.log("TitleInput component");
 
   return (
     <div className="w-full">
@@ -25,6 +26,7 @@ export const DescriptionInput = forwardRef(
   ({ description, setDescription, ...props }, ref) => {
     // Local state for handling textarea value
     const [localDescription, setLocalDescription] = useState(description);
+    console.log("Description Input component");
 
     return (
       <div className="w-full">

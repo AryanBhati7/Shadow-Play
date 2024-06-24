@@ -89,9 +89,16 @@ export const deleteVideo = async (videoId) => {
   }
 };
 
-export const editVideo = async (videoId, newVideo) => {
+export const editVideo = async (videoId, data) => {
+  console.log(data, "ineditvideo api");
+  const videoData = new FormData();
+  if (data.thumbnail) {
+    videoData.append("thumbnail", data.thumbnail);
+  }
+  videoData.append("title", data.title);
+  videoData.append("description", data.description);
   try {
-    const { data } = await API.patch(`/video/v/${videoId}`, newVideo);
+    const { data } = await API.patch(`/video/v/${videoId}`, videoData);
     toast.success(data?.message);
     return data?.data;
   } catch (error) {

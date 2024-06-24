@@ -71,7 +71,7 @@ export const useDeleteVideo = () => {
 export const useEditVideo = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (data) => editVideo(data),
+    mutationFn: ({ videoId, data }) => editVideo(videoId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["videos"] });
       queryClient.invalidateQueries({ queryKey: ["channelVideos"] });

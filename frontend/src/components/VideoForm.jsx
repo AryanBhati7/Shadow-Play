@@ -24,33 +24,22 @@ function VideoForm({
   onSubmit,
   user,
   isPending,
-  closeStatus,
-  resetStatus,
 }) {
   const [video, setVideo] = useState(initialVideo?.video?.url || null);
   const [thumbnail, setThumbnail] = useState(
     initialVideo?.thumbnail?.url || null
   );
-
-  const [title, setTitle] = useState(initialVideo?.title || "");
-  const [description, setDescription] = useState(
+  const [previewTitle, setPreviewTitle] = useState(initialVideo?.title || "");
+  const [previewDescription, setPreviewDescription] = useState(
     initialVideo?.description || ""
   );
-
-  useEffect(() => {
-    if (initialVideo) {
-      setVideo(initialVideo.video?.url || null);
-      setThumbnail(initialVideo.thumbnail?.url || null);
-      setTitle(initialVideo.title || "");
-      setDescription(initialVideo.description || "");
-    }
-  }, [initialVideo]);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -59,6 +48,9 @@ function VideoForm({
     },
   });
 
+  const title = watch("title");
+  const description = watch("description");
+
   const handleFormSubmit = async (data) => {
     if (!video || (!thumbnail && !isEditing)) {
       toast.error("Please upload both video and thumbnail");
@@ -66,33 +58,35 @@ function VideoForm({
     }
     if (isEditing && !thumbnail) {
       toast.error("Please upload a thumbnail");
+      return;
     }
 
-    // Include the state values in the data submitted
     const formData = { ...data, video, thumbnail };
     await onSubmit(formData);
     onReset();
   };
-  console.log("Video Form component");
 
   const onReset = () => {
     setVideo(null);
     setThumbnail(null);
-    setTitle("");
-    setDescription("");
+    setPreviewTitle("");
+    setPreviewDescription("");
     reset();
   };
 
-  const onClose = () => {
-    if (!thumbnail || !video) {
+  useEffect(() => {
+    return () => {
       onReset();
-    }
+    };
+  }, []);
+
+  const handleTitleBlur = (e) => {
+    setPreviewTitle(e.target.value);
   };
 
-  useEffect(() => {
-    onClose();
-    onReset();
-  }, [closeStatus, resetStatus]);
+  const handleDescriptionBlur = (e) => {
+    setPreviewDescription(e.target.value);
+  };
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -125,14 +119,9 @@ function VideoForm({
 
           <div className="w-full">
             <TitleInput
-              title={title}
-              setTitle={setTitle}
               disabled={isPending}
-              {...register("title", {
-                onBlur: (e) => {
-                  setTitle(e.target.value);
-                },
-              })}
+              {...register("title")}
+              onBlur={handleTitleBlur}
             />
             {errors.title && (
               <span className="text-red-500">{errors.title.message}</span>
@@ -140,14 +129,9 @@ function VideoForm({
           </div>
           <div className="w-full">
             <DescriptionInput
-              description={description}
-              setDescription={setDescription}
               disabled={isPending}
-              {...register("description", {
-                onBlur: (e) => {
-                  setDescription(e.target.value);
-                },
-              })}
+              {...register("description")}
+              onBlur={handleDescriptionBlur}
             />
             {errors.description && (
               <span className="text-red-500">{errors.description.message}</span>
@@ -162,8 +146,8 @@ function VideoForm({
             <VideoPreviewCard
               video={video}
               thumbnail={thumbnail}
-              title={title}
-              description={description}
+              title={previewTitle}
+              description={previewDescription}
               name={user?.fullName}
             />
             <div className="text-center p-2 rounded">
@@ -179,7 +163,7 @@ function VideoForm({
                   </p>
 
                   <SpButton type="submit" className="min-w-[8rem]">
-                    Save
+                    {isEditing ? "Update" : "Upload"}
                   </SpButton>
                 </>
               )}
