@@ -17,6 +17,10 @@ import {
   ChannelSubscribers,
   ChannelVideos,
   ChannelTweets,
+  EditPersonalInfo,
+  EditChangePassword,
+  EditProfile,
+  EditChannelInfo,
 } from "./pages/index.js";
 import AuthLayout from "./components/AuthLayout.jsx";
 import { Provider } from "react-redux";
@@ -119,6 +123,40 @@ const router = createBrowserRouter([
             <Subscriptions />
           </AuthLayout>
         ),
+      },
+      {
+        path: "/edit-profile",
+        element: (
+          <AuthLayout auth>
+            <EditProfile />
+          </AuthLayout>
+        ),
+        children: [
+          {
+            path: "change-password",
+            element: (
+              <AuthLayout auth>
+                <EditChangePassword />
+              </AuthLayout>
+            ),
+          },
+          {
+            path: "channel-info",
+            element: (
+              <AuthLayout auth>
+                <EditChannelInfo />
+              </AuthLayout>
+            ),
+          },
+          {
+            path: "personal-info",
+            element: (
+              <AuthLayout auth>
+                <EditPersonalInfo />
+              </AuthLayout>
+            ),
+          },
+        ],
       },
     ],
   },
