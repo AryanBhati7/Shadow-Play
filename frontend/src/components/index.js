@@ -23,12 +23,20 @@ import Dropzone from "./Dropzone";
 import { TitleInput, DescriptionInput } from "./TitleAndDescriptionIInput";
 import VideoForm from "./VideoForm";
 import SubscribeButton from "./SubscribeButton";
+import TweetInput from "./Tweet/TweetInput";
+import Tweet from "./Tweet/Tweet";
+import DropDown from "./DropDown";
+import SubscribedTo from "./SubscribedTo";
 
 import LoadingSpinner from "./Loading/LoadingSpinner";
 import VideoCardSkeleton from "./Loading/VideoCardSkeleton";
 import VideoStatsSkeleton from "./Loading/VideoStatsSkeleton";
 
 export {
+  SubscribedTo,
+  DropDown,
+  Tweet,
+  TweetInput,
   SubscribeButton,
   VideoForm,
   TitleInput,

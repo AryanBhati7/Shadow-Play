@@ -10,9 +10,10 @@ import { setShowUploadVideo } from "../../features/uiSlice.js";
 import toast from "react-hot-toast";
 
 function UploadVideo() {
-  const showStatus = useSelector((state) => state.ui.showUploadVideo);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
+
+  console.log("Upload Video component");
 
   const [resetStatus, setResetStatus] = useState(false);
   const [closeStatus, setCloseStatus] = useState(false);
@@ -38,8 +39,6 @@ function UploadVideo() {
     dispatch(setShowUploadVideo(false));
   };
 
-  console.log("upload video");
-
   const handleReset = () => {
     if (isPending) {
       toast("Video is still uploading please wait", {
@@ -52,9 +51,8 @@ function UploadVideo() {
 
   return (
     <div
-      className={`${
-        showStatus ? "" : "hidden"
-      } mt-16 ml-0 overflow-x-hidden  sm:ml-8 absolute  inset-0 z-10 bg-black/50 px-4 w-full  pb-[80px] pt-4 sm:px-14 sm:py-8`}
+      className="
+       mt-16 ml-0 overflow-x-hidden  sm:ml-8 absolute  inset-0 z-10 bg-black/50 px-4 w-full  pb-[80px] pt-4 sm:px-14 sm:py-8"
     >
       <div className="h-full overflow-auto border bg-[#121212] ">
         <div className="flex items-center justify-between border-b p-4">

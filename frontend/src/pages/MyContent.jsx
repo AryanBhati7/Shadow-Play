@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useUserChannelInfo } from "../hooks/user.hook";
 import { Outlet, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,7 +14,12 @@ function MyContent() {
   const ownerUsername = useSelector((state) => state.auth.user?.username);
   const { data: channelInfo } = useUserChannelInfo(username);
   const isOwner = ownerUsername === username ? true : false;
-  dispatch(setChannel(channelInfo));
+
+  useEffect(() => {
+    if (channelInfo) {
+      dispatch(setChannel(channelInfo));
+    }
+  }, [channelInfo, dispatch]);
 
   const channelItems = [
     {

@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 
 function LikedVideos() {
   const { data: likedVideos } = useLikedVideos();
-
   console.log(likedVideos);
+
   return (
     <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
       <div className="flex flex-col gap-4 p-4">

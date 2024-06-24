@@ -3,6 +3,7 @@ import {
   toggleCommentLike,
   toggleVideoLike,
   getLikedVideos,
+  toggleTweetLike,
 } from "../api/like.api";
 
 export const useLike = (type) => {
@@ -19,6 +20,11 @@ export const useLike = (type) => {
   if (type === "comment") {
     return useMutation({
       mutationFn: (commentId) => toggleCommentLike(commentId),
+    });
+  }
+  if (type === "tweet") {
+    return useMutation({
+      mutationFn: (tweetId) => toggleTweetLike(tweetId),
     });
   }
 };

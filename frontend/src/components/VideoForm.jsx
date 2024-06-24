@@ -9,6 +9,7 @@ import {
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import toast from "react-hot-toast";
 
 const schema = z.object({
   title: z.string().nonempty("Title is required").min(5, "Title is too short"),
@@ -26,7 +27,6 @@ function VideoForm({
   closeStatus,
   resetStatus,
 }) {
-  console.log(initialVideo, "VideoForm");
   const [video, setVideo] = useState(initialVideo?.video?.url || null);
   const [thumbnail, setThumbnail] = useState(
     initialVideo?.thumbnail?.url || null
@@ -46,9 +46,6 @@ function VideoForm({
     }
   }, [initialVideo]);
 
-  console.log(thumbnail, "thumbnail");
-  console.log(video, "video");
-
   const {
     register,
     handleSubmit,
@@ -64,11 +61,11 @@ function VideoForm({
 
   const handleFormSubmit = async (data) => {
     if (!video || (!thumbnail && !isEditing)) {
-      console.error("Please upload both video and thumbnail");
+      toast.error("Please upload both video and thumbnail");
       return;
     }
     if (isEditing && !thumbnail) {
-      console.error("Please upload a thumbnail");
+      toast.error("Please upload a thumbnail");
     }
 
     // Include the state values in the data submitted
@@ -76,7 +73,7 @@ function VideoForm({
     await onSubmit(formData);
     onReset();
   };
-  console.log(isPending);
+  console.log("Video Form component");
 
   const onReset = () => {
     setVideo(null);

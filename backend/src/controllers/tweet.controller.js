@@ -15,7 +15,7 @@ const getUserTweets = asyncHandler(async (req, res) => {
   const tweets = await Tweet.aggregate([
     {
       $match: {
-        owner: mongoose.Types.ObjectId(userId),
+        owner: new mongoose.Types.ObjectId(userId),
       },
     },
     {
@@ -23,7 +23,7 @@ const getUserTweets = asyncHandler(async (req, res) => {
         from: "users",
         localField: "owner",
         foreignField: "_id",
-        as: "owner",
+        as: "ownerDetails",
         pipeline: [
           {
             $project: {
@@ -39,7 +39,7 @@ const getUserTweets = asyncHandler(async (req, res) => {
         from: "likes",
         localField: "_id",
         foreignField: "tweet",
-        as: "likes",
+        as: "likeDetails",
         pipeline: [
           {
             $project: {
@@ -51,8 +51,12 @@ const getUserTweets = asyncHandler(async (req, res) => {
     },
     {
       $addFields: {
-        likesCount: { $size: "$likes" },
-        ownerDetails: { $first: "$ownerDetails" },
+        likesCount: {
+          $size: "$likeDetails",
+        },
+        ownerDetails: {
+          $first: "$ownerDetails",
+        },
         isLiked: {
           $cond: {
             if: { $in: [req.user?._id, "$likeDetails.likedBy"] },
@@ -94,7 +98,6 @@ const createTweet = asyncHandler(async (req, res) => {
     content,
     owner: userId,
   });
-  console.log(tweet);
 
   if (!tweet) throw new ApiError(501, "Tweet creation failed");
 

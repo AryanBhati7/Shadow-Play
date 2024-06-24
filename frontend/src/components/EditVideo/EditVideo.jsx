@@ -20,7 +20,8 @@ function EditVideo() {
   const dispatch = useDispatch();
   const video = useSelector((state) => state.video.videoForEdit);
   const user = useSelector((state) => state.auth.user);
-  const showStatus = useSelector((state) => state.ui.showEditVideo);
+
+  console.log("Edit Video component");
 
   const [videoEdit, setVideoEdit] = useState(video);
   const [resetStatus, setResetStatus] = useState(false);
@@ -63,9 +64,8 @@ function EditVideo() {
 
   return (
     <div
-      className={`${
-        showStatus ? "" : "hidden"
-      } mt-16 ml-0 overflow-x-hidden  sm:ml-8 absolute  inset-0 z-10 bg-black/50 px-4 w-full  pb-[80px] pt-4 sm:px-14 sm:py-8`}
+      className="
+       mt-16 ml-0 overflow-x-hidden  sm:ml-8 absolute  inset-0 z-10 bg-black/50 px-4 w-full  pb-[80px] pt-4 sm:px-14 sm:py-8"
     >
       {" "}
       <div className="h-full overflow-auto border bg-[#121212] ">

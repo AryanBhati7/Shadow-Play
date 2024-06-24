@@ -30,15 +30,13 @@ const Dropzone = forwardRef(({ type, setFile, file, isPending }, ref) => {
 
   const isImage = type === "image";
   const isVideo = type === "video";
-  console.log(file);
+
   let fileSource;
   if (typeof file === "string") {
     fileSource = file;
   } else if (file && file.url) {
     fileSource = file.url;
   }
-
-  console.log(fileSource);
 
   if (file) {
     return (
