@@ -6,6 +6,7 @@ import { MdModeEditOutline } from "react-icons/md";
 import { setChannel } from "../features/channelSlice";
 import { SpButton } from "../components";
 import SubscribeButton from "../components/SubscribeButton";
+import { MyChannelSkeleton } from "../components/index.js";
 import { NavLink, Link } from "react-router-dom";
 import defaultCover from "../assets/default-cover-photo.jpg";
 
@@ -13,7 +14,7 @@ function MyChannel() {
   const { username } = useParams();
   const dispatch = useDispatch();
   const ownerUsername = useSelector((state) => state.auth.user?.username);
-  const { data: channelInfo } = useUserChannelInfo(username);
+  const { data: channelInfo, isFetching } = useUserChannelInfo(username);
   const isOwner = ownerUsername === username ? true : false;
 
   useEffect(() => {
@@ -40,6 +41,8 @@ function MyChannel() {
       path: "subscribers",
     },
   ];
+
+  if (isFetching) return <MyChannelSkeleton />;
 
   return (
     <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">

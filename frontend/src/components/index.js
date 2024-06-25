@@ -46,8 +46,10 @@ import AllNextVideos from "./NextVideos/AllNextVideos";
 import UserNextVideos from "./NextVideos/UserNextVideos";
 import NextVideoCard from "./NextVideos/NextVideoCard";
 import PlaylistSkeleton from "./Loading/PlaylistSkeleton";
+import MyChannelSkeleton from "./Loading/MyChannelSkeleton";
 
 export {
+  MyChannelSkeleton,
   PlaylistForm,
   PlaylistCard,
   NextVideoCardSkeleton,

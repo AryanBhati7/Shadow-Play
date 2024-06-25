@@ -86,6 +86,11 @@ const getLikedVideos = asyncHandler(async (req, res) => {
           as: "likedVideo",
           pipeline: [
             {
+              $match: {
+                isPublished: true, // to filter only published videos
+              },
+            },
+            {
               $lookup: {
                 from: "users",
                 localField: "owner",
@@ -130,14 +135,16 @@ const getLikedVideos = asyncHandler(async (req, res) => {
         },
       },
     ]);
-    if (!likedVideos) throw new ApiError(501, "No liked Video found");
+
+    if (!likedVideos.length) throw new ApiError(404, "No liked videos found");
+
     return res
       .status(200)
       .json(
-        new ApiResponse(200, likedVideos, "Liked Videos fetched successfully")
+        new ApiResponse(200, likedVideos, "Liked videos fetched successfully")
       );
   } catch (error) {
-    throw new ApiError(501, error?.message || "getting liked videos failed");
+    throw new ApiError(500, error?.message || "Failed to get liked videos");
   }
 });
 

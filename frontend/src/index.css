@@ -35,6 +35,10 @@
   animation-iteration-count: infinite;
 }
 
+body {
+  overflow-x: hidden;
+}
+
 .plyr {
   --plyr-color-main: hsl(280, 95%, 39%);
   --plyr-border-radius: 10px;

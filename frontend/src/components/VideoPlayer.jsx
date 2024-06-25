@@ -31,11 +31,8 @@ function VideoPlayer({ src, thumbnail, title, duration, autoPlay = true }) {
       streamType="on-demand"
       className="w-full h-full"
     >
-      <MediaProvider>
-        <Poster className="vds-poster" src={thumbnail} alt={title} />
-      </MediaProvider>
-
-      <PlyrLayout thumbnails={thumbnail} icons={plyrLayoutIcons} />
+      <MediaProvider></MediaProvider>
+      <PlyrLayout posterFrame={thumbnail} icons={plyrLayoutIcons} />
     </MediaPlayer>
   );
 }
