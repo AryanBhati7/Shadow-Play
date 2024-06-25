@@ -34,9 +34,6 @@ function Login() {
       navigate("/");
     }
   };
-  if (error) {
-    toast.error(error);
-  }
 
   return (
     <div className="h-screen overflow-y-auto bg-[#121212] text-white flex justify-center items-center">

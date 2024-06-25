@@ -3,23 +3,25 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { SpButton, ProgressBar, VideoForm } from "../index.js";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import { useEditVideo, useVideoById } from "../../hooks/video.hook.js";
+import { useEditVideo } from "../../hooks/video.hook.js";
 import { setShowEditVideo } from "../../features/uiSlice.js";
 import { setVideoForEdit } from "../../features/videoSlice.js";
-import { set } from "react-hook-form";
 
 function EditVideo() {
   const dispatch = useDispatch();
   const video = useSelector((state) => state.video.videoForEdit);
   const user = useSelector((state) => state.auth.user);
+  const [resetStatus, setResetStatus] = useState(false);
 
   const { mutateAsync: editVideo, isPending } = useEditVideo();
 
   const onEdit = async (data) => {
-    console.log(data);
+    console.log("onEdit called", data);
     const res = await editVideo({ videoId: video?._id, data });
+    console.log("Edit result", res);
     if (res) {
-      dispatch(setVideoForEdit(null)), dispatch(setShowEditVideo(false));
+      dispatch(setShowEditVideo(false));
+      dispatch(setVideoForEdit(null));
     }
     return res;
   };
@@ -31,6 +33,7 @@ function EditVideo() {
       });
       return;
     }
+    setResetStatus((prev) => !prev);
   };
 
   const handleClose = () => {
@@ -40,13 +43,8 @@ function EditVideo() {
       });
       return;
     }
-    setResetStatus((prevStatus) => !prevStatus);
     dispatch(setShowEditVideo(false));
   };
-
-  if (isPending) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div
@@ -62,7 +60,7 @@ function EditVideo() {
           </h2>
           <div className="flex gap-4 items-center justify-center">
             <SpButton onClick={handleReset}> Reset </SpButton>
-            <button onClick={handleClose}>
+            <button onClick={() => handleClose()}>
               <IoIosCloseCircleOutline className="w-8 h-8" />
             </button>
           </div>
@@ -74,6 +72,7 @@ function EditVideo() {
           onSubmit={onEdit}
           user={user}
           isPending={isPending}
+          resetStatus={resetStatus}
         />
       </div>
     </div>

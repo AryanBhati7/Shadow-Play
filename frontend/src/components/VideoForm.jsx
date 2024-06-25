@@ -19,6 +19,7 @@ const schema = z.object({
 });
 
 function VideoForm({
+  resetStatus,
   isEditing = false,
   initialVideo,
   onSubmit,
@@ -52,6 +53,7 @@ function VideoForm({
   const description = watch("description");
 
   const handleFormSubmit = async (data) => {
+    console.log("handleFormSubmit called", data);
     if (!video || (!thumbnail && !isEditing)) {
       toast.error("Please upload both video and thumbnail");
       return;
@@ -62,8 +64,8 @@ function VideoForm({
     }
 
     const formData = { ...data, video, thumbnail };
-    await onSubmit(formData);
-    onReset();
+    const res = await onSubmit(formData);
+    if (res) onReset();
   };
 
   const onReset = () => {
@@ -75,10 +77,13 @@ function VideoForm({
   };
 
   useEffect(() => {
+    if (resetStatus) {
+      onReset();
+    }
     return () => {
       onReset();
     };
-  }, []);
+  }, [resetStatus]);
 
   const handleTitleBlur = (e) => {
     setPreviewTitle(e.target.value);
@@ -162,7 +167,11 @@ function VideoForm({
                     Looks Great 🤩 right? Click here to Upload
                   </p>
 
-                  <SpButton type="submit" className="min-w-[8rem]">
+                  <SpButton
+                    type="submit"
+                    disabled={isPending}
+                    className="min-w-[8rem]"
+                  >
                     {isEditing ? "Update" : "Upload"}
                   </SpButton>
                 </>

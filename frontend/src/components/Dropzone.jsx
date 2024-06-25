@@ -14,8 +14,6 @@ const Dropzone = forwardRef(({ type, setFile, file, isPending }, ref) => {
     },
   };
 
-  console.log("Dropzone component");
-
   const { getRootProps, getInputProps, isDragReject, open } = useDropzone({
     accept: fileTypes[type],
     onDrop: (acceptedFiles) => {

@@ -1,10 +1,6 @@
 import React, { useState, forwardRef } from "react";
 
 export const TitleInput = forwardRef(({ title, setTitle, ...props }, ref) => {
-  // Local state for handling input value
-  const [localTitle, setLocalTitle] = useState(title);
-  console.log("TitleInput component");
-
   return (
     <div className="w-full">
       <label htmlFor="title" className="mb-1 inline-block">
@@ -24,10 +20,6 @@ export const TitleInput = forwardRef(({ title, setTitle, ...props }, ref) => {
 
 export const DescriptionInput = forwardRef(
   ({ description, setDescription, ...props }, ref) => {
-    // Local state for handling textarea value
-    const [localDescription, setLocalDescription] = useState(description);
-    console.log("Description Input component");
-
     return (
       <div className="w-full">
         <label htmlFor="desc" className="mb-1 inline-block">

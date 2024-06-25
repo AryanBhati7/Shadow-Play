@@ -8,8 +8,6 @@ export default function VideoPreviewCard({
   description,
   name,
 }) {
-  console.log("video Preview card init");
-
   const thumbnailSrc =
     thumbnail instanceof File ? URL.createObjectURL(thumbnail) : thumbnail;
   const videoSrc = video instanceof File ? URL.createObjectURL(video) : video;

@@ -14,6 +14,7 @@ export const useLogin = () => {
     onSuccess: (data) => {
       queryClient.invalidateQueries("currentUser");
     },
+    retry: 0,
   });
 };
 

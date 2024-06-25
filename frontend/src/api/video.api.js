@@ -90,7 +90,6 @@ export const deleteVideo = async (videoId) => {
 };
 
 export const editVideo = async (videoId, data) => {
-  console.log(data, "ineditvideo api");
   const videoData = new FormData();
   if (data.thumbnail) {
     videoData.append("thumbnail", data.thumbnail);

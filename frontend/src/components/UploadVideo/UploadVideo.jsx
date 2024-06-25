@@ -12,11 +12,7 @@ import toast from "react-hot-toast";
 function UploadVideo() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
-
-  console.log("Upload Video component");
-
   const [resetStatus, setResetStatus] = useState(false);
-  const [closeStatus, setCloseStatus] = useState(false);
 
   const { mutateAsync: uploadVideo, isPending } = useUploadVideo();
   const onSave = async (data) => {
@@ -27,8 +23,6 @@ function UploadVideo() {
     return res;
   };
 
-  console.log(isPending);
-
   const handleClose = () => {
     if (isPending) {
       toast("Video is still uploading please wait", {
@@ -36,7 +30,6 @@ function UploadVideo() {
       });
       return;
     }
-    setResetStatus((prevStatus) => !prevStatus);
 
     dispatch(setShowUploadVideo(false));
   };
@@ -48,10 +41,8 @@ function UploadVideo() {
       });
       return;
     }
-    setResetStatus((prevStatus) => !prevStatus);
+    setResetStatus((prev) => !prev);
   };
-
-  // console.log(user, isPending, resetStatus, closeStatus);
 
   return (
     <div
@@ -74,9 +65,8 @@ function UploadVideo() {
         {isPending && <ProgressBar />}{" "}
         <VideoForm
           onSubmit={onSave}
-          closeStatus={closeStatus}
-          resetStatus={resetStatus}
           user={user}
+          resetStatus={resetStatus}
           isPending={isPending}
         />
       </div>

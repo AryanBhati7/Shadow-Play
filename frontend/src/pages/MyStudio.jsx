@@ -17,6 +17,7 @@ function MyStudio() {
   const channelInfo = useSelector((state) => state.auth.user);
   const showEdit = useSelector((state) => state.ui.showEditVideo);
   const showUpload = useSelector((state) => state.ui.showUploadVideo);
+  const videoForEdit = useSelector((state) => state.video.videoForEdit);
 
   useEffect(() => {
     dispatch(setSideBarFullSize(false));
@@ -96,7 +97,7 @@ function MyStudio() {
 
         {/* {These are the modals only showned when their respective state in store changes} */}
         {showUpload && <UploadVideo />}
-        {showEdit && <EditVideo />}
+        {showEdit && videoForEdit && <EditVideo />}
 
         <VideoStats />
       </div>
