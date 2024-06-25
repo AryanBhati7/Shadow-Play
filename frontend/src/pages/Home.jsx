@@ -4,7 +4,6 @@ import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 import { Videocard, VideoCardSkeleton } from "../components/index.js";
 import { useDispatch } from "react-redux";
-import { setVideos } from "../features/videoSlice.js";
 
 function Home() {
   const dispatch = useDispatch();
@@ -14,10 +13,6 @@ function Home() {
   useEffect(() => {
     if (inView) {
       fetchNextPage();
-    }
-    if (data) {
-      console.log(data);
-      dispatch(setVideos(data?.pages[0]?.docs));
     }
   }, [inView]);
 

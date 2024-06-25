@@ -1,5 +1,5 @@
 import React from "react";
-import { formatDuration, timeAgo } from "../assets/timeAgo";
+import { formatDuration, timeAgo } from "../../assets/timeAgo";
 
 function NextVideoCard({ video }) {
   return (

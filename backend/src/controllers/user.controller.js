@@ -400,6 +400,7 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
           subscribedToCount: 1,
           isSubscribed: 1,
           createdAt: 1,
+          description: 1,
         },
       },
     ]);

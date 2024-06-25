@@ -41,7 +41,6 @@ function MyChannel() {
     },
   ];
 
-  console.log(channelInfo);
   return (
     <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
       <div className="relative min-h-[150px] w-full pt-[16.28%]">

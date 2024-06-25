@@ -10,6 +10,7 @@ import {
   CommentBox,
   SubscribeButton,
   PlaylistDropdown,
+  NextVideosColumn,
 } from "../components/index.js";
 import { setSideBarFullSize } from "../features/uiSlice.js";
 import { setVideo } from "../features/videoSlice.js";
@@ -18,10 +19,6 @@ import { timeAgo } from "../assets/timeAgo.js";
 function VideoDetail() {
   const dispatch = useDispatch();
   const { videoId } = useParams();
-
-  const allVideos = useSelector((state) => state.video.videos);
-
-  const nextVideos = allVideos.filter((video) => video._id !== videoId);
 
   const { data: video, isError, isFetching } = useVideoById(videoId);
 
@@ -82,7 +79,7 @@ function VideoDetail() {
                     className={"px-4"}
                     iconSize={"w-8"}
                   />
-                  {/* <PlaylistDropdown /> */}
+                  <PlaylistDropdown />
                 </div>
               </div>
             </div>
@@ -125,11 +122,11 @@ function VideoDetail() {
         </div>
         {/* More Videos */}
         <div className="col-span-12 flex w-full shrink-0 flex-col gap-3 lg:w-[350px] xl:w-[400px]">
-          {nextVideos.map((video) => (
-            <Link to={`/video/${video?._id}`} key={video._id}>
-              <NextVideoCard video={video} />
-            </Link>
-          ))}
+          <NextVideosColumn
+            name={video?.owner?.fullName}
+            videoId={video?._id}
+            userId={video?.owner?._id}
+          />
         </div>
       </div>
     </section>

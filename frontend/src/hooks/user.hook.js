@@ -61,10 +61,8 @@ export const useUpdateChannelInfo = () => {
   return useMutation({
     mutationFn: (data) => updateChannelInfo(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["currentUser"],
-        queryKey: ["channelInfo"],
-      });
+      queryClient.invalidateQueries({ queryKey: ["currentUser"] });
+      queryClient.invalidateQueries({ queryKey: ["channelInfo"] });
     },
   });
 };

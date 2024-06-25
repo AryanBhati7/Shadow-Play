@@ -105,3 +105,15 @@ export const editVideo = async (videoId, data) => {
     throw error?.response?.data?.error;
   }
 };
+
+export const getNextVideos = async (videoId) => {
+  console.log(videoId);
+  console.log("getNextVideos");
+  try {
+    const { data } = await API.get(`/video/next/${videoId}`);
+    return data?.data;
+  } catch (error) {
+    toast.error(error?.response?.data?.error);
+    throw error?.response?.data?.error;
+  }
+};

@@ -7,7 +7,7 @@ import Button from "./Button";
 import Videocard from "./Videocard";
 import Input from "./Input";
 import LoginPopup from "./LoginPopup";
-import NextVideoCard from "./NextVideoCard";
+
 import VideoPlayer from "./VideoPlayer";
 import Like from "./VideoDetails/Like";
 import CommentBox from "./VideoDetails/CommentBox";
@@ -36,9 +36,16 @@ import LoadingSpinner from "./Loading/LoadingSpinner";
 import VideoCardSkeleton from "./Loading/VideoCardSkeleton";
 import VideoStatsSkeleton from "./Loading/VideoStatsSkeleton";
 import VideolistCardSkeleton from "./Loading/VideolistCardSkeleton";
+import NextVideoCardSkeleton from "./Loading/NextVideoCardSkeleton";
 import SubscriberSkeleton from "./Loading/SubscriberSkeleton";
 
+import NextVideosColumn from "./NextVideos/NextVideosColumn";
+import AllNextVideos from "./NextVideos/AllNextVideos";
+import UserNextVideos from "./NextVideos/UserNextVideos";
+import NextVideoCard from "./NextVideos/NextVideoCard";
+
 export {
+  NextVideoCardSkeleton,
   PlaylistDropdown,
   CoverImageInput,
   AvatarInput,
@@ -69,6 +76,9 @@ export {
   LoadingSpinner,
   VideoPlayer,
   NextVideoCard,
+  NextVideosColumn,
+  AllNextVideos,
+  UserNextVideos,
   LoginPopup,
   Input,
   Logo,

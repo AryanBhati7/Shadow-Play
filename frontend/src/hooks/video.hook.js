@@ -6,6 +6,7 @@ import {
   deleteVideo,
   editVideo,
   togglePublishStatus,
+  getNextVideos,
 } from "../api/video.api";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
@@ -32,6 +33,14 @@ export const useVideoById = (videoId) => {
       queryClient.invalidateQueries({ queryKey: ["watchHistory"] });
     },
     staleTime: 1000 * 60 * 2,
+  });
+};
+
+export const useNextVideos = (videoId) => {
+  return useQuery({
+    queryKey: ["nextVideos", videoId],
+    queryFn: () => getNextVideos(videoId),
+    staleTime: 1000 * 60 * 3,
   });
 };
 
