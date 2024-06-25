@@ -30,6 +30,10 @@ import store from "./store/store.js";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
+import { disableReactDevTools } from "@fvilers/disable-react-devtools";
+
+if (import.meta.env.MODE === "production") disableReactDevTools();
+
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
