@@ -21,6 +21,7 @@ import {
   EditChangePassword,
   EditProfile,
   EditChannelInfo,
+  Support,
 } from "./pages/index.js";
 import AuthLayout from "./components/AuthLayout.jsx";
 import { Provider } from "react-redux";
@@ -157,6 +158,14 @@ const router = createBrowserRouter([
             ),
           },
         ],
+      },
+      {
+        path: "/support",
+        element: (
+          <AuthLayout auth>
+            <Support />
+          </AuthLayout>
+        ),
       },
     ],
   },

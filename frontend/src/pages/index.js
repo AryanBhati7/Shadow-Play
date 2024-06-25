@@ -8,6 +8,7 @@ import MyChannel from "./MyChannel";
 import MyStudio from "./MyStudio";
 import Subscriptions from "./Subscriptions";
 import EditProfile from "./EditProfile";
+import Support from "./Support";
 
 import ChannelPlaylist from "./Channel/ChannelPlaylist";
 import ChannelSubscribers from "./Channel/ChannelSubscribers";
@@ -35,4 +36,5 @@ export {
   EditChangePassword,
   EditPersonalInfo,
   EditChannelInfo,
+  Support,
 };

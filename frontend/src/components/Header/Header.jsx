@@ -53,7 +53,7 @@ function Header() {
     },
     {
       name: "Settings",
-      path: "/settings",
+      path: "/edit-profile/personal-info",
       icon: <CiSettings />,
     },
   ];
