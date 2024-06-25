@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { usePlaylistById, usePlaylistsByUser } from "../../hooks/playlist.hook";
-import Playlist from "./Playlist";
+import PlaylistName from "./PlaylistName";
 
 function ExistingPlaylist({ videoId }) {
   const userId = useSelector((state) => state.auth.user?._id);
@@ -18,7 +18,7 @@ function ExistingPlaylist({ videoId }) {
     <ul className="mb-4">
       {isFetched && existingPlaylists?.length > 0 ? (
         existingPlaylists.map((playlist) => (
-          <Playlist
+          <PlaylistName
             key={playlist._id}
             playlistId={playlist?._id}
             videoId={videoId}

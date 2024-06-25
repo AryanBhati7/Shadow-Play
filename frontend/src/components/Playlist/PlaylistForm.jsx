@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { useCreatePlaylist } from "../../hooks/playlist.hook";
+import {
+  useCreatePlaylist,
+  useUpdatePlaylist,
+} from "../../hooks/playlist.hook";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,17 +12,31 @@ const schema = z.object({
   description: z.string().min(3).max(255),
 });
 
-function CreatePlaylist({ onClose }) {
+function PlaylistForm({ onClose, isEdit = false, playlist }) {
+  console.log(playlist);
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     resolver: zodResolver(schema),
+    defaultValues: {
+      name: isEdit ? playlist.name : "",
+      description: isEdit ? playlist.description : "",
+    },
   });
   const { mutateAsync: createPlaylist } = useCreatePlaylist();
+  const { mutateAsync: updatePlaylist } = useUpdatePlaylist();
 
   const onSubmit = async (data) => {
+    if (isEdit) {
+      const res = await updatePlaylist({ ...playlist, ...data });
+      if (res) {
+        onClose();
+      }
+      return;
+    }
     const res = await createPlaylist(data);
     if (res) {
       onClose();
@@ -29,6 +46,9 @@ function CreatePlaylist({ onClose }) {
     <div className="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-60">
       <div className="flex min-h-screen items-center justify-center p-4">
         <div className="relative w-full max-w-md rounded-lg bg-gray-800 p-6">
+          <h3 className="w-full mx-auto text-xl font-bold mb-3">
+            {isEdit ? "Edit Playlist" : "Create Playlist"}
+          </h3>
           <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
             <label
               htmlFor="playlist-name"
@@ -68,7 +88,7 @@ function CreatePlaylist({ onClose }) {
               type="submit"
               className="mx-auto mt-4 rounded-lg bg-purple-500 px-4 py-2 text-white"
             >
-              Create new playlist
+              {isEdit ? "Update playlist" : "Create new playlist"}
             </button>
           </form>
           <button
@@ -84,4 +104,4 @@ function CreatePlaylist({ onClose }) {
   );
 }
 
-export default CreatePlaylist;
+export default PlaylistForm;

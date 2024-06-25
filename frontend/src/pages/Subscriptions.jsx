@@ -8,7 +8,16 @@ function Subscriptions() {
   const userId = useSelector((state) => state.auth.user._id);
 
   const { data: subscriptions } = useSubscribedChannels(userId);
+  console.log(subscriptions);
 
+  if (subscriptions && subscriptions.length === 0) {
+    return (
+      <div className="container mx-auto px-2">
+        <h1 className="text-3xl font-bold my-2">Subscriptions</h1>
+        <p className="text-lg">You are not subscribed to any channels</p>
+      </div>
+    );
+  }
   return (
     <div className="container mx-auto px-2">
       <h1 className="text-3xl font-bold my-2">Subscriptions</h1>

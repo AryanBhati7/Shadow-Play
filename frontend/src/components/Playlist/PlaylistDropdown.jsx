@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import ExistingPlaylist from "./ExistingPlaylist";
-import CreatePlaylist from "./CreatePlaylist";
+import PlaylistForm from "./PlaylistForm";
 
 function PlaylistDropdown({ videoId }) {
   const [showDropdown, setShowDropdown] = useState(false);

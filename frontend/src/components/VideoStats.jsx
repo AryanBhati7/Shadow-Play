@@ -88,6 +88,7 @@ function VideoStats() {
                           onDeleteConfirm={() => deleteConfirm(video._id)}
                           onCancel={() => setDeletePopupId(null)}
                           isDeleting={isDeleting}
+                          type={"Video"}
                         />
                       )}
                       <img
@@ -146,6 +147,7 @@ function VideoStats() {
                       onDeleteConfirm={() => deleteConfirm(video._id)}
                       onCancel={() => setDeletePopupId(null)}
                       isDeleting={isDeleting}
+                      type={"Video"}
                     />
                   )}
                   <div className="flex items-center justify-between">

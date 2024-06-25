@@ -31,6 +31,8 @@ import ChannelSubscribed from "./ChannelSubscribed";
 import AvatarInput from "./Profile/AvatarInput";
 import CoverImageInput from "./Profile/CoverImageInput";
 import PlaylistDropdown from "./Playlist/PlaylistDropdown";
+import PlaylistCard from "./Playlist/PlaylistCard";
+import PlaylistForm from "./Playlist/PlaylistForm";
 
 import LoadingSpinner from "./Loading/LoadingSpinner";
 import VideoCardSkeleton from "./Loading/VideoCardSkeleton";
@@ -43,9 +45,13 @@ import NextVideosColumn from "./NextVideos/NextVideosColumn";
 import AllNextVideos from "./NextVideos/AllNextVideos";
 import UserNextVideos from "./NextVideos/UserNextVideos";
 import NextVideoCard from "./NextVideos/NextVideoCard";
+import PlaylistSkeleton from "./Loading/PlaylistSkeleton";
 
 export {
+  PlaylistForm,
+  PlaylistCard,
   NextVideoCardSkeleton,
+  PlaylistSkeleton,
   PlaylistDropdown,
   CoverImageInput,
   AvatarInput,

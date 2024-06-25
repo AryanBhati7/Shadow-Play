@@ -14,6 +14,7 @@ export const usePlaylistsByUser = (userId) => {
   return useQuery({
     queryKey: ["playlists", userId],
     queryFn: () => getUserPlaylists(userId),
+    staleTime: 1000 * 60 * 5,
   });
 };
 
@@ -21,6 +22,7 @@ export const usePlaylistById = (playlistId) => {
   return useQuery({
     queryKey: ["playlist", playlistId],
     queryFn: () => getPlaylistById(playlistId),
+    staleTime: 1000 * 60 * 4,
   });
 };
 

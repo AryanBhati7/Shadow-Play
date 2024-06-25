@@ -62,6 +62,21 @@ const getUserPlaylists = asyncHandler(async (req, res) => {
         totalViews: {
           $sum: "$videos.views",
         },
+        coverImage: {
+          $let: {
+            vars: {
+              latestVideo: {
+                $arrayElemAt: [
+                  {
+                    $sortArray: { input: "$videos", sortBy: { createdAt: -1 } },
+                  },
+                  0,
+                ],
+              },
+            },
+            in: "$$latestVideo.thumbnail.url",
+          },
+        },
       },
     },
     {
@@ -73,6 +88,7 @@ const getUserPlaylists = asyncHandler(async (req, res) => {
         totalDuration: 1,
         totalViews: 1,
         updatedAt: 1,
+        coverImage: 1,
       },
     },
   ]);
@@ -83,7 +99,6 @@ const getUserPlaylists = asyncHandler(async (req, res) => {
       new ApiResponse(200, playlist, "User playlists fetched successfully")
     );
 });
-
 const getPlaylistById = asyncHandler(async (req, res) => {
   const { playlistId } = req.params;
 
@@ -100,7 +115,7 @@ const getPlaylistById = asyncHandler(async (req, res) => {
   const playlistVideos = await Playlist.aggregate([
     {
       $match: {
-        _id: mongoose.Types.ObjectId(playlistId),
+        _id: new mongoose.Types.ObjectId(playlistId),
       },
     },
     {
@@ -125,6 +140,25 @@ const getPlaylistById = asyncHandler(async (req, res) => {
       },
     },
     {
+      $lookup: {
+        from: "subscriptions",
+        let: { ownerId: { $arrayElemAt: ["$owner._id", 0] } },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $eq: ["$channel", "$$ownerId"],
+              },
+            },
+          },
+          {
+            $count: "subscriberCount",
+          },
+        ],
+        as: "subscriberInfo",
+      },
+    },
+    {
       $addFields: {
         totalVideos: {
           $size: "$videos",
@@ -136,7 +170,32 @@ const getPlaylistById = asyncHandler(async (req, res) => {
           $sum: "$videos.views",
         },
         owner: {
-          $first: "$owner",
+          $mergeObjects: [
+            { $arrayElemAt: ["$owner", 0] },
+            {
+              subscribers: {
+                $ifNull: [
+                  { $arrayElemAt: ["$subscriberInfo.subscriberCount", 0] },
+                  0,
+                ],
+              },
+            },
+          ],
+        },
+        coverImage: {
+          $let: {
+            vars: {
+              latestVideo: {
+                $arrayElemAt: [
+                  {
+                    $sortArray: { input: "$videos", sortBy: { createdAt: -1 } },
+                  },
+                  0,
+                ],
+              },
+            },
+            in: "$$latestVideo.thumbnail.url",
+          },
         },
       },
     },
@@ -148,6 +207,7 @@ const getPlaylistById = asyncHandler(async (req, res) => {
         updatedAt: 1,
         totalVideos: 1,
         totalViews: 1,
+        coverImage: 1,
         videos: {
           _id: 1,
           "video.url": 1,
@@ -162,6 +222,8 @@ const getPlaylistById = asyncHandler(async (req, res) => {
           username: 1,
           fullName: 1,
           "avatar.url": 1,
+          _id: 1,
+          subscribers: 1,
         },
       },
     },

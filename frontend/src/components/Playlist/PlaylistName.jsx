@@ -5,7 +5,7 @@ import {
   useRemoveVideoFromPlaylist,
 } from "../../hooks/playlist.hook";
 
-function Playlist({ playlistId, videoId, playlistName }) {
+function PlaylistName({ playlistId, videoId, playlistName }) {
   const { data: isAdded } = useIsVideoInPlaylist(videoId, playlistId);
 
   const { mutateAsync: addVideoToPlaylist } = useAddVideoToPlaylist();
@@ -58,4 +58,4 @@ function Playlist({ playlistId, videoId, playlistName }) {
   );
 }
 
-export default Playlist;
+export default PlaylistName;

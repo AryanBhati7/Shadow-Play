@@ -22,6 +22,7 @@ import {
   EditProfile,
   EditChannelInfo,
   Support,
+  Playlist,
 } from "./pages/index.js";
 import AuthLayout from "./components/AuthLayout.jsx";
 import { Provider } from "react-redux";
@@ -158,6 +159,14 @@ const router = createBrowserRouter([
             ),
           },
         ],
+      },
+      {
+        path: "/playlist/:playlistId",
+        element: (
+          <AuthLayout auth>
+            <Playlist />
+          </AuthLayout>
+        ),
       },
       {
         path: "/support",

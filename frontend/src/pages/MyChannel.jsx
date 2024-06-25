@@ -64,7 +64,7 @@ function MyChannel() {
             <h1 className="font-bolg text-xl">{channelInfo?.fullName}</h1>
             <p className="text-sm text-gray-400">@{channelInfo?.username}</p>
             <p className="text-sm text-gray-400">
-              {channelInfo?.subscribersCount} Subscribers · 
+              {channelInfo?.subscribersCount} Subscribers ·  {" "}
               {channelInfo?.subscribedToCount} Subscribed
             </p>
             <p>
