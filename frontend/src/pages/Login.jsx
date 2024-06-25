@@ -38,11 +38,10 @@ function Login() {
   return (
     <div className="h-screen overflow-y-auto bg-[#121212] text-white flex justify-center items-center">
       <div className="mx-auto my-8 flex w-full max-w-sm flex-col px-4">
-        <div className="mx-auto inline-block w-16">
-          <Logo
-            className={" w-full text-center text-2xl font-semibold uppercase"}
-          />
-        </div>
+        <Logo
+          className={" w-full text-center text-2xl font-semibold uppercase"}
+        />
+
         <div className="w-full flex flex-col items-center justify-center mb-6">
           <h1 className="text-2xl">Login</h1>
           <span>
@@ -70,6 +69,7 @@ function Login() {
             {...register("password", {
               required: true,
             })}
+            className="mb-4"
           />
           <SpButton type="submit">
             {isPending ? "Logging In" : "Login"}

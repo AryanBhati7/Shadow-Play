@@ -70,8 +70,8 @@ function Header() {
   return (
     <header className="z-[9999] sticky inset-x-0 top-0 w-full border-b border-white text-white bg-[#121212] px-4">
       <nav className="mx-auto flex max-w-7xl items-center py-2 ">
-        <Link to="/" className="flex items-center">
-          <Logo className={"mr-4 w-12 shrink-0 sm:w-16"} />
+        <Link to="/" className="flex items-center w-full">
+          <Logo className={" shrink-0 sm:w-[8rem] "} />
         </Link>
 
         <div className="relative mx-auto hidden w-full max-w-md overflow-hidden sm:block">
@@ -127,7 +127,7 @@ function Header() {
             <div className="fixed inset-y-0 right-0 flex w-full max-w-xs shrink-0 translate-x-full flex-col border-l border-white bg-[#121212] duration-200 hover:translate-x-0 peer-focus:translate-x-0 sm:static sm:ml-4 sm:w-auto sm:translate-x-0 sm:border-none">
               <div className="relative flex w-full items-center justify-between border-b border-white px-4 py-2 sm:hidden">
                 <Link to="/" className="inline-block w-12">
-                  <Logo />
+                  <Logo className={"text-lg w-[10rem]"} />
                 </Link>
                 <button onClick={closeSideBar} className="inline-block w-8">
                   <IoIosCloseCircleOutline />
@@ -164,7 +164,10 @@ function Header() {
                       Logout
                     </Button>
                     <div className="mb-8 mt-auto px-4 sm:mb-0 sm:mt-0 sm:px-0">
-                      <Button className="flex w-full gap-4 text-left sm:items-center">
+                      <Link
+                        to={`/channel/${userData?.username}/videos`}
+                        className="flex w-full gap-4 text-left sm:items-center"
+                      >
                         <img
                           src={userData.avatar?.url}
                           alt={userData.username}
@@ -176,7 +179,7 @@ function Header() {
                             {userData.username}
                           </p>
                         </div>
-                      </Button>
+                      </Link>
                     </div>
                   </>
                 )}

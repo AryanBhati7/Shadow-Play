@@ -40,6 +40,9 @@ export const useUploadVideo = () => {
   return useMutation({
     mutationFn: (data) => uploadVideo(data),
     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["channelStats"],
+      });
       queryClient.invalidateQueries({ queryKey: ["channelVideos"] });
     },
   });

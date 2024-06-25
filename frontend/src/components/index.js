@@ -30,6 +30,7 @@ import Subscriber from "./Subscriber";
 import ChannelSubscribed from "./ChannelSubscribed";
 import AvatarInput from "./Profile/AvatarInput";
 import CoverImageInput from "./Profile/CoverImageInput";
+import PlaylistDropdown from "./Playlist/PlaylistDropdown";
 
 import LoadingSpinner from "./Loading/LoadingSpinner";
 import VideoCardSkeleton from "./Loading/VideoCardSkeleton";
@@ -38,6 +39,7 @@ import VideolistCardSkeleton from "./Loading/VideolistCardSkeleton";
 import SubscriberSkeleton from "./Loading/SubscriberSkeleton";
 
 export {
+  PlaylistDropdown,
   CoverImageInput,
   AvatarInput,
   ChannelSubscribed,

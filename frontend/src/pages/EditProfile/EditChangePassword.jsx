@@ -8,13 +8,13 @@ import { useChangePassword } from "../../hooks/auth.hook";
 const schema = z.object({
   oldPassword: z
     .string()
-    .min(8, { message: "Password must be at least 8 characters" }),
+    .min(6, { message: "Password must be at least 6 characters" }),
   newPassword: z
     .string()
-    .min(8, { message: "Password must be at least 8 characters" }),
+    .min(6, { message: "Password must be at least 6 characters" }),
   confirmPassword: z
     .string()
-    .min(8, { message: "Password must be at least 8 characters" }),
+    .min(6, { message: "Password must be at least 6 characters" }),
 });
 function EditChangePassword() {
   const {
