@@ -79,7 +79,7 @@ function VideoDetail() {
                     className={"px-4"}
                     iconSize={"w-8"}
                   />
-                  <PlaylistDropdown />
+                  <PlaylistDropdown videoId={video?._id} />
                 </div>
               </div>
             </div>

@@ -1,66 +1,33 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { usePlaylistById, usePlaylistsByUser } from "../../hooks/playlist.hook";
+import Playlist from "./Playlist";
 
-function ExistingPlaylist() {
+function ExistingPlaylist({ videoId }) {
+  const userId = useSelector((state) => state.auth.user?._id);
+
+  const {
+    data: existingPlaylists,
+    isFetched,
+    isFetching,
+  } = usePlaylistsByUser(userId);
+
+  if (isFetching) return <p>Loading...</p>;
+
   return (
     <ul className="mb-4">
-      <li className="mb-2 last:mb-0">
-        <label
-          className="group/label inline-flex cursor-pointer items-center gap-x-3"
-          htmlFor="Collections-checkbox"
-        >
-          <input
-            type="checkbox"
-            className="peer hidden"
-            id="Collections-checkbox"
+      {isFetched && existingPlaylists?.length > 0 ? (
+        existingPlaylists.map((playlist) => (
+          <Playlist
+            key={playlist._id}
+            playlistId={playlist?._id}
+            videoId={videoId}
+            playlistName={playlist?.name}
           />
-          <span className="inline-flex h-4 w-4 items-center justify-center rounded-[4px] border border-transparent bg-white text-white group-hover/label:border-[#ae7aff] peer-checked:border-[#ae7aff] peer-checked:text-[#ae7aff]">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="3"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4.5 12.75l6 6 9-13.5"
-              ></path>
-            </svg>
-          </span>
-          Collections
-        </label>
-      </li>
-      <li className="mb-2 last:mb-0">
-        <label
-          className="group/label inline-flex cursor-pointer items-center gap-x-3"
-          htmlFor="JavaScript Basics-checkbox"
-        >
-          <input
-            type="checkbox"
-            className="peer hidden"
-            id="JavaScript Basics-checkbox"
-          />
-          <span className="inline-flex h-4 w-4 items-center justify-center rounded-[4px] border border-transparent bg-white text-white group-hover/label:border-[#ae7aff] peer-checked:border-[#ae7aff] peer-checked:text-[#ae7aff]">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="3"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4.5 12.75l6 6 9-13.5"
-              ></path>
-            </svg>
-          </span>
-          JavaScript Basics
-        </label>
-      </li>
+        ))
+      ) : (
+        <p>No playlists found</p>
+      )}
     </ul>
   );
 }

@@ -332,6 +332,32 @@ const updatePlaylist = asyncHandler(async (req, res) => {
     );
 });
 
+const isVideoInPlaylist = asyncHandler(async (req, res) => {
+  const { playlistId, videoId } = req.params;
+
+  if (!isValidObjectId(playlistId) || !isValidObjectId(videoId)) {
+    throw new ApiError(400, "Invalid playlistId or videoId");
+  }
+
+  const playlist = await Playlist.findById(playlistId);
+
+  if (!playlist) {
+    throw new ApiError(404, "Playlist not found");
+  }
+
+  const isVideoPresent = playlist.videos.includes(videoId);
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        { isPresent: isVideoPresent },
+        "Video presence in playlist checked successfully"
+      )
+    );
+});
+
 export {
   createPlaylist,
   getUserPlaylists,
@@ -340,4 +366,5 @@ export {
   removeVideoFromPlaylist,
   deletePlaylist,
   updatePlaylist,
+  isVideoInPlaylist,
 };

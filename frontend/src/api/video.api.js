@@ -107,8 +107,6 @@ export const editVideo = async (videoId, data) => {
 };
 
 export const getNextVideos = async (videoId) => {
-  console.log(videoId);
-  console.log("getNextVideos");
   try {
     const { data } = await API.get(`/video/next/${videoId}`);
     return data?.data;
