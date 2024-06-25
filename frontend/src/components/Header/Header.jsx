@@ -60,11 +60,8 @@ function Header() {
 
   const [sideBar, setSideBar] = useState(true);
 
-  const openSideBar = () => {
-    setSideBar(true);
-  };
-  const closeSideBar = () => {
-    setSideBar(false);
+  const handleSideBar = () => {
+    setSideBar((prev) => !prev);
   };
 
   return (
@@ -115,24 +112,24 @@ function Header() {
           </svg>
         </button>
         <button
-          onClick={openSideBar}
-          className="group peer ml-4 flex w-6 shrink-0 flex-wrap gap-y-1.5 sm:hidden"
+          onClick={handleSideBar}
+          className="cursor-pointer group peer ml-4 flex w-6 shrink-0 flex-wrap gap-y-1.5 sm:hidden"
         >
           <span className="block h-[2px] w-full bg-white group-hover:bg-[#ae7aff]"></span>
           <span className="block h-[2px] w-2/3 bg-white group-hover:bg-[#ae7aff]"></span>
           <span className="block h-[2px] w-full bg-white group-hover:bg-[#ae7aff]"></span>
         </button>
-        <IconContext.Provider value={{ className: "w-6 h-6" }}>
-          {sideBar && (
-            <div className="fixed inset-y-0 right-0 flex w-full max-w-xs shrink-0 translate-x-full flex-col border-l border-white bg-[#121212] duration-200 hover:translate-x-0 peer-focus:translate-x-0 sm:static sm:ml-4 sm:w-auto sm:translate-x-0 sm:border-none">
-              <div className="relative flex w-full items-center justify-between border-b border-white px-4 py-2 sm:hidden">
-                <Link to="/" className="inline-block w-12">
-                  <Logo className={"text-lg w-[10rem]"} />
-                </Link>
-                <button onClick={closeSideBar} className="inline-block w-8">
-                  <IoIosCloseCircleOutline />
-                </button>
-              </div>
+        {sideBar && (
+          <div className="fixed inset-y-0 right-0 flex w-full max-w-xs shrink-0 translate-x-full flex-col border-l border-white bg-[#121212] duration-200 hover:translate-x-0 peer-focus:translate-x-0 sm:static sm:ml-4 sm:w-auto sm:translate-x-0 sm:border-none">
+            <div className="relative flex w-full h-[4rem] items-center justify-end border-b border-white px-4 py-2 sm:hidden">
+              <button
+                onClick={handleSideBar}
+                className="inline-block cursor-pointer"
+              >
+                <IoIosCloseCircleOutline className="w-9 h-9" />
+              </button>
+            </div>
+            <IconContext.Provider value={{ className: "w-6 h-6" }}>
               <ul className="my-4 flex w-full flex-wrap gap-2 px-4 sm:hidden">
                 {mobileSidebarItems.map((item, index) => (
                   <li key={index} className="w-full">
@@ -148,53 +145,53 @@ function Header() {
                   </li>
                 ))}
               </ul>
-              <div className="mb-8 mt-auto flex w-full flex-wrap gap-4 px-4 sm:mb-0 sm:mt-0 sm:items-center sm:px-0">
-                {authStatus ? (
-                  <SpButton onClick={handleUploadVideo}>Upload Video</SpButton>
-                ) : (
-                  <Button onClick={handleUploadVideo}>Upload Video</Button>
-                )}
+            </IconContext.Provider>
+            <div className="mb-8 mt-auto flex w-full flex-wrap gap-4 px-4 sm:mb-0 sm:mt-0 sm:items-center sm:px-0">
+              {authStatus ? (
+                <SpButton onClick={handleUploadVideo}>Upload Video</SpButton>
+              ) : (
+                <Button onClick={handleUploadVideo}>Upload Video</Button>
+              )}
 
-                {authStatus && userData && (
-                  <>
-                    <Button
-                      className="bg-gray-500 hover:bg-slate-400"
-                      onClick={handleLogout}
+              {authStatus && userData && (
+                <>
+                  <Button
+                    className="bg-gray-500 hover:bg-slate-400"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </Button>
+                  <div className="mb-8 mt-auto px-4 sm:mb-0 sm:mt-0 sm:px-0">
+                    <Link
+                      to={`/channel/${userData?.username}/videos`}
+                      className="flex w-full gap-4 text-left sm:items-center"
                     >
-                      Logout
-                    </Button>
-                    <div className="mb-8 mt-auto px-4 sm:mb-0 sm:mt-0 sm:px-0">
-                      <Link
-                        to={`/channel/${userData?.username}/videos`}
-                        className="flex w-full gap-4 text-left sm:items-center"
-                      >
-                        <img
-                          src={userData.avatar?.url}
-                          alt={userData.username}
-                          className="object-cover h-16 w-16 shrink-0 rounded-full sm:h-12 sm:w-12"
-                        />
-                        <div className="w-full pt-2 sm:hidden">
-                          <h6 className="font-semibold">{userData.fullName}</h6>
-                          <p className="text-sm text-gray-300">
-                            {userData.username}
-                          </p>
-                        </div>
-                      </Link>
-                    </div>
-                  </>
-                )}
-
-                {!authStatus && (
-                  <>
-                    <Link to="/login">
-                      <SpButton>Log in</SpButton>
+                      <img
+                        src={userData.avatar?.url}
+                        alt={userData.username}
+                        className="object-cover h-16 w-16 shrink-0 rounded-full sm:h-12 sm:w-12"
+                      />
+                      <div className="w-full pt-2 sm:hidden">
+                        <h6 className="font-semibold">{userData.fullName}</h6>
+                        <p className="text-sm text-gray-300">
+                          {userData.username}
+                        </p>
+                      </div>
                     </Link>
-                  </>
-                )}
-              </div>
+                  </div>
+                </>
+              )}
+
+              {!authStatus && (
+                <>
+                  <Link to="/login">
+                    <SpButton>Log in</SpButton>
+                  </Link>
+                </>
+              )}
             </div>
-          )}
-        </IconContext.Provider>
+          </div>
+        )}
       </nav>
     </header>
   );

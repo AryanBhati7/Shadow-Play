@@ -6,6 +6,7 @@ import {
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSelector } from "react-redux";
 
 const schema = z.object({
   name: z.string().min(3).max(255),
@@ -13,6 +14,7 @@ const schema = z.object({
 });
 
 function PlaylistForm({ onClose, isEdit = false, playlist }) {
+  const userId = useSelector((state) => state.auth.user?._id);
   console.log(playlist);
   const {
     register,
@@ -26,8 +28,8 @@ function PlaylistForm({ onClose, isEdit = false, playlist }) {
       description: isEdit ? playlist.description : "",
     },
   });
-  const { mutateAsync: createPlaylist } = useCreatePlaylist();
-  const { mutateAsync: updatePlaylist } = useUpdatePlaylist();
+  const { mutateAsync: createPlaylist } = useCreatePlaylist(userId);
+  const { mutateAsync: updatePlaylist } = useUpdatePlaylist(userId);
 
   const onSubmit = async (data) => {
     if (isEdit) {

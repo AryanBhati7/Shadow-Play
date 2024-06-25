@@ -35,6 +35,7 @@ import { disableReactDevTools } from "@fvilers/disable-react-devtools";
 if (import.meta.env.MODE === "production") disableReactDevTools();
 
 const queryClient = new QueryClient();
+
 const router = createBrowserRouter([
   {
     path: "/",

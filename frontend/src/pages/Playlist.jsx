@@ -12,7 +12,7 @@ function Playlist() {
   const { playlistId } = useParams();
 
   const { data: playlist, isFetching } = usePlaylistById(playlistId);
-  console.log(playlist);
+
   if (isFetching) {
     return <PlaylistSkeleton />;
   }

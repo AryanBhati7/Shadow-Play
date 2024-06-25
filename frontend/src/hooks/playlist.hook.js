@@ -14,7 +14,6 @@ export const usePlaylistsByUser = (userId) => {
   return useQuery({
     queryKey: ["playlists", userId],
     queryFn: () => getUserPlaylists(userId),
-    staleTime: 1000 * 60 * 5,
   });
 };
 
@@ -57,9 +56,13 @@ export const useCreatePlaylist = () => {
 };
 
 export const useAddVideoToPlaylist = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ videoId, playlistId }) =>
       addVideoToPlaylist(videoId, playlistId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["playlists"] });
+    },
   });
 };
 

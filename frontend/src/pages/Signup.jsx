@@ -65,6 +65,7 @@ function Signup() {
       <div className="mx-auto my-8 flex w-full max-w-sm flex-col px-4">
         <Logo
           className={" w-full text-center text-2xl font-semibold uppercase"}
+          inline={true}
         />
 
         <div className="w-full flex flex-col items-center justify-center mb-6">

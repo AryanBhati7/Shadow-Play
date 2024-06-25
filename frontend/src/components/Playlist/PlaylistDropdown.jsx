@@ -71,7 +71,7 @@ function PlaylistDropdown({ videoId }) {
           </div>
         )}
       </div>
-      {showCreatePlaylist && <CreatePlaylist onClose={handleCreatePlaylist} />}
+      {showCreatePlaylist && <PlaylistForm onClose={handleCreatePlaylist} />}
     </>
   );
 }
