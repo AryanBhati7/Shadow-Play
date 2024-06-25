@@ -42,7 +42,7 @@ function Header() {
       icon: <BiLike />,
     },
     {
-      name: "My Content",
+      name: "My Channel",
       path: `/channel/${userData?.username}/videos`,
       icon: <GoDeviceCameraVideo />,
     },

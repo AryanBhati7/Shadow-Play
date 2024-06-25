@@ -303,23 +303,26 @@ function VideoDetail() {
               </div>
             </div>
             <div className="mt-4 flex items-center justify-between">
-              <div className="flex items-center gap-x-4">
-                <div className="mt-2 h-12 w-12 shrink-0">
-                  <img
-                    src={video && video?.owner?.avatar?.url}
-                    alt={video && video?.owner?.username}
-                    className="h-full w-full rounded-full object-cover"
-                  />
+              <Link to={`/channel/${video?.owner?.username}/videos`}>
+                <div className="flex items-center gap-x-4">
+                  <div className="mt-2 h-12 w-12 shrink-0">
+                    <img
+                      src={video && video?.owner?.avatar?.url}
+                      alt={video && video?.owner?.username}
+                      className="h-full w-full rounded-full object-cover"
+                    />
+                  </div>
+                  <div className="block">
+                    <p className="text-gray-200">
+                      {video && video?.owner?.username}
+                    </p>
+
+                    <p className="text-sm text-gray-400">
+                      {video && video?.owner?.subscribersCount} Subscribers
+                    </p>
+                  </div>
                 </div>
-                <div className="block">
-                  <p className="text-gray-200">
-                    {video && video?.owner?.username}
-                  </p>
-                  <p className="text-sm text-gray-400">
-                    {video && video?.owner?.subscribersCount} Subscribers
-                  </p>
-                </div>
-              </div>
+              </Link>
 
               {!isOwner && (
                 <SubscribeButton

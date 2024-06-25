@@ -9,7 +9,7 @@ import {
   Login,
   VideoDetail,
   LikedVideos,
-  MyContent,
+  MyChannel,
   MyStudio,
   Subscriptions,
   History,
@@ -70,7 +70,7 @@ const router = createBrowserRouter([
         path: "/channel/:username",
         element: (
           <AuthLayout auth>
-            <MyContent />
+            <MyChannel />
           </AuthLayout>
         ),
         children: [

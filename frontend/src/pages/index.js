@@ -4,7 +4,7 @@ import Login from "./Login";
 import VideoDetail from "./VideoDetail";
 import LikedVideos from "./LikedVideos";
 import History from "./History";
-import MyContent from "./MyContent";
+import MyChannel from "./MyChannel";
 import MyStudio from "./MyStudio";
 import Subscriptions from "./Subscriptions";
 import EditProfile from "./EditProfile";
@@ -25,7 +25,7 @@ export {
   LikedVideos,
   History,
   MyStudio,
-  MyContent,
+  MyChannel,
   Subscriptions,
   ChannelPlaylist,
   ChannelSubscribers,

@@ -62,3 +62,14 @@ export const registerUser = async (data) => {
     throw error?.response?.data?.error;
   }
 };
+
+export const changePassword = async (newPassData) => {
+  try {
+    const { data } = await API.post("/users/change-password", newPassData);
+    toast.success(data?.message);
+    return data;
+  } catch (error) {
+    toast.error(error?.response?.data?.error);
+    throw error?.response?.data?.error;
+  }
+};

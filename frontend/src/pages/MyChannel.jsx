@@ -9,7 +9,7 @@ import SubscribeButton from "../components/SubscribeButton";
 import { NavLink, Link } from "react-router-dom";
 import defaultCover from "../assets/default-cover-photo.jpg";
 
-function MyContent() {
+function MyChannel() {
   const { username } = useParams();
   const dispatch = useDispatch();
   const ownerUsername = useSelector((state) => state.auth.user?.username);
@@ -40,6 +40,8 @@ function MyContent() {
       path: "subscribers",
     },
   ];
+
+  console.log(channelInfo);
   return (
     <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
       <div className="relative min-h-[150px] w-full pt-[16.28%]">
@@ -65,6 +67,10 @@ function MyContent() {
             <p className="text-sm text-gray-400">
               {channelInfo?.subscribersCount} Subscribers · 
               {channelInfo?.subscribedToCount} Subscribed
+            </p>
+            <p>
+              {channelInfo?.description ||
+                `This channel doesn't have a description yet.`}
             </p>
           </div>
           <div className="inline-block">
@@ -111,4 +117,4 @@ function MyContent() {
   );
 }
 
-export default MyContent;
+export default MyChannel;
