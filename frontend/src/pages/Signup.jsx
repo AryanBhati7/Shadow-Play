@@ -71,7 +71,7 @@ function Signup() {
         <div className="w-full flex flex-col items-center justify-center mb-6">
           <h1 className="text-2xl">Signup</h1>
           <span>
-            already have an account?
+            Already have an account?
             <Link to="/login" className="text-blue-500 inline">
               Login
             </Link>

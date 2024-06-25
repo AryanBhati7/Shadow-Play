@@ -48,7 +48,7 @@ function Login() {
         <div className="w-full flex flex-col items-center justify-center mb-6">
           <h1 className="text-2xl">Login</h1>
           <span>
-            dont have an account?
+            Don't have an account?
             <Link to="/signup" className="text-blue-500 inline">
               Signup
             </Link>
