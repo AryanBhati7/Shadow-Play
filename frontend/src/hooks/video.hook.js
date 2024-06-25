@@ -10,16 +10,18 @@ import {
 } from "../api/video.api";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-export const useVideos = (userId) => {
+export const useVideos = (options = {}) => {
+  const { userId, sortBy, sortType, query } = options;
+
   return useInfiniteQuery({
-    queryKey: userId ? ["videos", userId] : ["videos"],
+    queryKey: ["videos", { userId, sortBy, sortType, query }],
     queryFn: ({ pageParam = 1 }) =>
-      userId ? getVideos(pageParam, userId) : getVideos(pageParam),
+      getVideos(pageParam, userId, sortBy, sortType, query),
     getNextPageParam: (lastPage) => {
       if (lastPage.hasNextPage === false) return;
       return lastPage.nextPage;
     },
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 5, // 5 minutes
   });
 };
 

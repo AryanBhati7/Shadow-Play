@@ -14,6 +14,7 @@ import { CiSettings } from "react-icons/ci";
 import { IconContext } from "react-icons";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { setShowUploadVideo } from "../../features/uiSlice";
+import Search from "./Search";
 
 function Header() {
   const navigate = useNavigate();
@@ -67,50 +68,12 @@ function Header() {
   return (
     <header className="z-[9999] sticky inset-x-0 top-0 w-full border-b border-white text-white bg-[#121212] px-4">
       <nav className="mx-auto flex max-w-7xl items-center py-2 ">
-        <Link to="/" className="flex items-center w-full">
-          <Logo className={" shrink-0 sm:w-[8rem] "} />
+        <Link to="/" className="flex items-center w-2/12">
+          <Logo className={" shrink-0 sm:w-[8rem] "} mobile={true} />
         </Link>
 
-        <div className="relative mx-auto hidden w-full max-w-md overflow-hidden sm:block">
-          <input
-            className="w-full border bg-transparent py-1 pl-8 pr-3 placeholder-white outline-none sm:py-2"
-            placeholder="Search"
-          />
-          <span className="absolute left-2.5 top-1/2 inline-block -translate-y-1/2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              aria-hidden="true"
-              className="h-4 w-4"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-              ></path>
-            </svg>
-          </span>
-        </div>
-        <button className="ml-auto sm:hidden">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            aria-hidden="true"
-            className="h-6 w-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-            ></path>
-          </svg>
-        </button>
+        <Search />
+
         <button
           onClick={handleSideBar}
           className="cursor-pointer group peer ml-4 flex w-6 shrink-0 flex-wrap gap-y-1.5 sm:hidden"

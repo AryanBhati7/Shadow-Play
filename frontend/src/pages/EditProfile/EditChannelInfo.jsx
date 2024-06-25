@@ -75,7 +75,7 @@ function EditChannelInfo() {
               </label>
               <div className="flex rounded-lg border">
                 <p className="flex shrink-0 items-center border-r border-white px-3 align-middle">
-                  yt-tweets.vercel.app/
+                  shadowplay.vercel.app/
                 </p>
                 <input
                   type="text"

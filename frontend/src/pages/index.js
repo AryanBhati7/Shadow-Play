@@ -19,8 +19,10 @@ import ChannelVideos from "./Channel/ChannelVideos";
 import EditChangePassword from "./EditProfile/EditChangePassword";
 import EditChannelInfo from "./EditProfile/EditChannelInfo";
 import EditPersonalInfo from "./EditProfile/EditPersonalInfo";
+import SearchVideos from "./SearchVideos";
 
 export {
+  SearchVideos,
   Home,
   Signup,
   Login,

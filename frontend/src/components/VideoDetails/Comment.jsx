@@ -4,6 +4,7 @@ import Like from "./Like";
 import { useDeleteComment, useEditComment } from "../../hooks/comment.hook";
 import { useSelector } from "react-redux";
 import DropDown from "../DropDown";
+import { Link } from "react-router-dom";
 
 function Comment({ comment }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -42,13 +43,15 @@ function Comment({ comment }) {
     <>
       <div className="flex justify-between gap-x-4">
         <div className="flex gap-x-4">
-          <div className="mt-2 h-11 w-11 shrink-0">
-            <img
-              src={comment && comment?.owner?.avatar?.url}
-              alt={comment && comment?.owner?.username}
-              className="h-full w-full rounded-full"
-            />
-          </div>
+          <Link to={`/channel/${comment && comment?.owner?.username}`}>
+            <div className="mt-2 h-11 w-11 shrink-0">
+              <img
+                src={comment && comment?.owner?.avatar?.url}
+                alt={comment && comment?.owner?.username}
+                className="h-full w-full rounded-full object-cover"
+              />
+            </div>
+          </Link>
           <div className="block">
             <p className="flex items-center text-gray-200">
               {comment && comment?.owner?.fullName}  ·  {"  "}

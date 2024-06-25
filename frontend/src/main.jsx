@@ -23,6 +23,7 @@ import {
   EditChannelInfo,
   Support,
   Playlist,
+  SearchVideos,
 } from "./pages/index.js";
 import AuthLayout from "./components/AuthLayout.jsx";
 import { Provider } from "react-redux";
@@ -178,6 +179,14 @@ const router = createBrowserRouter([
         element: (
           <AuthLayout auth>
             <Support />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/search/:query",
+        element: (
+          <AuthLayout auth>
+            <SearchVideos />
           </AuthLayout>
         ),
       },
