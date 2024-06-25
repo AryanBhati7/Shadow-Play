@@ -134,12 +134,25 @@ const getSubscribedChannels = asyncHandler(async (req, res) => {
               localField: "_id",
               foreignField: "owner",
               as: "videos",
+              pipeline: [
+                {
+                  $match: {
+                    isPublished: true
+                  }
+                },
+                {
+                  $sort: { createdAt: -1 }
+                },
+                {
+                  $limit: 1
+                }
+              ]
             },
           },
           {
             $addFields: {
               latestVideo: {
-                $last: "$videos",
+                $arrayElemAt: ["$videos", 0]
               },
             },
           },
