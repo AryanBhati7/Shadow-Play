@@ -6,6 +6,7 @@ import {
   updateUserCoverImage,
   updateUserProfile,
   updateAccountDetails,
+  updateChannelInfo,
 } from "../api/user.api";
 
 export const useWatchHistory = () => {
@@ -50,6 +51,18 @@ export const useUpdateAccountDetails = () => {
     mutationFn: (data) => updateAccountDetails(data),
     onSuccess: () => {
       queryClient.invalidateQueries("channelInfo");
+      queryClient.invalidateQueries("currentUser");
+    },
+  });
+};
+
+export const useUpdateChannelInfo = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data) => updateChannelInfo(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries("channelInfo");
+      queryClient.invalidateQueries("currentUser");
     },
   });
 };

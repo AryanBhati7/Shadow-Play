@@ -13,24 +13,31 @@ function CoverImageInput({ children, setCoverImage, coverImage }) {
     if (!coverPic) return; // No file selected
     console.log(coverPic);
 
-    await updateCoverImg(coverPic);
+    const uploadedCover = await updateCoverImg(coverPic);
+
+    if (uploadedCover) {
+      setCoverPic(null);
+    }
   };
   return (
     <div
-      className="w-full h-full mb-4 rounded-lg bg-gray-300 text-purple-700 bg-cover bg-center bg-no-repeat items-center relative"
+      className=" w-full h-full mb-4 rounded-lg  text-purple-700 bg-cover bg-center bg-no-repeat items-center relative"
       style={{
         backgroundImage: `url(${selectedCover})`,
       }}
     >
       <label
         htmlFor="coverphoto"
-        className="gap-1 cursor-pointer w-full h-full flex justify-center items-center"
+        className={`gap-1 ${
+          isPending ? " cursor-progress" : " cursor-pointer"
+        } w-full h-full flex justify-center items-center`}
       >
         {children}
         <input
           style={{ display: "none" }}
           type="file"
           id="coverphoto"
+          disabled={isPending}
           accept="image/png, image/jpg, image/jpeg, image/gif"
           onChange={(e) => {
             setCoverPic(e.target.files[0]);
@@ -45,15 +52,22 @@ function CoverImageInput({ children, setCoverImage, coverImage }) {
           )}
           {coverPic && (
             <button
-              className="rounded-full bg-slate-100 text-purple-500 hover:text-purple-700 p-2"
+              className={`${
+                isPending && " cursor-not-allowed"
+              } rounded-full bg-slate-100 text-purple-500 hover:text-purple-700 p-2`}
               onClick={handleUploadCover}
               title="Upload Cover"
+              disabled={isPending}
             >
               <MdOutlineCloudUpload className="w-9 h-9 " />
             </button>
           )}
         </div>
-        <div className="absolute right-0 bottom-0 bg-white/90 text-purple-700 flex items-center gap-1 rounded-tl-md px-2 text-center font-semibold">
+        <div
+          className={`${
+            isPending ? "cursor-not-allowed" : "cursor-pointer"
+          } absolute right-0 bottom-0 bg-white/90 text-purple-700 flex items-center gap-1 rounded-tl-md px-2 text-center font-semibold`}
+        >
           Cover
           <MdOutlineCloudUpload />
         </div>

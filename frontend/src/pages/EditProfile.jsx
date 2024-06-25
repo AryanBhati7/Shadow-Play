@@ -25,7 +25,10 @@ function EditProfile() {
     <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
       <div className="relative min-h-[150px] w-full pt-[16.28%]">
         <div className="absolute inset-0 overflow-hidden">
-          <CoverImageInput coverImage={defaultCoverImg} setCoverImage={null} />
+          <CoverImageInput
+            coverImage={channelInfo?.coverImage?.url || defaultCoverImg}
+            setCoverImage={null}
+          />
         </div>
       </div>
       <div className="px-4 pb-4">

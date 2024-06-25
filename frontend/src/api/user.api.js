@@ -71,3 +71,14 @@ export const updateAccountDetails = async (newData) => {
     throw error?.response?.data?.error;
   }
 };
+
+export const updateChannelInfo = async (newData) => {
+  try {
+    const { data } = await API.patch("/users/update-channelinfo", newData);
+    toast.success(data?.message);
+    return data;
+  } catch (error) {
+    toast.error(error?.response?.data?.error);
+    throw error?.response?.data?.error;
+  }
+};

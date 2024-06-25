@@ -480,6 +480,35 @@ const getWatchHistory = asyncHandler(async (req, res) => {
   }
 });
 
+const updateChannelInfo = asyncHandler(async (req, res) => {
+  const { username, description } = req.body;
+
+  if (!(username || description)) {
+    throw new ApiError(400, "All fields are required");
+  }
+
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        $set: {
+          username,
+          description,
+        },
+      },
+      {
+        new: true,
+      }
+    ).select("-password -refreshToken");
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, user, "Channel info updated successfully"));
+  } catch (error) {
+    throw new ApiError(501, "Updating channel info failed");
+  }
+});
+
 export {
   registerUser,
   loginUser,
@@ -492,4 +521,5 @@ export {
   updateUserCoverImage,
   getUserChannelProfile,
   getWatchHistory,
+  updateChannelInfo,
 };

@@ -50,6 +50,10 @@ const userSchema = new Schema(
         },
       },
     },
+    description: {
+      type: String,
+      default: "",
+    },
     password: {
       type: String,
       required: [true, "Password is required"],

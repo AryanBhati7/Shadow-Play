@@ -10,16 +10,16 @@ function AvatarInput({ setAvatar, avatar }) {
 
   const handleUploadAvatar = async () => {
     if (!profilePic) return; // No file selected
-    console.log(profilePic);
 
-    await uploadAvatar(profilePic);
+    const uploadedAvatar = await uploadAvatar(profilePic);
+    if (uploadedAvatar) {
+      setProfilePic(null);
+    }
   };
 
   return (
     <div
-      className={`${
-        isPending ? "cursor-not-allowed" : "cursor-pointer"
-      } relative h-full w-full rounded-full bg-blue-300/20 bg-cover bg-center bg-no-repeat`}
+      className=" relative h-full w-full rounded-full bg-blue-300/20 bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: `url(${selectedProfile})` }}
     >
       {isPending && (
@@ -29,7 +29,9 @@ function AvatarInput({ setAvatar, avatar }) {
       )}
       <label
         htmlFor="profileImg"
-        className="absolute inset-0 flex justify-center items-center"
+        className={`absolute inset-0 flex justify-center items-center ${
+          isPending ? "cursor-progress" : "cursor-pointer"
+        }`}
       >
         <input
           type="file"
