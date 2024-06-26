@@ -17,6 +17,7 @@ import {
   ChannelSubscribers,
   ChannelVideos,
   ChannelTweets,
+  ChannelAbout,
   EditPersonalInfo,
   EditChangePassword,
   EditProfile,
@@ -111,6 +112,14 @@ const router = createBrowserRouter([
             element: (
               <AuthLayout auth>
                 <ChannelSubscribers />
+              </AuthLayout>
+            ),
+          },
+          {
+            path: "about",
+            element: (
+              <AuthLayout>
+                <ChannelAbout auth />
               </AuthLayout>
             ),
           },

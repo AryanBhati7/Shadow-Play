@@ -28,12 +28,6 @@ const generateAccessAndRefreshTokens = async (userId) => {
   }
 };
 
-const options = {
-  httpOnly: true,
-  secure: true,
-  sameSite: "None",
-};
-
 const registerUser = asyncHandler(async (req, res) => {
   //get user details from frontend
   //validation - not empty

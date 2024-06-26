@@ -15,6 +15,7 @@ import ChannelPlaylist from "./Channel/ChannelPlaylist";
 import ChannelSubscribers from "./Channel/ChannelSubscribers";
 import ChannelTweets from "./Channel/ChannelTweets";
 import ChannelVideos from "./Channel/ChannelVideos";
+import ChannelAbout from "./Channel/ChannelAbout";
 
 import EditChangePassword from "./EditProfile/EditChangePassword";
 import EditChannelInfo from "./EditProfile/EditChannelInfo";
@@ -22,6 +23,7 @@ import EditPersonalInfo from "./EditProfile/EditPersonalInfo";
 import SearchVideos from "./SearchVideos";
 
 export {
+  ChannelAbout,
   SearchVideos,
   Home,
   Signup,

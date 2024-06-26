@@ -49,10 +49,9 @@ function ChannelTweets() {
                 </span>
               </span>
             </p>
-            <h5 className="mb-2 font-semibold">No people subscribers</h5>
+            <h5 className="mb-2 font-semibold">No Tweets created</h5>
             <p>
-              This channel has yet to
-              <strong>subscribe</strong> a new channel.
+              This channel has yet to <strong>share</strong> a tweet.
             </p>
           </div>
         </div>

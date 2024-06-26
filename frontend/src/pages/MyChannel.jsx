@@ -40,6 +40,10 @@ function MyChannel() {
       name: "Subscribers",
       path: "subscribers",
     },
+    {
+      name: "About",
+      path: "about",
+    },
   ];
 
   if (isFetching) return <MyChannelSkeleton />;
