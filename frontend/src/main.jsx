@@ -216,7 +216,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <Provider store={store}>
       <RouterProvider router={router} />
     </Provider>
-    <ReactQueryDevtools initialIsOpen={false} />
+    {import.meta.env.MODE === "development" && (
+      <ReactQueryDevtools initialIsOpen={false} />
+    )}
     <Toaster
       position="bottom-right"
       reverseOrder={true}
