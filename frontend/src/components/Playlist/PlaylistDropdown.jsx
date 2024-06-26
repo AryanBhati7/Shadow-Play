@@ -3,20 +3,41 @@ import ExistingPlaylist from "./ExistingPlaylist";
 import PlaylistForm from "./PlaylistForm";
 import { useSelector } from "react-redux";
 import LoginPopup from "../LoginPopup";
-
+import {
+  useAddVideoToPlaylist,
+  useCreatePlaylist,
+} from "../../hooks/playlist.hook";
+import toast from "react-hot-toast";
 function PlaylistDropdown({ videoId }) {
+  const userId = useSelector((state) => state.auth.user?._id);
   const authStatus = useSelector((state) => state.auth.authStatus);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showCreatePlaylist, setShowCreatePlaylist] = useState(false);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
 
-  const handleDropdown = () => {
-    if (!authStatus) return setShowLoginPopup(true);
-    setShowDropdown((prev) => !prev);
+  const handleDropdown = (e) => {
+    e.stopPropagation();
+    if (!authStatus) {
+      setShowLoginPopup(true);
+    } else {
+      setShowDropdown(!showDropdown);
+    }
   };
 
-  const handleCreatePlaylist = () => {
-    setShowCreatePlaylist((prev) => !prev);
+  const { mutateAsync: createPlaylist } = useCreatePlaylist(userId);
+  const { mutateAsync: addVideoToPlaylist } = useAddVideoToPlaylist(userId);
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const name = e.target.name.value;
+
+    if (!name) toast.error("Name is required");
+
+    const res = await createPlaylist({ name });
+    if (res) {
+      setShowDropdown(false);
+      addVideoToPlaylist({ videoId, playlistId: res._id });
+    }
   };
 
   const dropdownRef = useRef(null);
@@ -27,11 +48,15 @@ function PlaylistDropdown({ videoId }) {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    // Only add the event listener if the dropdown is shown
+    if (showDropdown) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [showDropdown]); // Re-run when showDropdown changes
 
   if (showLoginPopup)
     return (
@@ -42,9 +67,9 @@ function PlaylistDropdown({ videoId }) {
     );
   return (
     <>
-      <div className="relative block">
+      <div className="relative block" ref={dropdownRef}>
         <button
-          onClick={() => handleDropdown()}
+          onClick={(e) => handleDropdown(e)}
           className="flex items-center gap-x-2 rounded-lg bg-white px-4 py-1.5 text-black"
         >
           <span className="inline-block w-5">
@@ -67,20 +92,33 @@ function PlaylistDropdown({ videoId }) {
         </button>
 
         {showDropdown && (
-          <div
-            ref={dropdownRef}
-            className="absolute right-0 top-full z-10  w-64 overflow-hidden rounded-lg bg-[#121212] p-4 shadow shadow-slate-50/30  peer-focus:block"
-          >
+          <div className="absolute right-0 top-full z-10  w-64 overflow-hidden rounded-lg bg-[#121212] p-4 shadow shadow-slate-50/30 ">
             <h3 className="mb-4 text-center text-lg font-semibold">
               Save to playlist
             </h3>
             <ExistingPlaylist videoId={videoId} />
-            <button
-              onClick={handleCreatePlaylist}
-              className="mx-auto mt-4 rounded-lg bg-[#ae7aff] px-4 py-2 text-black"
-            >
-              Create new playlist
-            </button>
+            <form onSubmit={(e) => onSubmit(e)} className="flex flex-col">
+              <label
+                htmlFor="playlist-name"
+                className="mb-1 inline-block cursor-pointer"
+              >
+                Name
+              </label>
+              <input
+                type="text"
+                name="name"
+                id="playlist-name"
+                placeholder="Enter playlist name"
+                required
+                className="w-full rounded-lg border border-transparent bg-white px-3 py-2 text-black outline-none focus:border-[#ae7aff]"
+              />
+              <button
+                type="submit"
+                className="mx-auto mt-4 rounded-lg bg-[#ae7aff] px-4 py-2 text-black"
+              >
+                Create new playlist
+              </button>
+            </form>
           </div>
         )}
       </div>

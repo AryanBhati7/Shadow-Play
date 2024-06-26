@@ -28,7 +28,7 @@ const Support = () => {
   ];
 
   return (
-    <section className="w-full  bg-black flex justify-center items-center">
+    <section className="w-full  flex justify-center items-center">
       <div className="bg-gray-900 text-white p-8 rounded-lg shadow-lg max-w-lg mx-auto">
         <div className="flex flex-col items-center mb-6">
           <div className="bg-purple-600 p-4 rounded-full mb-4">

@@ -1,15 +1,22 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 import { useChannelSubcribers } from "../../hooks/subscription.hook";
 import { useSelector } from "react-redux";
 import { Subscriber, SubscriberSkeleton } from "../../components/index.js";
 
 function ChannelSubscribers() {
   const channelId = useSelector((state) => state.channel.channel?._id);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const { data: channelSubscribers, isLoading } =
     useChannelSubcribers(channelId);
 
-  console.log(channelSubscribers);
+  const filteredSubscribers = useMemo(() => {
+    return channelSubscribers?.filter((subscriber) =>
+      subscriber.subscriber?.username
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+    );
+  }, [channelSubscribers, searchTerm]);
 
   if (isLoading)
     return (
@@ -76,12 +83,12 @@ function ChannelSubscribers() {
         <input
           className="w-full bg-transparent outline-none"
           placeholder="Search"
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
-      {/* Subscribers List*/}
 
-      {channelSubscribers &&
-        channelSubscribers.map((subscriber) => (
+      {filteredSubscribers &&
+        filteredSubscribers.map((subscriber) => (
           <Subscriber
             key={subscriber.subscriber?._id}
             subscriber={subscriber.subscriber}

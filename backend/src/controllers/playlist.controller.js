@@ -8,12 +8,8 @@ import { Video } from "../models/video.model.js";
 const createPlaylist = asyncHandler(async (req, res) => {
   const { name, description } = req.body;
 
-  if (
-    [name, description].some(
-      (field) => field === undefined || field?.trim() === ""
-    )
-  ) {
-    throw new ApiError(400, "Playlist name and description are required");
+  if (!name) {
+    throw new ApiError(400, "Playlist Name is required");
   }
 
   const playlist = await Playlist.create({
@@ -229,6 +225,9 @@ const getPlaylistById = asyncHandler(async (req, res) => {
     },
   ]);
 
+ if(playlistVideos[0] === undefined){
+    return res.status(200).json(new ApiResponse(200, [], "playlist fetched successfully"))
+ } 
   return res
     .status(200)
     .json(

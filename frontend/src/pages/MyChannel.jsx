@@ -67,8 +67,8 @@ function MyChannel() {
               className="h-full w-full object-cover"
             />
           </span>
-          <div className="mr-auto inline-block">
-            <h1 className="font-bolg text-xl">{channelInfo?.fullName}</h1>
+          <div className="mr-auto inline-block -mt-5">
+            <h1 className="font-bold text-2xl">{channelInfo?.fullName}</h1>
             <p className="text-sm text-gray-400">@{channelInfo?.username}</p>
             <p className="text-sm text-gray-400">
               {channelInfo?.subscribersCount} Subscribers ·  {" "}
@@ -100,7 +100,7 @@ function MyChannel() {
             </div>
           </div>
         </div>
-        <ul className="no-scrollbar sticky top-[66px] z-[2] mx-2 flex flex-row justify-between gap-x-2 overflow-auto border-b-2 border-gray-400 bg-[#121212] py-2 sm:top-[82px]">
+        <ul className="no-scrollbar sticky top-[66px] z-[2]  flex flex-row justify-between text-wrap overflow-auto border-b-2 border-gray-400 bg-[#121212] py-2 sm:top-[82px]">
           {channelItems.map((item, index) => (
             <li key={index} className="w-full">
               <NavLink
@@ -108,8 +108,8 @@ function MyChannel() {
                 className={
                   ({ isActive }) =>
                     isActive
-                      ? "w-full border-b-2 border-[#ae7aff] bg-white px-3 py-1.5 text-[#ae7aff]" // Active link color
-                      : "w-full border-b-2 border-transparent px-3 py-1.5 text-gray-400" // Inactive link color
+                      ? "text-lg w-full flex justify-center items-center border-b-2 border-[#ae7aff] bg-white px-3 py-1.5 text-[#ae7aff]" // Active link color
+                      : "text-lg w-full flex justify-center items-center border-b-2  border-transparent px-3 py-1.5 text-gray-400" // Inactive link color
                 }
               >
                 {item.name}

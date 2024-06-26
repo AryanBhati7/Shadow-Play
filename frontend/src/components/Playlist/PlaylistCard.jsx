@@ -4,6 +4,7 @@ import { useDeletePlaylist } from "../../hooks/playlist.hook";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { DeletePopup, PlaylistForm } from "../index.js";
+import defaultCover from "../../assets/default-cover-photo.jpg";
 
 function PlaylistCard({ playlist, isEditAndDelete = false }) {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ function PlaylistCard({ playlist, isEditAndDelete = false }) {
         <div className="relative mb-2 w-full pt-[56%]">
           <div className="absolute inset-0">
             <img
-              src={playlist?.coverImage}
+              src={playlist?.coverImage || defaultCover}
               alt={playlist?.name}
               className="h-full w-full"
             />

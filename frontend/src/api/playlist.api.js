@@ -17,8 +17,10 @@ export const getUserPlaylists = async (userId) => {
 };
 
 export const getPlaylistById = async (playlistId) => {
+  console.log("this get playlist by id called", playlistId);
   try {
     const { data } = await API.get(`/playlist/${playlistId}`);
+    console.log(data.data);
     return data?.data;
   } catch (error) {
     throw error?.response?.data?.error;
@@ -47,11 +49,10 @@ export const deletePlaylist = async (playlistId) => {
 };
 
 export const createPlaylist = async (playlistData) => {
-  // const { name, description } = req.body;
-
   try {
     const { data } = await API.post("/playlist", playlistData);
     toast.success(data?.message);
+
     return data?.data;
   } catch (error) {
     throw error?.response?.data?.error;

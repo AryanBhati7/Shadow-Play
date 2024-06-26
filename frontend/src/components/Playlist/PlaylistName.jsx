@@ -4,9 +4,10 @@ import {
   useIsVideoInPlaylist,
   useRemoveVideoFromPlaylist,
 } from "../../hooks/playlist.hook";
-
+import { useState } from "react";
 function PlaylistName({ playlistId, videoId, playlistName }) {
   const { data: isAdded } = useIsVideoInPlaylist(videoId, playlistId);
+  const [added, setAdded] = useState(isAdded || false);
 
   const { mutateAsync: addVideoToPlaylist } = useAddVideoToPlaylist();
   const { mutateAsync: removeVideoFromPlaylist } = useRemoveVideoFromPlaylist();
@@ -27,11 +28,13 @@ function PlaylistName({ playlistId, videoId, playlistName }) {
           type="checkbox"
           className="peer hidden"
           id={`${playlistId}-checkbox`}
-          defaultChecked={isAdded}
+          defaultChecked={added}
           onChange={(e) => {
             if (e.target.checked) {
+              setAdded(true);
               handleAddVideoToPlaylist();
             } else {
+              setAdded(false);
               handleRemoveVideoFromPlaylist();
             }
           }}
