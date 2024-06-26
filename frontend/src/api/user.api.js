@@ -17,6 +17,17 @@ export const getWatchHistory = async () => {
   }
 };
 
+export const clearWatchHistory = async () => {
+  try {
+    const { data } = await API.delete("/users/clear-history");
+    toast.success(data?.message);
+    return data;
+  } catch (error) {
+    toast.error(error?.response?.data?.error);
+    throw error?.response?.data?.error;
+  }
+};
+
 export const getUserChannelProfile = async (username) => {
   try {
     const { data } = await API.get(`users/c/${username}`);

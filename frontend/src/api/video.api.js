@@ -116,3 +116,14 @@ export const getNextVideos = async (videoId) => {
     throw error?.response?.data?.error;
   }
 };
+
+export const updateVideoViews = async (videoId) => {
+  console.log(videoId, "VideoId update views");
+  try {
+    const { data } = await API.patch(`/video/update/views/${videoId}`);
+    return data?.data;
+  } catch (error) {
+    toast.error(error?.response?.data?.error);
+    throw error?.response?.data?.error;
+  }
+};

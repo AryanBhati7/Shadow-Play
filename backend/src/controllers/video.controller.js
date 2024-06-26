@@ -408,37 +408,51 @@ const getNextVideos = asyncHandler(async (req, res) => {
 
 const updateVideoViews = asyncHandler(async (req, res) => {
   const { videoId } = req.params;
+  const userId = req.user?._id;
 
-  if (!isValidObjectId(videoId)) throw new ApiError(400, "Invalid videoId");
+  if (!isValidObjectId(videoId)) {
+    throw new ApiError(400, "Invalid videoId");
+  }
 
   const video = await Video.findById(videoId);
+  if (!video) {
+    throw new ApiError(404, "Video not found");
+  }
 
-  if (!video) throw new ApiError(404, "Video not found");
-  const userHasWatched = await User.findOne({
-    _id: req.user?._id,
-    watchHistory: { $elemMatch: { video: videoId } },
-  });
+  // Find the user and check if they've watched this video before
+  const user = await User.findById(userId);
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
 
-  // If the user hasn't watched the video, increment views and update watch history
-  if (!userHasWatched) {
-    video.views += 1;
-    await video.save({ validateBeforeSave: false });
+  const watchHistoryEntry = user.watchHistory.find(
+    (entry) => entry.video.toString() === videoId
+  );
 
-    await User.findByIdAndUpdate(req.user?._id, {
-      $push: {
-        watchHistory: {
-          video: videoId,
-          watchedAt: Date.now(),
-        },
-      },
+  if (!watchHistoryEntry) {
+    // User hasn't watched this video before
+    // Increment view count
+    await Video.findByIdAndUpdate(videoId, { $inc: { views: 1 } });
+
+    // Add to watch history
+    user.watchHistory.push({
+      video: videoId,
+      watchedAt: new Date(),
     });
+
+    await user.save();
+  } else {
+    // User has watched this video before, just update the watchedAt
+    watchHistoryEntry.watchedAt = new Date();
+    await user.save();
   }
 
   return res
     .status(200)
-    .json(new ApiResponse(200, video, "Video views updated successfully"));
+    .json(
+      new ApiResponse(200, { video, user }, "Video views updated successfully")
+    );
 });
-
 export {
   getAllVideos,
   publishAVideo,
@@ -447,4 +461,5 @@ export {
   deleteVideo,
   togglePublishStatus,
   getNextVideos,
+  updateVideoViews,
 };

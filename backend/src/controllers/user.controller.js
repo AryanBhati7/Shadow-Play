@@ -197,10 +197,13 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     const { accessToken, newRefreshToken } =
       await generateAccessAndRefreshTokens(user._id);
 
+    res.setHeader(
+      "Set-Cookie",
+      `accessToken=${accessToken}; Max-Age=${1 * 24 * 60 * 60 * 1000}; Path=/;  HttpOnly; Secure; SameSite=None; Secure; Partitioned`
+    );
+
     return res
       .status(200)
-      .cookie("accessToken", accessToken, options)
-      .cookie("refreshToken", newRefreshToken, options)
       .json(
         new ApiResponse(
           200,
@@ -511,6 +514,24 @@ const updateChannelInfo = asyncHandler(async (req, res) => {
   }
 });
 
+const clearWatchHistory = asyncHandler(async (req, res) => {
+  const isCleared = await User.findByIdAndUpdate(
+    new mongoose.Types.ObjectId(req.user?._id),
+    {
+      $set: {
+        watchHistory: [],
+      },
+    },
+    {
+      new: true,
+    }
+  );
+  if (!isCleared) throw new ApiError(500, "Failed to clear history");
+  return res
+    .status(200)
+    .json(new ApiResponse(200, [], "History Cleared Successfully"));
+});
+
 export {
   registerUser,
   loginUser,
@@ -524,4 +545,5 @@ export {
   getUserChannelProfile,
   getWatchHistory,
   updateChannelInfo,
+  clearWatchHistory,
 };

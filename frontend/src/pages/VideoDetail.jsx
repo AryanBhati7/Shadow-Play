@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useVideoById } from "../hooks/video.hook.js";
+import { useUpdateVideoViews, useVideoById } from "../hooks/video.hook.js";
 
 import {
   VideoPlayer,
@@ -22,7 +22,8 @@ function VideoDetail() {
   const { videoId } = useParams();
 
   const { data: video, isError, isFetching } = useVideoById(videoId);
-
+  const { mutateAsync: updateVideoViews } = useUpdateVideoViews();
+  const authStatus = useSelector((state) => state.auth.authStatus);
   const userId = useSelector((state) => state.auth.user?._id);
   const isOwner = video?.owner?._id === userId ? true : false;
   useEffect(() => {
@@ -30,6 +31,9 @@ function VideoDetail() {
 
     if (video) {
       dispatch(setVideo(video));
+      if (authStatus) {
+        updateVideoViews(videoId);
+      }
     }
 
     return () => {

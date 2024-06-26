@@ -1,172 +1,65 @@
 import React from "react";
+import {
+  FaTwitter,
+  FaLinkedin,
+  FaGithub,
+  FaDiscord,
+  FaQuestionCircle,
+} from "react-icons/fa";
 
-function Support() {
+const Support = () => {
+  const personalInfo = {
+    name: "Aryan Bhati",
+    email: "codiearyan07@gmail.com",
+  };
+  const links = [
+    { name: "Twitter", icon: FaTwitter, url: "https://x.com/CodieAryan" },
+    {
+      name: "LinkedIn",
+      icon: FaLinkedin,
+      url: "https://www.linkedin.com/in/aryan-bhati/",
+    },
+    { name: "GitHub", icon: FaGithub, url: "https://github.com/AryanBhati7" },
+    {
+      name: "Discord",
+      icon: FaDiscord,
+      url: "https://discord.com/users/840957818323468318",
+    },
+  ];
+
   return (
-    <section class="relative mx-auto max-w-3xl px-4 py-20">
-      <div class="mb-16 text-center">
-        <h1 class="mb-3 text-sm text-[#ae7aff]">Privacy Policy</h1>
-        <h2 class="mb-4 text-4xl font-bold">We care about your privacy</h2>
-        <h3 class="text-gray-300">
-          Your privacy is important to us at YT-Tweets. We repect your privacy
-          regarding any information we may collect from you across out website.
-        </h3>
-      </div>
-      <div class="mb-8">
-        <p class="mb-4 text-gray-300">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptate
-          facilis officia magni quidem labore obcaecati sequi repellat sit iusto
-          modi doloribus excepturi consectetur, numquam quis. Lorem ipsum dolor
-          sit amet, consectetur adipisicing elit. Nemo voluptatum provident
-          eveniet neque impedit ipsa molestias, animi reiciendis dolorum vitae
-          cumque, itaque quae. Repudiandae obcaecati eaque perferendis fuga amet
-          at?
-        </p>
-        <p class="mb-4 text-gray-300">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad excepturi
-          optio consequuntur quas deleniti sequi laboriosam rem, necessitatibus
-          voluptates modi commodi exercitationem eos expedita repellendus?
-          Quisquam reiciendis illo deleniti, eligendi architecto velit veniam.
-          Odit repudiandae rem, recusandae placeat suscipit non incidunt
-          similique optio facilis quae architecto minus iusto modi natus quod
-          quidem laboriosam unde error explicabo ullam! Enim unde iste, beatae,
-          corrupti, velit animi perferendis nisi maxime dolore qui aliquam.
-        </p>
-      </div>
-      <div class="mb-8">
-        <h3 class="mb-4 text-xl font-bold sm:text-2xl md:text-3xl">
-          What information do we collect?
-        </h3>
-        <p class="mb-4 text-gray-300">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sit tenetur
-          aperiam excepturi deleniti, tempora quidem magni obcaecati quas. Quo
-          perspiciatis, deserunt velit porro ipsum, quod sit ratione cupiditate
-          cumque aperiam dolorem adipisci architecto dolor id quisquam aliquid
-          aspernatur. Repellat, consectetur? At harum necessitatibus nisi rem
-          ullam sapiente laborum eaque? Harum?
-        </p>
-        <p class="mb-4 text-gray-300">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro at
-          iusto laboriosam possimus in! Repellendus ea accusantium omnis impedit
-          incidunt facere fuga consectetur quidem sint dolorem necessitatibus
-          corporis itaque sed qui voluptates amet, sunt fugit? Deleniti
-          explicabo et veniam alias eligendi similique, molestiae ipsa vitae
-          rerum non repudiandae accusamus error temporibus pariatur. Sit totam,
-          odit facilis adipisci ut vitae neque deserunt obcaecati. Laborum
-          labore possimus ipsa quo placeat, tempora voluptatibus commodi itaque
-          quia cupiditate nihil at, porro deleniti totam quaerat!
-        </p>
-        <p class="mb-4 text-gray-300">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum fuga
-          asperiores voluptatibus quidem dolores, quos officiis nostrum
-          veritatis. A praesentium dicta temporibus vitae, excepturi sequi
-          itaque? Pariatur veniam praesentium error qui necessitatibus. Et autem
-          dolorum consectetur officia, provident quasi soluta?
-        </p>
-      </div>
-      <div class="mb-8">
-        <h3 class="mb-4 text-xl font-bold sm:text-2xl md:text-3xl">
-          How do we use your information
-        </h3>
-        <p class="mb-4 text-gray-300">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sit tenetur
-          aperiam excepturi deleniti, tempora quidem magni obcaecati quas. Quo
-          perspiciatis, deserunt velit porro ipsum, quod sit ratione cupiditate
-          cumque aperiam dolorem adipisci architecto dolor id quisquam aliquid
-          aspernatur. Repellat, consectetur? At harum necessitatibus nisi rem
-          ullam sapiente laborum eaque? Harum?
-        </p>
-        <p class="mb-4 text-gray-300">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro at
-          iusto laboriosam possimus in! Repellendus ea accusantium omnis impedit
-          incidunt facere fuga consectetur quidem sint dolorem necessitatibus
-          corporis itaque sed qui voluptates amet, sunt fugit? Deleniti
-          explicabo et veniam alias eligendi similique, molestiae ipsa vitae
-          rerum non repudiandae accusamus error temporibus pariatur. Sit totam,
-          odit facilis adipisci ut vitae neque deserunt obcaecati. Laborum
-          labore possimus ipsa quo placeat, tempora voluptatibus commodi itaque
-          quia cupiditate nihil at, porro deleniti totam quaerat!
-        </p>
-        <p class="mb-4 text-gray-300">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum fuga
-          asperiores voluptatibus quidem dolores, quos officiis nostrum
-          veritatis. A praesentium dicta temporibus vitae, excepturi sequi
-          itaque? Pariatur veniam praesentium error qui necessitatibus. Et autem
-          dolorum consectetur officia, provident quasi soluta?
-        </p>
-      </div>
-      <div class="mb-8">
-        <h3 class="mb-4 text-xl font-bold sm:text-2xl md:text-3xl">
-          Do we use cookies and other tracking technologies?
-        </h3>
-        <p class="mb-4 text-gray-300">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum fuga
-          asperiores voluptatibus quidem dolores, quos officiis nostrum
-          veritatis. A praesentium dicta temporibus vitae, excepturi sequi
-          itaque? Pariatur veniam praesentium error qui necessitatibus. Et autem
-          dolorum consectetur officia, provident quasi soluta?
-        </p>
-      </div>
-      <div class="mb-8">
-        <h3 class="mb-4 text-xl font-bold sm:text-2xl md:text-3xl">
-          How long do we keep tour information?
-        </h3>
-        <p class="mb-4 text-gray-300">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum fuga
-          asperiores voluptatibus quidem dolores, quos officiis nostrum
-          veritatis. A praesentium dicta temporibus vitae, excepturi sequi
-          itaque? Pariatur veniam praesentium error qui necessitatibus. Et autem
-          dolorum consectetur officia, provident quasi soluta?
-        </p>
-      </div>
-      <div class="mb-8">
-        <h3 class="mb-4 text-xl font-bold sm:text-2xl md:text-3xl">
-          How do we keep your information safe?
-        </h3>
-        <p class="mb-4 text-gray-300">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum fuga
-          asperiores voluptatibus quidem dolores, quos officiis nostrum
-          veritatis. A praesentium dicta temporibus vitae, excepturi sequi
-          itaque? Pariatur veniam praesentium error qui necessitatibus. Et autem
-          dolorum consectetur officia, provident quasi soluta?
-        </p>
-      </div>
-      <div class="mb-8">
-        <h3 class="mb-4 text-xl font-bold sm:text-2xl md:text-3xl">
-          What are your privacy rights
-        </h3>
-        <p class="mb-4 text-gray-300">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum fuga
-          asperiores voluptatibus quidem dolores, quos officiis nostrum
-          veritatis. A praesentium dicta temporibus vitae, excepturi sequi
-          itaque? Pariatur veniam praesentium error qui necessitatibus. Et autem
-          dolorum consectetur officia, provident quasi soluta?
-        </p>
-      </div>
-      <div class="mb-8">
-        <h3 class="mb-4 text-xl font-bold sm:text-2xl md:text-3xl">
-          How can you contact us about this policy?
-        </h3>
-        <p class="mb-4 text-gray-300">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum fuga
-          asperiores voluptatibus quidem dolores, quos officiis nostrum
-          veritatis. A praesentium dicta temporibus vitae, excepturi sequi
-          itaque? Pariatur veniam praesentium error qui necessitatibus. Et autem
-          dolorum consectetur officia, provident quasi soluta?
-        </p>
-        <ol class="list-decimal pl-4 text-gray-300">
-          <li>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error,
-            voluptas.
-          </li>
-          <li>Lorem ipsum dolor sit amet consectetur adipisicing.</li>
-          <li>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus
-            voluptatem optio autem eveniet ab natus!
-          </li>
-        </ol>
+    <section className="w-full  bg-black flex justify-center items-center">
+      <div className="bg-gray-900 text-white p-8 rounded-lg shadow-lg max-w-lg mx-auto">
+        <div className="flex flex-col items-center mb-6">
+          <div className="bg-purple-600 p-4 rounded-full mb-4">
+            <FaQuestionCircle className="text-4xl" />
+          </div>
+
+          <h3 className="text-2xl font-bold text-center mb-2">
+            Contact me for any issue or Support
+          </h3>
+          <h4 className="text-2xl font-bold text-center mb-2 ">
+            {personalInfo.name}
+          </h4>
+          <p className="text-purple-400 text-lg mb-4">{personalInfo.email}</p>
+        </div>
+        <div className="space-y-4">
+          {links.map((link) => (
+            <a
+              key={link.name}
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center p-3 bg-gray-800 rounded-lg hover:bg-purple-700 transition duration-300"
+            >
+              <link.icon className="text-purple-400 mr-3 text-xl" />
+              <span className="text-lg">{link.name}</span>
+            </a>
+          ))}
+        </div>
       </div>
     </section>
   );
-}
+};
 
 export default Support;

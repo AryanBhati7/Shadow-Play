@@ -7,6 +7,7 @@ import {
   editVideo,
   togglePublishStatus,
   getNextVideos,
+  updateVideoViews,
 } from "../api/video.api";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
@@ -90,5 +91,11 @@ export const useEditVideo = () => {
       queryClient.invalidateQueries({ queryKey: ["videos"] });
       queryClient.invalidateQueries({ queryKey: ["channelVideos"] });
     },
+  });
+};
+
+export const useUpdateVideoViews = () => {
+  return useMutation({
+    mutationFn: (videoId) => updateVideoViews(videoId),
   });
 };
