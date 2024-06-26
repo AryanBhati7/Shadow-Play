@@ -131,6 +131,10 @@ const loginUser = asyncHandler(async (req, res) => {
     "-password -refreshToken"
   );
 
+  res.setHeader(
+    "Set-Cookie",
+    `accessToken=${accessToken}; Max-Age=${1 * 24 * 60 * 60 * 1000}; Path=/;  HttpOnly; Secure; SameSite=None; Secure; Partitioned`
+  );
   return res
     .status(200)
     .cookie("accessToken", accessToken, options)
