@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useChannelVideos } from "../hooks/studio.hook";
 import { MdModeEditOutline } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { setShowEditVideo } from "../features/uiSlice";
 import { useDispatch } from "react-redux";
+import { MdSearch } from "react-icons/md";
 
 import { useDeleteVideo, useTogglePublish } from "../hooks/video.hook";
 import DeletePopup from "./DeletePopup";
@@ -16,6 +17,7 @@ function VideoStats() {
   const { data: channelVideos, isFetching } = useChannelVideos();
   const { mutateAsync: toggleVideoPublishStatus } = useTogglePublish();
   const { mutateAsync: deleteVideo, isPending: isDeleting } = useDeleteVideo();
+  const [searchTerm, setSearchTerm] = useState("");
 
   const togglePublishStatus = async (videoId) => {
     await toggleVideoPublishStatus(videoId);
@@ -36,8 +38,25 @@ function VideoStats() {
     dispatch(setShowEditVideo(true));
   };
 
+  const filteredVideos = useMemo(() => {
+    return channelVideos?.filter((video) =>
+      video.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [channelVideos, searchTerm]);
   return (
     <>
+      <div className="relative ">
+        <input
+          className="w-full peer border-2 border-gray-300 focus:border-[#ae7aff] bg-transparent py-2 pl-10 pr-4 rounded-md placeholder-gray-400 outline-none transition-all duration-300 focus:shadow-lg"
+          placeholder="Search videos"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <MdSearch
+          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 peer-focus:text-[#ae7aff]"
+          size={20}
+        />
+      </div>
       <div className="overflow-x-auto rounded-lg md:block hidden">
         <table className="w-full min-w-[1200px] border-collapse border text-white">
           <thead>
@@ -51,8 +70,8 @@ function VideoStats() {
             </tr>
           </thead>
           <tbody>
-            {channelVideos &&
-              channelVideos.map((video) => (
+            {filteredVideos &&
+              filteredVideos.map((video) => (
                 <tr className="group border" key={video._id}>
                   <td className="border-collapse border-b border-gray-600 px-4 py-3 group-last:border-none whitespace-nowrap">
                     <div className="flex justify-center">
@@ -134,8 +153,8 @@ function VideoStats() {
       </div>
 
       <div className="md:hidden flex flex-wrap justify-between text-white">
-        {channelVideos &&
-          channelVideos.map((video) => (
+        {filteredVideos &&
+          filteredVideos.map((video) => (
             <div
               key={video._id}
               className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2"

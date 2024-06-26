@@ -12,6 +12,8 @@ export const useSubscribe = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["subscribedChannels"],
+      });
+      queryClient.invalidateQueries({
         queryKey: ["channelSubscribers"],
       });
     },
