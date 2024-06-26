@@ -53,7 +53,7 @@ const router = createBrowserRouter([
       {
         path: "/video/:videoId",
         element: (
-          <AuthLayout auth={true}>
+          <AuthLayout auth={false}>
             <VideoDetail />
           </AuthLayout>
         ),
@@ -61,7 +61,7 @@ const router = createBrowserRouter([
       {
         path: "/liked-videos",
         element: (
-          <AuthLayout auth={true}>
+          <AuthLayout auth={true} pageName={"LikedVideos"}>
             <LikedVideos />
           </AuthLayout>
         ),
@@ -69,7 +69,7 @@ const router = createBrowserRouter([
       {
         path: "/history",
         element: (
-          <AuthLayout auth={true}>
+          <AuthLayout auth={true} pageName={"History"}>
             <History />
           </AuthLayout>
         ),
@@ -77,7 +77,7 @@ const router = createBrowserRouter([
       {
         path: "/channel/:username",
         element: (
-          <AuthLayout auth>
+          <AuthLayout auth pageName={"MyChannel"}>
             <MyChannel />
           </AuthLayout>
         ),
@@ -119,7 +119,7 @@ const router = createBrowserRouter([
       {
         path: "/my-studio",
         element: (
-          <AuthLayout auth>
+          <AuthLayout auth pageName={"MyStudio"}>
             <MyStudio />
           </AuthLayout>
         ),
@@ -127,7 +127,7 @@ const router = createBrowserRouter([
       {
         path: "/subscriptions",
         element: (
-          <AuthLayout auth>
+          <AuthLayout auth pageName={"Subscriptions"}>
             <Subscriptions />
           </AuthLayout>
         ),
@@ -135,7 +135,7 @@ const router = createBrowserRouter([
       {
         path: "/edit-profile",
         element: (
-          <AuthLayout auth>
+          <AuthLayout auth pageName={"Settings"}>
             <EditProfile />
           </AuthLayout>
         ),
@@ -177,7 +177,7 @@ const router = createBrowserRouter([
       {
         path: "/support",
         element: (
-          <AuthLayout auth>
+          <AuthLayout auth={false}>
             <Support />
           </AuthLayout>
         ),
@@ -185,7 +185,7 @@ const router = createBrowserRouter([
       {
         path: "/search/:query",
         element: (
-          <AuthLayout auth>
+          <AuthLayout auth={false}>
             <SearchVideos />
           </AuthLayout>
         ),

@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Comment, Input, SpButton } from "../index.js";
+import { Comment, Input, LoginPopup, SpButton } from "../index.js";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useInView } from "react-intersection-observer";
 import { useComments, useAddComment } from "../../hooks/comment.hook.js";
 import { IoClose } from "react-icons/io5";
+import { useSelector } from "react-redux";
 
 const schema = z.object({
   comment: z.string().min(1),
 });
 
 function CommentBox({ videoId }) {
+  const authStatus = useSelector((state) => state.auth.authStatus);
   const [isOpen, setIsOpen] = useState(false);
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
   const {
     register,
     handleSubmit,
@@ -32,11 +35,20 @@ function CommentBox({ videoId }) {
   const { mutateAsync: addComment } = useAddComment();
 
   const handleAddComment = async (data) => {
+    if (!authStatus) return setShowLoginPopup(true);
     const res = await addComment({ videoId, comment: data.comment });
     if (res) reset();
   };
 
   const totalComments = comments?.pages[0]?.totalDocs || 0;
+
+  if (showLoginPopup)
+    return (
+      <LoginPopup
+        loginTo={"Add a Comment"}
+        onClose={() => setShowLoginPopup(false)}
+      />
+    );
 
   return (
     <div className="w-full">

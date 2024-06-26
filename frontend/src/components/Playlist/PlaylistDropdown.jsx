@@ -1,12 +1,17 @@
 import React, { useState, useRef, useEffect } from "react";
 import ExistingPlaylist from "./ExistingPlaylist";
 import PlaylistForm from "./PlaylistForm";
+import { useSelector } from "react-redux";
+import LoginPopup from "../LoginPopup";
 
 function PlaylistDropdown({ videoId }) {
+  const authStatus = useSelector((state) => state.auth.authStatus);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showCreatePlaylist, setShowCreatePlaylist] = useState(false);
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
 
   const handleDropdown = () => {
+    if (!authStatus) return setShowLoginPopup(true);
     setShowDropdown((prev) => !prev);
   };
 
@@ -27,6 +32,14 @@ function PlaylistDropdown({ videoId }) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  if (showLoginPopup)
+    return (
+      <LoginPopup
+        onClose={() => setShowLoginPopup(false)}
+        loginTo={"Save Video to Playlist"}
+      />
+    );
   return (
     <>
       <div className="relative block">

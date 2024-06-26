@@ -135,21 +135,17 @@ const loginUser = asyncHandler(async (req, res) => {
     "Set-Cookie",
     `accessToken=${accessToken}; Max-Age=${1 * 24 * 60 * 60 * 1000}; Path=/;  HttpOnly; Secure; SameSite=None; Secure; Partitioned`
   );
-  return res
-    .status(200)
-    .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken", refreshToken, options)
-    .json(
-      new ApiResponse(
-        200,
-        {
-          user: loggedInUser,
-          accessToken,
-          refreshToken,
-        },
-        "User logged in Successfully"
-      )
-    );
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      {
+        user: loggedInUser,
+        accessToken,
+        refreshToken,
+      },
+      "User logged in Successfully"
+    )
+  );
 });
 
 const logoutUser = asyncHandler(async (req, res) => {
@@ -168,11 +164,13 @@ const logoutUser = asyncHandler(async (req, res) => {
       new: true,
     }
   );
+  res.setHeader(
+    "Set-Cookie",
+    `accessToken=; Max-Age=-1; Path=/; HttpOnly; SameSite=None; Secure; Partitioned`
+  );
 
   return res
     .status(200)
-    .clearCookie("accessToken", options)
-    .clearCookie("refreshToken", options)
     .json(new ApiResponse(200, {}, "User logged out successfully"));
 });
 

@@ -251,21 +251,6 @@ const getVideoById = asyncHandler(async (req, res) => {
 
   if (!video) throw new ApiError(404, "Video not found");
 
-  await Video.findByIdAndUpdate(videoId, {
-    $inc: {
-      views: 1,
-    },
-  });
-
-  await User.findByIdAndUpdate(req.user?._id, {
-    $push: {
-      watchHistory: {
-        video: videoId,
-        watchedAt: Date.now(),
-      },
-    },
-  });
-
   return res.status(200).json(new ApiResponse(200, video[0], "Video found"));
 });
 
@@ -419,6 +404,39 @@ const getNextVideos = asyncHandler(async (req, res) => {
   return res
     .status(200)
     .json(new ApiResponse(200, nextVideos, "Next videos fetched successfully"));
+});
+
+const updateVideoViews = asyncHandler(async (req, res) => {
+  const { videoId } = req.params;
+
+  if (!isValidObjectId(videoId)) throw new ApiError(400, "Invalid videoId");
+
+  const video = await Video.findById(videoId);
+
+  if (!video) throw new ApiError(404, "Video not found");
+  const userHasWatched = await User.findOne({
+    _id: req.user?._id,
+    watchHistory: { $elemMatch: { video: videoId } },
+  });
+
+  // If the user hasn't watched the video, increment views and update watch history
+  if (!userHasWatched) {
+    video.views += 1;
+    await video.save({ validateBeforeSave: false });
+
+    await User.findByIdAndUpdate(req.user?._id, {
+      $push: {
+        watchHistory: {
+          video: videoId,
+          watchedAt: Date.now(),
+        },
+      },
+    });
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, video, "Video views updated successfully"));
 });
 
 export {

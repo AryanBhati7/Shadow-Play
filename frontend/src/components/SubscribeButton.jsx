@@ -4,17 +4,31 @@ import { LiaUserCheckSolid } from "react-icons/lia";
 import { useSubscribe } from "../hooks/subscription.hook";
 import SpButton from "./SpButton";
 import Button from "./Button";
+import { useSelector } from "react-redux";
+import LoginPopup from "./LoginPopup";
 
 function SubscribeButton({ isSubscribed, channelId }) {
+  const authStatus = useSelector((state) => state.auth.authStatus);
   const { mutateAsync: subscribe } = useSubscribe();
 
   const [isSubscribedState, setIsSubscribedState] = useState(isSubscribed);
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
 
   const handleSubscribe = async () => {
+    if (!authStatus) {
+      return setShowLoginPopup(true);
+    }
     setIsSubscribedState(!isSubscribedState);
     await subscribe(channelId);
   };
 
+  if (showLoginPopup)
+    return (
+      <LoginPopup
+        loginTo={`Subscribe to channel`}
+        onClose={() => setShowLoginPopup(false)}
+      />
+    );
   return (
     <>
       {isSubscribedState ? (

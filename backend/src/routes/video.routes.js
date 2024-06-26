@@ -33,7 +33,7 @@ router
 
 router
   .route("/v/:videoId")
-  .get(verifyJWT, getVideoById)
+  .get(getVideoById)
   .delete(verifyJWT, deleteVideo)
   .patch(verifyJWT, upload.single("thumbnail"), updateVideo);
 

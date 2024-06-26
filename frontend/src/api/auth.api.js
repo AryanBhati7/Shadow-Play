@@ -34,22 +34,6 @@ API.interceptors.response.use(
   }
 );
 
-// Example refreshAccessToken function
-async function refreshAccessToken() {
-  // This should be replaced with your actual token refresh logic
-  try {
-    const response = await API.post("/auth/refresh-token", {
-      // You might need to send a refresh token or other credentials here
-    });
-    const { accessToken } = response.data;
-    // Update the token in storage
-    localStorage.setItem("accessToken", accessToken);
-    return { accessToken };
-  } catch (error) {
-    throw new Error("Failed to refresh token");
-  }
-}
-
 export const login = async (formData) => {
   try {
     const { data } = await API.post("/users/login", formData);

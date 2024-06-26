@@ -40,6 +40,7 @@ import VideoStatsSkeleton from "./Loading/VideoStatsSkeleton";
 import VideolistCardSkeleton from "./Loading/VideolistCardSkeleton";
 import NextVideoCardSkeleton from "./Loading/NextVideoCardSkeleton";
 import SubscriberSkeleton from "./Loading/SubscriberSkeleton";
+import LoginForm from "./LoginForm";
 
 import NextVideosColumn from "./NextVideos/NextVideosColumn";
 import AllNextVideos from "./NextVideos/AllNextVideos";
@@ -50,6 +51,7 @@ import MyChannelSkeleton from "./Loading/MyChannelSkeleton";
 import VideoDetailSkeleton from "./Loading/VideoDetailSkeleton";
 
 export {
+  LoginForm,
   VideoDetailSkeleton,
   MyChannelSkeleton,
   PlaylistForm,

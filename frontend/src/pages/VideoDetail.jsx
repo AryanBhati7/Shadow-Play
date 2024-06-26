@@ -27,12 +27,14 @@ function VideoDetail() {
   const isOwner = video?.owner?._id === userId ? true : false;
   useEffect(() => {
     dispatch(setSideBarFullSize(false));
+
     if (video) {
       dispatch(setVideo(video));
     }
 
     return () => {
       dispatch(setSideBarFullSize(true));
+      dispatch(setVideo(null));
     };
   }, [dispatch, video]);
 
