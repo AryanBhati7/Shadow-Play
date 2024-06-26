@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 
 function History() {
   const { data: watchHistory, isLoading } = useWatchHistory();
-
   if (isLoading)
     return (
       <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
@@ -18,7 +17,7 @@ function History() {
         </div>
       </section>
     );
-  console.log("History component");
+
   return (
     <>
       <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
@@ -27,8 +26,8 @@ function History() {
         <div className="flex flex-col gap-4 p-4">
           {watchHistory &&
             watchHistory.map((video) => (
-              <Link to={`/video/${video?._id}`} key={video?._id}>
-                <VideolistCard key={video?._id} video={video} />
+              <Link to={`/video/${video?.video?._id}`} key={video?.video?._id}>
+                <VideolistCard video={video.video} />
               </Link>
             ))}
         </div>

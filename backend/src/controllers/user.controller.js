@@ -424,10 +424,18 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
 
 const getWatchHistory = asyncHandler(async (req, res) => {
   try {
-    const user = await User.aggregate([
+    const watchHistory = await User.aggregate([
       {
         $match: {
           _id: new mongoose.Types.ObjectId(req.user._id),
+        },
+      },
+      {
+        $unwind: "$watchHistory",
+      },
+      {
+        $sort: {
+          "watchHistory.watchedAt": -1,
         },
       },
       {
@@ -435,38 +443,41 @@ const getWatchHistory = asyncHandler(async (req, res) => {
           from: "videos",
           localField: "watchHistory.video",
           foreignField: "_id",
-          as: "watchHistory",
+          as: "video",
+        },
+      },
+      {
+        $unwind: "$video",
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "video.owner",
+          foreignField: "_id",
+          as: "ownerDetails",
           pipeline: [
             {
-              $lookup: {
-                from: "users",
-                localField: "owner",
-                foreignField: "_id",
-                as: "ownerDetails",
-                pipeline: [
-                  {
-                    $project: {
-                      username: 1,
-                      fullName: 1,
-                      avatar: 1,
-                    },
-                  },
-                ],
-              },
-            },
-            {
-              $addFields: {
-                ownerDetails: {
-                  $first: "$ownerDetails",
-                },
-              },
-            },
-            {
-              $sort: {
-                "watchHistory.watchedAt": 1,
+              $project: {
+                username: 1,
+                fullName: 1,
+                avatar: 1,
               },
             },
           ],
+        },
+      },
+      {
+        $addFields: {
+          "video.ownerDetails": {
+            $first: "$ownerDetails",
+          },
+          "video.watchedAt": "$watchHistory.watchedAt",
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          video: 1,
         },
       },
     ]);
@@ -474,11 +485,7 @@ const getWatchHistory = asyncHandler(async (req, res) => {
     return res
       .status(200)
       .json(
-        new ApiResponse(
-          200,
-          user[0].watchHistory,
-          "Watch history fetched successfully"
-        )
+        new ApiResponse(200, watchHistory, "Watch history fetched successfully")
       );
   } catch (error) {
     throw new ApiError(501, "Fetching watch history failed");

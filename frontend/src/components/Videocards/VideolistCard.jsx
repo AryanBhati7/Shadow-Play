@@ -10,7 +10,7 @@ const VideolistCard = ({ video, owner }) => {
             <div className="w-full pt-[56%]">
               <div className="absolute inset-0">
                 <img
-                  src={video?.thumbnail.url}
+                  src={video?.thumbnail?.url}
                   alt={video?.title}
                   className="h-full w-full object-cover"
                 />
@@ -48,7 +48,7 @@ const VideolistCard = ({ video, owner }) => {
                 </p>
               </div>
               <p className="mt-2 hidden text-sm md:block">
-                {video?.description.length > 100
+                {video?.description?.length > 100
                   ? video?.description.slice(0, 100) + "..."
                   : video?.description}
               </p>
