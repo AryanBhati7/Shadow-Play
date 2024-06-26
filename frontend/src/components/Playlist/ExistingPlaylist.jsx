@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { usePlaylistById, usePlaylistsByUser } from "../../hooks/playlist.hook";
 import PlaylistName from "./PlaylistName";
+import ProgressBar from "../ProgressBar";
 
 function ExistingPlaylist({ videoId }) {
   const userId = useSelector((state) => state.auth.user?._id);
@@ -12,7 +13,7 @@ function ExistingPlaylist({ videoId }) {
     isFetching,
   } = usePlaylistsByUser(userId);
 
-  if (isFetching) return <p>Loading...</p>;
+  if (isFetching) return <ProgressBar />;
 
   return (
     <ul className="mb-4">

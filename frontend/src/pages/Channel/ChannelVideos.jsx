@@ -7,7 +7,11 @@ import { VideoCardSkeleton, Videocard } from "../../components/index";
 function ChannelVideos() {
   const channelId = useSelector((state) => state.channel.channel?._id);
 
-  const { data: channelVideos, isFetching, isFetched } = useVideos(channelId);
+  const {
+    data: channelVideos,
+    isFetching,
+    isFetched,
+  } = useVideos({ channelId });
   if (isFetching) {
     return (
       <>

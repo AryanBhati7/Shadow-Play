@@ -11,6 +11,7 @@ import {
   SubscribeButton,
   PlaylistDropdown,
   NextVideosColumn,
+  VideoDetailSkeleton,
 } from "../components/index.js";
 import { setSideBarFullSize } from "../features/uiSlice.js";
 import { setVideo } from "../features/videoSlice.js";
@@ -36,7 +37,21 @@ function VideoDetail() {
   }, [dispatch, video]);
 
   if (isFetching) {
-    return <div>Loading...</div>;
+    return (
+      <section className="w-full pb-[70px] sm:ml-[70px]  sm:pb-0">
+        <div className="flex w-full flex-wrap gap-4 p-4 lg:flex-nowrap">
+          <div className="col-span-12 w-full">
+            <div className="relative mb-4 w-full pt-[56%]">
+              <div className="absolute inset-0">
+                <div className="h-full w-full ">
+                  <VideoDetailSkeleton />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
   }
 
   return (

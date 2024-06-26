@@ -1,15 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Comment, Input, SpButton } from "../index.js";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useInView } from "react-intersection-observer";
 import { useComments, useAddComment } from "../../hooks/comment.hook.js";
+import { IoClose } from "react-icons/io5";
+
 const schema = z.object({
   comment: z.string().min(1),
 });
 
 function CommentBox({ videoId }) {
+  const [isOpen, setIsOpen] = useState(false);
   const {
     register,
     handleSubmit,
@@ -33,15 +36,31 @@ function CommentBox({ videoId }) {
     if (res) reset();
   };
 
-  const totalComments = comments?.pages[0]?.totalDocs;
+  const totalComments = comments?.pages[0]?.totalDocs || 0;
+
   return (
-    <>
-      <button className="peer w-full rounded-lg border p-4 text-left duration-200 hover:bg-white/5 focus:bg-white/5 sm:hidden">
-        <h6 className="font-semibold">{totalComments} Comments....</h6>
+    <div className="w-full">
+      <button
+        className="w-full rounded-lg border p-4 text-left duration-200 hover:bg-white/5 focus:bg-white/5 sm:hidden"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <h6 className="font-semibold">{totalComments} Comments</h6>
       </button>
-      <div className="fixed inset-x-0 top-full z-[60] h-[calc(100%-69px)] overflow-auto rounded-lg border bg-[#121212] p-4 duration-200 hover:top-[67px] peer-focus:top-[67px] sm:static sm:h-auto sm:max-h-[500px] lg:max-h-none">
+      <div
+        className={`fixed inset-x-0 bottom-0 z-[60] h-[calc(100%-69px)] overflow-auto rounded-t-lg border bg-[#121212] p-4 transition-transform duration-300 sm:static sm:h-auto sm:max-h-[500px] sm:transform-none lg:max-h-none ${
+          isOpen ? "translate-y-0" : "translate-y-full sm:translate-y-0"
+        }`}
+      >
+        <div className="flex justify-between items-center mb-4">
+          <h6 className="font-semibold">{totalComments} Comments</h6>
+          <button
+            className="sm:hidden p-2 rounded-full hover:bg-white/10"
+            onClick={() => setIsOpen(false)}
+          >
+            <IoClose size={24} />
+          </button>
+        </div>
         <div className="block">
-          <h6 className="mb-4 font-semibold">{totalComments} Comments</h6>
           <form
             onSubmit={handleSubmit(handleAddComment)}
             className="w-full flex items-center justify-center gap-3"
@@ -49,11 +68,9 @@ function CommentBox({ videoId }) {
             <Input
               type="text"
               placeholder="Add a Comment"
-              id={"comment"}
+              id="comment"
               className="w-full rounded-lg border bg-transparent px-2 py-1 placeholder-white"
-              {...register("comment", {
-                required: true,
-              })}
+              {...register("comment", { required: true })}
             />
             <SpButton type="submit">Send</SpButton>
           </form>
@@ -61,21 +78,17 @@ function CommentBox({ videoId }) {
         <hr className="my-4 border-white" />
         <div>
           {isFetched &&
-            comments?.pages.map((page, index) => {
-              return (
-                <React.Fragment key={index}>
-                  {isFetched &&
-                    page.docs.map((comment) => {
-                      return <Comment key={comment._id} comment={comment} />;
-                    })}
-                </React.Fragment>
-              );
-            })}
-
+            comments?.pages.map((page, index) => (
+              <React.Fragment key={index}>
+                {page.docs.map((comment) => (
+                  <Comment key={comment._id} comment={comment} />
+                ))}
+              </React.Fragment>
+            ))}
           <div ref={ref}></div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { formatDuration, timeAgo } from "../../assets/timeAgo";
 
-function NextVideoCard({ video }) {
+function NextVideoCard({ video, owner }) {
   return (
     <>
       <div className="w-full gap-x-2 border pr-2 md:flex">
@@ -22,15 +22,15 @@ function NextVideoCard({ video }) {
         <div className="flex gap-x-2 px-2 pb-4 pt-1 md:w-7/12 md:px-0 md:py-0.5">
           <div className="h-12 w-12 shrink-0 md:hidden">
             <img
-              src={video?.ownerDetails?.avatar?.url}
+              src={video?.ownerDetails?.avatar?.url || owner?.avatar?.url}
               alt="reactpatterns"
-              className="h-full w-full rounded-full"
+              className="h-full w-full rounded-full object-cover"
             />
           </div>
           <div className="w-full pt-1 md:pt-0">
             <h6 className="mb-1 text-sm font-semibold">{video?.title}</h6>
             <p className="mb-0.5 mt-2 text-sm text-gray-200">
-              {video?.ownerDetails?.username}
+              {video?.ownerDetails?.username || owner?.username}
             </p>
             <p className="flex text-sm text-gray-200">
               {video?.views} Views · {timeAgo(video?.createdAt)}

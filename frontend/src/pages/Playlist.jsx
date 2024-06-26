@@ -40,9 +40,9 @@ function Playlist() {
         </div>
         <div className="flex w-full flex-col gap-y-4">
           {playlist?.videos &&
-            playlist?.videos.map((video) => (
-              <Link to={`/video/${video._id}`} key={video._id}>
-                <NextVideoCard video={video} />
+            playlist?.videos?.map((video) => (
+              <Link to={`/video/${video._id}`} key={video?._id}>
+                <NextVideoCard video={video} owner={playlist.owner} />
               </Link>
             ))}
         </div>

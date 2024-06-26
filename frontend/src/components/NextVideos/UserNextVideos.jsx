@@ -5,8 +5,7 @@ import { Link } from "react-router-dom";
 import NextVideoCardSkeleton from "../Loading/NextVideoCardSkeleton";
 
 function UserNextVideos({ userId }) {
-  const { data: videosFromUser, isFetching, isFetched } = useVideos(userId);
-  console.log(videosFromUser);
+  const { data: videosFromUser, isFetching, isFetched } = useVideos({ userId });
 
   if (isFetching) {
     return (

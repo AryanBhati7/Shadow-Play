@@ -12,7 +12,7 @@ const store = configureStore({
     video: videoSlice,
     channel: channelSlice,
   },
-  devTools: import.meta.env.MODE !== "production",
+  devTools: false,
 });
 
 export default store;

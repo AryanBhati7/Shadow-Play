@@ -3,10 +3,8 @@ import { useVideos } from "../hooks/video.hook";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 import { Videocard, VideoCardSkeleton } from "../components/index.js";
-import { useDispatch } from "react-redux";
 
 function Home() {
-  const dispatch = useDispatch();
   const { data, fetchNextPage, isFetched, isFetching } = useVideos();
   const { ref, inView } = useInView();
 
