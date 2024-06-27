@@ -104,6 +104,7 @@ const getUserTweets = asyncHandler(async (req, res) => {
 
 const getAllTweets = asyncHandler(async (req, res) => {
   const { page = 1, limit = 10 } = req.query;
+  const isGuest = req.query.guest === "true";
 
   const aggregationPipeline = [
     {
@@ -147,9 +148,15 @@ const getAllTweets = asyncHandler(async (req, res) => {
         },
         isLiked: {
           $cond: {
-            if: { $in: [req.user?._id, "$likeDetails.likedBy"] },
-            then: true,
-            else: false,
+            if: isGuest,
+            then: false,
+            else: {
+              $cond: {
+                if: { $in: [req.user?._id, "$likeDetails.likedBy"] },
+                then: true,
+                else: false,
+              },
+            },
           },
         },
       },

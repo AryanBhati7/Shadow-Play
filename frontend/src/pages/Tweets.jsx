@@ -12,6 +12,7 @@ import { useAllTweets } from "../hooks/tweet.hook";
 
 function TweetPage() {
   const currentUserId = useSelector((state) => state.auth.user?._id);
+  const authStatus = useSelector((state) => state.auth.authStatus);
 
   const {
     data,
@@ -20,7 +21,8 @@ function TweetPage() {
     isFetchingNextPage,
     isFetching,
     isFetched,
-  } = useAllTweets();
+    isRefetching,
+  } = useAllTweets(authStatus);
 
   const { ref, inView } = useInView();
 
@@ -30,10 +32,7 @@ function TweetPage() {
     }
   }, [inView, hasNextPage, fetchNextPage]);
 
-  console.log(data);
-
   const allTweets = data?.pages.flatMap((page) => page.docs) || [];
-  console.log(allTweets);
 
   return (
     <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
@@ -42,7 +41,7 @@ function TweetPage() {
         <TweetInput />
       </div>
       <div className="flex flex-col gap-2 p-4 h-full">
-        {isFetching && !isFetchingNextPage ? (
+        {isFetching && !isFetchingNextPage && !isRefetching ? (
           <div className="flex flex-col justify-center gap-3">
             {Array(5)
               .fill()

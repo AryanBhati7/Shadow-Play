@@ -40,13 +40,17 @@ export const getVideos = async (
   }
 };
 
-export const getVideoById = async (videoId) => {
+export const getVideoById = async (videoId, isAuthenticated = true) => {
   try {
-    const { data } = await API.get(`/video/v/${videoId}`);
+    const url = `/video/v/${videoId}${isAuthenticated ? "" : "?guest=true"}`;
+    const { data } = await API.get(url);
     return data?.data;
   } catch (error) {
-    toast.error(error?.response?.data?.error);
-    throw error?.response?.data?.error;
+    toast.error(
+      error?.response?.data?.error ||
+        "An error occurred while fetching the video"
+    );
+    throw error?.response?.data?.error || "Failed to fetch video";
   }
 };
 

@@ -153,11 +153,100 @@ const publishAVideo = asyncHandler(async (req, res) => {
     .json(new ApiResponse(201, video, "Video published successfully"));
 });
 
-const getVideoById = asyncHandler(async (req, res) => {
+const getVideoByIdForGuest = asyncHandler(async (req, res) => {
   const { videoId } = req.params;
   if (!videoId?.trim()) throw new ApiError(400, "Video Id is missing");
 
   if (!isValidObjectId(videoId)) throw new ApiError(400, "Invalid VideoID");
+
+  const video = await Video.aggregate([
+    {
+      $match: {
+        _id: new mongoose.Types.ObjectId(videoId),
+        isPublished: true,
+      },
+    },
+    {
+      $lookup: {
+        from: "likes",
+        localField: "_id",
+        foreignField: "video",
+        as: "likes",
+      },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "owner",
+        foreignField: "_id",
+        as: "owner",
+        pipeline: [
+          {
+            $lookup: {
+              from: "subscriptions",
+              localField: "_id",
+              foreignField: "channel",
+              as: "subscribers",
+            },
+          },
+          {
+            $addFields: {
+              subscribersCount: {
+                $size: "$subscribers",
+              },
+              isSubscribed: false,
+            },
+          },
+          {
+            $project: {
+              username: 1,
+              "avatar.url": 1,
+              subscribersCount: 1,
+            },
+          },
+        ],
+      },
+    },
+    {
+      $addFields: {
+        likesCount: {
+          $size: "$likes",
+        },
+        owner: {
+          $first: "$owner",
+        },
+        isLiked: false,
+      },
+    },
+    {
+      $project: {
+        "video.url": 1,
+        title: 1,
+        description: 1,
+        views: 1,
+        createdAt: 1,
+        duration: 1,
+        comments: 1,
+        owner: 1,
+        likesCount: 1,
+        isLiked: 1,
+        isSubscribed: 1,
+      },
+    },
+  ]);
+
+  if (!video) throw new ApiError(404, "Video not found");
+
+  return res.status(200).json(new ApiResponse(200, video[0], "Video found"));
+});
+
+const getVideoById = asyncHandler(async (req, res) => {
+  const { videoId } = req.params;
+  const isGuest = req.query.guest === "true";
+
+  if (!videoId?.trim()) throw new ApiError(400, "Video Id is missing");
+  if (!isValidObjectId(videoId)) throw new ApiError(400, "Invalid VideoID");
+
   const video = await Video.aggregate([
     {
       $match: {
@@ -194,18 +283,23 @@ const getVideoById = asyncHandler(async (req, res) => {
               },
               isSubscribed: {
                 $cond: {
-                  if: {
-                    $in: [req.user?._id, "$subscribers.subscriber"],
+                  if: isGuest,
+                  then: false,
+                  else: {
+                    $cond: {
+                      if: {
+                        $in: [req.user?._id, "$subscribers.subscriber"],
+                      },
+                      then: true,
+                      else: false,
+                    },
                   },
-                  then: true,
-                  else: false,
                 },
               },
             },
           },
           {
             $project: {
-              fullName: 1,
               username: 1,
               "avatar.url": 1,
               subscribersCount: 1,
@@ -225,9 +319,15 @@ const getVideoById = asyncHandler(async (req, res) => {
         },
         isLiked: {
           $cond: {
-            if: { $in: [req.user?._id, "$likes.likedBy"] },
-            then: true,
-            else: false,
+            if: isGuest,
+            then: false,
+            else: {
+              $cond: {
+                if: { $in: [req.user?._id, "$likes.likedBy"] },
+                then: true,
+                else: false,
+              },
+            },
           },
         },
       },
@@ -244,12 +344,11 @@ const getVideoById = asyncHandler(async (req, res) => {
         owner: 1,
         likesCount: 1,
         isLiked: 1,
-        "thumbnail.url": 1,
       },
     },
   ]);
 
-  if (!video) throw new ApiError(404, "Video not found");
+  if (!video.length) throw new ApiError(404, "Video not found");
 
   return res.status(200).json(new ApiResponse(200, video[0], "Video found"));
 });
@@ -453,6 +552,7 @@ const updateVideoViews = asyncHandler(async (req, res) => {
       new ApiResponse(200, { video, user }, "Video views updated successfully")
     );
 });
+
 export {
   getAllVideos,
   publishAVideo,
@@ -462,4 +562,5 @@ export {
   togglePublishStatus,
   getNextVideos,
   updateVideoViews,
+  getVideoByIdForGuest,
 };

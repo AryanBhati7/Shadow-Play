@@ -20,10 +20,15 @@ import { timeAgo } from "../assets/timeAgo.js";
 function VideoDetail() {
   const dispatch = useDispatch();
   const { videoId } = useParams();
-
-  const { data: video, isError, isFetching } = useVideoById(videoId);
-  const { mutateAsync: updateVideoViews } = useUpdateVideoViews();
   const authStatus = useSelector((state) => state.auth.authStatus);
+
+  const {
+    data: video,
+    isError,
+    isFetching,
+    isRefetching,
+  } = useVideoById(videoId, authStatus);
+  const { mutateAsync: updateVideoViews } = useUpdateVideoViews();
   const userId = useSelector((state) => state.auth.user?._id);
   const isOwner = video?.owner?._id === userId ? true : false;
   useEffect(() => {
@@ -42,7 +47,7 @@ function VideoDetail() {
     };
   }, [dispatch, video]);
 
-  if (isFetching) {
+  if (isFetching && !isRefetching) {
     return (
       <section className="w-full pb-[70px] sm:ml-[70px]  sm:pb-0">
         <div className="flex w-full flex-wrap gap-4 p-4 lg:flex-nowrap">
@@ -94,9 +99,9 @@ function VideoDetail() {
                 <div className="flex items-center justify-between gap-x-4 md:justify-end lg:justify-between xl:justify-end">
                   <Like
                     type={"videos"}
-                    id={video && video?._id}
-                    isLiked={video && video?.isLiked}
-                    likesCount={video && video?.likesCount}
+                    id={video?._id}
+                    isLiked={video?.isLiked}
+                    likesCount={video?.likesCount}
                     className={"px-4"}
                     iconSize={"w-8"}
                   />

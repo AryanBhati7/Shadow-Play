@@ -50,10 +50,11 @@ export const useDeleteComment = () => {
   });
 };
 
-export const useComments = (videoId) => {
+export const useComments = (videoId, authenticated) => {
   return useInfiniteQuery({
     queryKey: ["comments", videoId],
-    queryFn: ({ pageParam = 1 }) => getAllComments(videoId, pageParam),
+    queryFn: ({ pageParam = 1 }) =>
+      getAllComments(videoId, authenticated, pageParam),
     getNextPageParam: (lastPage) => {
       if (lastPage.hasNextPage === false) return;
       return lastPage.nextPage;

@@ -7,9 +7,15 @@ const API = axios.create({
   withCredentials: true,
 });
 
-export const getAllComments = async (videoId = null, page = null) => {
+export const getAllComments = async (
+  videoId = null,
+  authenticated = true,
+  page = null
+) => {
   try {
-    const url = new URL(`${BASE_URL}/comment/${videoId}`);
+    const url = new URL(
+      `${BASE_URL}/comment/${videoId}${authenticated ? "" : "?guest=true"}`
+    );
 
     if (page) url.searchParams.set("page", page);
     // if (limit) url.searchParams.set("limit", limit);

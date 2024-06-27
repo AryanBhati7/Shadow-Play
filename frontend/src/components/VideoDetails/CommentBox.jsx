@@ -25,7 +25,11 @@ function CommentBox({ videoId }) {
     resolver: zodResolver(schema),
   });
 
-  const { data: comments, fetchNextPage, isFetched } = useComments(videoId);
+  const {
+    data: comments,
+    fetchNextPage,
+    isFetched,
+  } = useComments(videoId, authStatus);
   const { ref, inView } = useInView();
 
   useEffect(() => {

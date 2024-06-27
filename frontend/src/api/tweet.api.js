@@ -7,11 +7,14 @@ const API = axios.create({
   withCredentials: true,
 });
 
-export const getAllTweets = async ({ pageParam = 1 }) => {
+export const getAllTweets = async ({ pageParam = 1, authenticated = true }) => {
   try {
-    const { data } = await API.get("/tweet", {
-      params: { page: pageParam, limit: 10 },
-    });
+    const { data } = await API.get(
+      `/tweet${authenticated ? "" : "?guest=true"}`,
+      {
+        params: { page: pageParam, limit: 10 },
+      }
+    );
     return data?.data;
   } catch (error) {
     toast.error(error?.response?.data?.error || "Failed to fetch tweets");

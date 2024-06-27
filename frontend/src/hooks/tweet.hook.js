@@ -13,10 +13,10 @@ import {
   getAllTweets,
 } from "../api/tweet.api";
 
-export const useAllTweets = () => {
+export const useAllTweets = (authenticated) => {
   return useInfiniteQuery({
     queryKey: ["tweets"],
-    queryFn: ({ pageParam = 1 }) => getAllTweets({ pageParam }),
+    queryFn: ({ pageParam = 1 }) => getAllTweets({ pageParam, authenticated }),
     getNextPageParam: (lastPage) => {
       if (lastPage.hasNextPage) {
         return lastPage.nextPage;

@@ -8,6 +8,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 const getVideoComments = asyncHandler(async (req, res) => {
   const { videoId } = req.params;
   const { page = 1, limit = 10 } = req.query;
+  const isGuest = req.query.guest === "true";
 
   if (!isValidObjectId(videoId)) throw new ApiError(401, "Invalid VideoID");
 
@@ -47,9 +48,15 @@ const getVideoComments = asyncHandler(async (req, res) => {
         },
         isLiked: {
           $cond: {
-            if: { $in: [req.user?._id, "$likes.likedBy"] },
-            then: true,
-            else: false,
+            if: isGuest,
+            then: false,
+            else: {
+              $cond: {
+                if: { $in: [req.user?._id, "$likes.likedBy"] },
+                then: true,
+                else: false,
+              },
+            },
           },
         },
       },
@@ -74,6 +81,7 @@ const getVideoComments = asyncHandler(async (req, res) => {
       },
     },
   ]);
+
   if (!commentsAggregate) {
     throw new ApiError(500, "Error creating comments aggregate");
   }

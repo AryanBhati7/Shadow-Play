@@ -26,12 +26,13 @@ export const useVideos = (options = {}) => {
   });
 };
 
-export const useVideoById = (videoId) => {
+export const useVideoById = (videoId, isAuthenticated) => {
   const queryClient = useQueryClient();
 
   return useQuery({
     queryKey: ["video", videoId],
-    queryFn: () => getVideoById(videoId),
+    queryFn: () =>
+      isAuthenticated ? getVideoById(videoId) : getVideoById(videoId, false),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["watchHistory"] });
     },
