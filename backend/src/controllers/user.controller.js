@@ -126,8 +126,8 @@ const loginUser = asyncHandler(async (req, res) => {
   );
 
   res.setHeader("Set-Cookie", [
-    `accessToken=${accessToken}; Max-Age=${1 * 24 * 60 * 60}; Path=/; HttpOnly; Secure; SameSite=Lax`,
-    `refreshToken=${refreshToken}; Max-Age=${15 * 24 * 60 * 60}; Path=/; HttpOnly; Secure; SameSite=Lax`,
+    `accessToken=${accessToken}; Max-Age=${1 * 24 * 60 * 60}; Path=/; HttpOnly; Secure; SameSite=None`,
+    `refreshToken=${refreshToken}; Max-Age=${15 * 24 * 60 * 60}; Path=/; HttpOnly; Secure; SameSite=None`,
   ]);
   return res.status(200).json(
     new ApiResponse(
@@ -193,8 +193,8 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
       await generateAccessAndRefreshTokens(user._id);
 
     res.setHeader("Set-Cookie", [
-      `accessToken=${accessToken}; Max-Age=${1 * 24 * 60 * 60}; Path=/; HttpOnly; Secure; SameSite=Lax`,
-      `refreshToken=${newRefreshToken}; Max-Age=${15 * 24 * 60 * 60}; Path=/; HttpOnly; Secure; SameSite=Lax`,
+      `accessToken=${accessToken}; Max-Age=${1 * 24 * 60 * 60}; Path=/; HttpOnly; Secure; SameSite=None`,
+      `refreshToken=${newRefreshToken}; Max-Age=${15 * 24 * 60 * 60}; Path=/; HttpOnly; Secure; SameSite=None`,
     ]);
 
     return res
