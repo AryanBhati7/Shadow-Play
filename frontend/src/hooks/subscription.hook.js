@@ -14,6 +14,9 @@ export const useSubscribe = () => {
         queryKey: ["subscribedChannels"],
       });
       queryClient.invalidateQueries({
+        queryKey: ["video"],
+      });
+      queryClient.invalidateQueries({
         queryKey: ["channelSubscribers"],
       });
     },

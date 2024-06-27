@@ -122,7 +122,6 @@ export const getNextVideos = async (videoId) => {
 };
 
 export const updateVideoViews = async (videoId) => {
-  console.log(videoId, "VideoId update views");
   try {
     const { data } = await API.patch(`/video/update/views/${videoId}`);
     return data?.data;

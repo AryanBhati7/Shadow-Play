@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useUpdateVideoViews, useVideoById } from "../hooks/video.hook.js";
@@ -21,31 +21,36 @@ function VideoDetail() {
   const dispatch = useDispatch();
   const { videoId } = useParams();
   const authStatus = useSelector((state) => state.auth.authStatus);
+  const viewUpdated = useRef(false);
 
   const {
     data: video,
     isError,
     isFetching,
     isRefetching,
+    isSuccess,
   } = useVideoById(videoId, authStatus);
   const { mutateAsync: updateVideoViews } = useUpdateVideoViews();
   const userId = useSelector((state) => state.auth.user?._id);
   const isOwner = video?.owner?._id === userId ? true : false;
+
   useEffect(() => {
     dispatch(setSideBarFullSize(false));
 
     if (video) {
       dispatch(setVideo(video));
     }
-    if (authStatus && video) {
+
+    if (authStatus && isSuccess && !viewUpdated.current) {
       updateVideoViews(videoId);
+      viewUpdated.current = true;
     }
 
     return () => {
       dispatch(setSideBarFullSize(true));
       dispatch(setVideo(null));
     };
-  }, [dispatch, video]);
+  }, [dispatch, video, authStatus, isSuccess, videoId, updateVideoViews]);
 
   if (isFetching && !isRefetching) {
     return (
