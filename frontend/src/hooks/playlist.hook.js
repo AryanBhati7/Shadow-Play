@@ -62,7 +62,12 @@ export const useAddVideoToPlaylist = () => {
     mutationFn: ({ videoId, playlistId }) =>
       addVideoToPlaylist(videoId, playlistId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["playlists"] });
+      queryClient.invalidateQueries({
+        queryKey: ["check-video"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["playlists"],
+      });
     },
   });
 };
@@ -78,5 +83,6 @@ export const useIsVideoInPlaylist = (videoId, playlistId) => {
   return useQuery({
     queryKey: ["check-video", videoId, playlistId],
     queryFn: () => checkVideoInPlaylist(videoId, playlistId),
+    staleTime: 1000 * 60 * 4,
   });
 };

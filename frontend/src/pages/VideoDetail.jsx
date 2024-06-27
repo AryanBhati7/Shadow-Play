@@ -34,6 +34,8 @@ function VideoDetail() {
   const userId = useSelector((state) => state.auth.user?._id);
   const isOwner = video?.owner?._id === userId ? true : false;
 
+  console.log(video);
+
   useEffect(() => {
     dispatch(setSideBarFullSize(false));
 

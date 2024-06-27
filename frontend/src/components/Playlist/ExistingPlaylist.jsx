@@ -11,9 +11,12 @@ function ExistingPlaylist({ videoId }) {
     data: existingPlaylists,
     isFetched,
     isFetching,
+    isRefetching,
   } = usePlaylistsByUser(userId);
 
-  console.log(isFetching);
+  if (isRefetching && !isFetched) {
+    return <ProgressBar />;
+  }
 
   return (
     <ul className="mb-4">
