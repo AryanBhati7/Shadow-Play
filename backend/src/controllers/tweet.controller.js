@@ -93,10 +93,6 @@ const getUserTweets = asyncHandler(async (req, res) => {
     options
   );
 
-  if (!tweets || tweets.docs.length === 0) {
-    throw new ApiError(404, "Tweets not found");
-  }
-
   return res
     .status(200)
     .json(new ApiResponse(200, tweets, "Tweets fetched successfully"));
@@ -186,10 +182,6 @@ const getAllTweets = asyncHandler(async (req, res) => {
     Tweet.aggregate(aggregationPipeline),
     options
   );
-
-  if (!tweets || tweets.docs.length === 0) {
-    throw new ApiError(404, "Tweets not found");
-  }
 
   return res
     .status(200)

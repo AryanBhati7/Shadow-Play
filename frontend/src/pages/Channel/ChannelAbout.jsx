@@ -14,7 +14,7 @@ import { ProgressBar } from "../../components";
 const ChannelAbout = () => {
   const channel = useSelector((state) => state.channel.channel);
   const { data: channelAbout, isFetching } = useChannelAbout();
-  console.log(channelAbout);
+
   const channelDetails = [
     {
       icon: FaEnvelope,

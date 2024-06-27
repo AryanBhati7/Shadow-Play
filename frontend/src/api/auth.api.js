@@ -19,6 +19,7 @@ API.interceptors.response.use(
     ) {
       originalRequest._retry = true; // Mark this request as retried
       try {
+        console.log("this refresh access token called");
         const { accessToken } = await refreshAccessToken(); // Assume this function refreshes the token and returns the new one
         // Update the authorization header with the new token
         API.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;

@@ -11,7 +11,9 @@ function ChannelVideos() {
     data: channelVideos,
     isFetching,
     isFetched,
-  } = useVideos({ channelId });
+  } = useVideos({ userId: channelId });
+
+  console.log(channelVideos);
   if (isFetching) {
     return (
       <>
@@ -28,7 +30,7 @@ function ChannelVideos() {
     );
   }
 
-  if (channelVideos?.pages?.length === 0) {
+  if (channelVideos?.pages[0]?.totalDocs === 0) {
     return (
       <div className="flex justify-center p-4">
         <div className="w-full max-w-sm text-center">
