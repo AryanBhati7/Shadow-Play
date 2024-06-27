@@ -8,8 +8,8 @@ import AuthLayout from "../AuthLayout";
 
 function Like({ id, isLiked, likesCount, type, className, iconSize }) {
   const authStatus = useSelector((state) => state.auth.authStatus);
-  const [isLikedState, setIsLikedState] = useState(isLiked);
-  const [likesCountState, setLikesCountState] = useState(likesCount);
+  const [isLikedState, setIsLikedState] = useState(false);
+  const [likesCountState, setLikesCountState] = useState(null);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
 
   useEffect(() => {
@@ -30,11 +30,14 @@ function Like({ id, isLiked, likesCount, type, className, iconSize }) {
     if (!authStatus) {
       return setShowLoginPopup(true);
     }
-    setIsLikedState(!isLikedState);
-    setLikesCountState(
-      isLikedState ? likesCountState - 1 : likesCountState + 1
-    );
-    await like(id);
+
+    const res = await like(id);
+    if (res) {
+      setIsLikedState(!isLikedState);
+      setLikesCountState(
+        isLikedState ? likesCountState - 1 : likesCountState + 1
+      );
+    }
   };
 
   if (showLoginPopup)
@@ -53,7 +56,7 @@ function Like({ id, isLiked, likesCount, type, className, iconSize }) {
           className={`${className} w-full justify-center   flex items-center gap-x-1 py-1.5 hover:bg-white/10`}
         >
           <span className="inline-block">
-            {isLikedState ? <FaThumbsUp /> : <FaRegThumbsUp />}
+            {isLiked ? <FaThumbsUp /> : <FaRegThumbsUp />}
           </span>
           <span className="text-md text-gray-400">{likesCountState}</span>
         </button>

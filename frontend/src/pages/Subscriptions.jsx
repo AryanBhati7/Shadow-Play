@@ -24,10 +24,12 @@ function Subscriptions() {
       <div className="grid grid-cols-2 md:grid-cols-6 lg:grid-cols-10 gap-2">
         {subscriptions &&
           subscriptions.map((channel) => (
-            <ChannelSubscribed
+            <Link
+              to={`/channel/${channel?.subscribedChannel?.username}`}
               key={channel?.subscribedChannel?._id}
-              channel={channel?.subscribedChannel}
-            />
+            >
+              <ChannelSubscribed channel={channel?.subscribedChannel} />
+            </Link>
           ))}
       </div>
       <div>

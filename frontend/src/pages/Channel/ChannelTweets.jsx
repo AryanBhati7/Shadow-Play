@@ -1,28 +1,46 @@
-import React from "react";
-import { Like, SubscriberSkeleton, Tweet } from "../../components";
-import { useTweets } from "../../hooks/tweet.hook";
+import React, { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 import { useSelector } from "react-redux";
-import { TweetInput } from "../../components/index";
+import { Like, SubscriberSkeleton, Tweet, TweetInput } from "../../components";
+import { useChannelTweets } from "../../hooks/tweet.hook";
 
 function ChannelTweets() {
   const channelId = useSelector((state) => state.channel.channel?._id);
   const currentUserId = useSelector((state) => state.auth.user?._id);
-
   const isOwner = channelId === currentUserId;
-  const { data: channelTweets, isFetching } = useTweets(channelId);
 
-  if (isFetching)
-    return (
-      <div className="flex flex-col justify-center gap-3">
-        {Array(5)
-          .fill()
-          .map((_, index) => (
-            <SubscriberSkeleton key={index} />
-          ))}
-      </div>
-    );
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isFetching,
+    isFetched,
+  } = useChannelTweets(channelId);
 
-  if (channelTweets && channelTweets.length === 0) {
+  const { ref, inView } = useInView();
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage]);
+
+  // if (isFetching && !isFetchingNextPage) {
+  //   return (
+  //     <div className="flex flex-col justify-center gap-3">
+  //       {Array(5)
+  //         .fill()
+  //         .map((_, index) => (
+  //           <SubscriberSkeleton key={index} />
+  //         ))}
+  //     </div>
+  //   );
+  // }
+
+  const allTweets = data?.pages.flatMap((page) => page.docs) || [];
+
+  if (isFetched && allTweets.length === 0) {
     return (
       <>
         {isOwner && <TweetInput />}
@@ -57,17 +75,26 @@ function ChannelTweets() {
         </div>
       </>
     );
-  } else {
-    return (
-      <>
-        {isOwner && <TweetInput />}
-        {channelTweets &&
-          channelTweets.map((tweet) => (
-            <Tweet key={tweet._id} isOwner={isOwner} tweet={tweet} />
-          ))}
-      </>
-    );
   }
+
+  return (
+    <>
+      {isOwner && <TweetInput />}
+      {allTweets.map((tweet) => (
+        <Tweet key={tweet._id} isOwner={isOwner} tweet={tweet} />
+      ))}
+      {isFetchingNextPage && (
+        <div className="flex flex-col justify-center gap-3">
+          {Array(3)
+            .fill()
+            .map((_, index) => (
+              <SubscriberSkeleton key={index} />
+            ))}
+        </div>
+      )}
+      <div ref={ref}></div>
+    </>
+  );
 }
 
 export default ChannelTweets;

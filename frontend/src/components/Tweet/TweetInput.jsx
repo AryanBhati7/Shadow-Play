@@ -1,15 +1,30 @@
 import React, { useState } from "react";
 import { useAddTweet } from "../../hooks/tweet.hook";
+import { useSelector } from "react-redux";
+import LoginPopup from "../LoginPopup";
 
-function TweetInput({ initialTweet }) {
-  const [tweet, setTweet] = useState(initialTweet || "");
+function TweetInput() {
+  const authStatus = useSelector((state) => state.auth.authStatus);
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [tweet, setTweet] = useState("");
 
   const { mutateAsync: addTweet, isPending } = useAddTweet();
 
   const sendTweet = async () => {
+    if (!authStatus) {
+      return setShowLoginPopup(true);
+    }
     await addTweet({ tweet });
     setTweet("");
   };
+
+  if (showLoginPopup)
+    return (
+      <LoginPopup
+        loginTo={"write Tweet"}
+        onClose={() => setShowLoginPopup(false)}
+      />
+    );
 
   return (
     <div className="w-full mt-3 ">

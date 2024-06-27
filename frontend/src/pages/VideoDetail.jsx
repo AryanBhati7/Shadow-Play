@@ -31,9 +31,9 @@ function VideoDetail() {
 
     if (video) {
       dispatch(setVideo(video));
-      if (authStatus) {
-        updateVideoViews(videoId);
-      }
+    }
+    if (authStatus && video) {
+      updateVideoViews(videoId);
     }
 
     return () => {

@@ -2,6 +2,7 @@ import React from "react";
 import { FiX } from "react-icons/fi";
 import { LoginForm, Logo } from "./index.js";
 import { useDispatch } from "react-redux";
+import { setUser } from "../features/authSlice.js";
 
 const LoginPopup = ({ onClose, loginTo }) => {
   const dispatch = useDispatch();

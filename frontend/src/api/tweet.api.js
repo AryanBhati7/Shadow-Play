@@ -7,13 +7,27 @@ const API = axios.create({
   withCredentials: true,
 });
 
-export const getChannelTweets = async (channelId) => {
-  console.log("getChannelTweets called");
+export const getAllTweets = async ({ pageParam = 1 }) => {
   try {
-    const { data } = await API.get(`/tweet/user/${channelId}`);
+    const { data } = await API.get("/tweet", {
+      params: { page: pageParam, limit: 10 },
+    });
     return data?.data;
   } catch (error) {
-    toast.error(error?.response?.data?.error);
+    toast.error(error?.response?.data?.error || "Failed to fetch tweets");
+    throw error?.response?.data?.error;
+  }
+};
+export const getChannelTweets = async ({ pageParam = 1, channelId }) => {
+  try {
+    const { data } = await API.get(`/tweet/user/${channelId}`, {
+      params: { page: pageParam, limit: 10 },
+    });
+    return data?.data;
+  } catch (error) {
+    toast.error(
+      error?.response?.data?.error || "Failed to fetch channel tweets"
+    );
     throw error?.response?.data?.error;
   }
 };

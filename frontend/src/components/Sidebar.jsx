@@ -11,6 +11,7 @@ import { CiSettings } from "react-icons/ci";
 import { RxQuestionMarkCircled } from "react-icons/rx";
 import { useSelector } from "react-redux";
 import Logo from "./Logo";
+import { FaRegCommentDots } from "react-icons/fa";
 
 function Sidebar() {
   const fullSize = useSelector((state) => state.ui.sideBarFullSize);
@@ -50,6 +51,12 @@ function Sidebar() {
       name: "Subscriptions",
       path: "/subscriptions",
       icon: <LiaUserCheckSolid />,
+      onMobile: true,
+    },
+    {
+      name: "Tweets",
+      path: "/tweets",
+      icon: <FaRegCommentDots />,
       onMobile: true,
     },
   ];

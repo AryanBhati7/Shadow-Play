@@ -13,6 +13,8 @@ function ExistingPlaylist({ videoId }) {
     isFetching,
   } = usePlaylistsByUser(userId);
 
+  console.log(isFetching);
+
   return (
     <ul className="mb-4">
       {isFetched && existingPlaylists?.length > 0 ? (

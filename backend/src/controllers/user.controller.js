@@ -127,7 +127,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
   res.setHeader(
     "Set-Cookie",
-    `accessToken=${accessToken}; Max-Age=${1 * 24 * 60 * 60 * 1000}; Path=/;  HttpOnly; Secure; SameSite=None; Secure; Partitioned`
+    `accessToken=${accessToken}; Max-Age=${1 * 24 * 60 * 60 * 1000}; Path=/; HttpOnly; Secure; SameSite=Lax`
   );
   return res.status(200).json(
     new ApiResponse(
@@ -158,9 +158,10 @@ const logoutUser = asyncHandler(async (req, res) => {
       new: true,
     }
   );
+
   res.setHeader(
     "Set-Cookie",
-    `accessToken=; Max-Age=-1; Path=/; HttpOnly; SameSite=None; Secure; Partitioned`
+    `accessToken=; Max-Age==-1; Path=/; HttpOnly; Secure; SameSite=Lax`
   );
 
   return res
@@ -184,7 +185,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
     if (!user) throw new ApiError(401, "Invalid refresh Token");
 
-    if (incomingRefreshToken !== user?.refreshAccessToken) {
+    if (incomingRefreshToken !== user?.refreshToken) {
       throw new ApiError(401, "Refresh token is Expired or used");
     }
 

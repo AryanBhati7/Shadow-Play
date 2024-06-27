@@ -10,6 +10,7 @@ import Subscriptions from "./Subscriptions";
 import EditProfile from "./EditProfile";
 import Support from "./Support";
 import Playlist from "./Playlist";
+import Tweets from "./Tweets";
 
 import ChannelPlaylist from "./Channel/ChannelPlaylist";
 import ChannelSubscribers from "./Channel/ChannelSubscribers";
@@ -23,6 +24,7 @@ import EditPersonalInfo from "./EditProfile/EditPersonalInfo";
 import SearchVideos from "./SearchVideos";
 
 export {
+  Tweets,
   ChannelAbout,
   SearchVideos,
   Home,

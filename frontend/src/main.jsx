@@ -25,6 +25,7 @@ import {
   Support,
   Playlist,
   SearchVideos,
+  Tweets,
 } from "./pages/index.js";
 import AuthLayout from "./components/AuthLayout.jsx";
 import { Provider } from "react-redux";
@@ -196,6 +197,14 @@ const router = createBrowserRouter([
         element: (
           <AuthLayout auth={false}>
             <SearchVideos />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/tweets",
+        element: (
+          <AuthLayout auth={false}>
+            <Tweets />
           </AuthLayout>
         ),
       },

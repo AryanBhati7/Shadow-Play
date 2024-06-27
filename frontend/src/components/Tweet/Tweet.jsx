@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { timeAgo } from "../../assets/timeAgo";
 import { DropDown, Like } from "../index.js";
 import { useDeleteTweet, useEditTweet } from "../../hooks/tweet.hook.js";
+import { useSelector } from "react-redux";
 
 function Tweet({ tweet, isOwner }) {
+  const authStatus = useSelector((state) => state.auth.authStatus);
   const [isEditing, setIsEditing] = useState(false);
   const [editedTweet, setEditedTweet] = useState(tweet?.content);
 
@@ -40,7 +42,7 @@ function Tweet({ tweet, isOwner }) {
           <img
             src={tweet?.ownerDetails?.avatar?.url}
             alt={tweet?.ownerDetails?.username}
-            className="h-full w-full rounded-full"
+            className="h-full w-full rounded-full object-cover"
           />
         </div>
         <div className="w-full">
@@ -81,7 +83,7 @@ function Tweet({ tweet, isOwner }) {
         </div>
       </div>
       <div className="sm:w-[4%] w-[10%] mr-5  flex flex-col gap-3 h-full items-center justify-center">
-        {isOwner && (
+        {authStatus && isOwner && (
           <div className="w-full flex items-center mr-6">
             <DropDown
               handleDelete={handleDelete}
