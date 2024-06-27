@@ -160,8 +160,8 @@ const logoutUser = asyncHandler(async (req, res) => {
   );
 
   res.setHeader("Set-Cookie", [
-    "accessToken=; Max-Age=-1; Path=/; HttpOnly; Secure; SameSite=Lax",
-    "refreshToken=; Max-Age=-1; Path=/; HttpOnly; Secure; SameSite=Lax",
+    "accessToken=; Max-Age=-1; Path=/; HttpOnly; Secure; SameSite=None",
+    "refreshToken=; Max-Age=-1; Path=/; HttpOnly; Secure; SameSite=None",
   ]);
 
   return res
