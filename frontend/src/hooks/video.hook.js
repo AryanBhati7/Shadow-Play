@@ -96,7 +96,11 @@ export const useEditVideo = () => {
 };
 
 export const useUpdateVideoViews = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (videoId) => updateVideoViews(videoId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["videos"] });
+    },
   });
 };
