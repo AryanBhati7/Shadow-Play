@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { MdOutlineCloudUpload, MdEdit } from "react-icons/md";
 import { useUpdateAvatar } from "../../hooks/user.hook";
 
-function AvatarInput({ setAvatar, avatar }) {
+function AvatarInput({ avatar }) {
   const [profilePic, setProfilePic] = useState(null);
-  const [selectedProfile, setSelectedProfile] = useState(avatar.url || "");
+  const [selectedProfile, setSelectedProfile] = useState(avatar || "");
 
   const { mutateAsync: uploadAvatar, isPending } = useUpdateAvatar();
 
@@ -13,6 +13,7 @@ function AvatarInput({ setAvatar, avatar }) {
 
     const uploadedAvatar = await uploadAvatar(profilePic);
     if (uploadedAvatar) {
+      setSelectedProfile(uploadedAvatar?.data?.avatar?.url);
       setProfilePic(null);
     }
   };

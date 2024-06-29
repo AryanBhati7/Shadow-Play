@@ -13,7 +13,6 @@ function ChannelVideos() {
     isFetched,
   } = useVideos({ userId: channelId });
 
-  console.log(channelVideos);
   if (isFetching) {
     return (
       <>

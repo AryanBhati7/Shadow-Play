@@ -62,7 +62,7 @@ function LoginForm({ onLogin }) {
       {errors.password && (
         <span className="text-red-500 text-sm">{errors.password.message}</span>
       )}
-      {isError && <span className="text-red-500 text-sm">{error.message}</span>}
+      {/* {isError && <span className="text-red-500 text-sm">{error.message}</span>} */}
       <SpButton type="submit">{isPending ? "Logging In" : "Login"}</SpButton>
     </form>
   );

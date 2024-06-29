@@ -27,14 +27,13 @@ function EditProfile() {
         <div className="absolute inset-0 overflow-hidden">
           <CoverImageInput
             coverImage={channelInfo?.coverImage?.url || defaultCoverImg}
-            setCoverImage={null}
           />
         </div>
       </div>
       <div className="px-4 pb-4">
         <div className="flex flex-wrap gap-4 pb-4 pt-6">
           <span className="relative -mt-12 inline-block h-28 w-28 shrink-0 rounded-full border-2">
-            <AvatarInput avatar={channelInfo?.avatar} setAvatar={null} />
+            <AvatarInput avatar={channelInfo?.avatar?.url} />
           </span>
           <div className="mr-auto inline-block">
             <h1 className="font-bolg text-xl">{channelInfo?.fullName}</h1>

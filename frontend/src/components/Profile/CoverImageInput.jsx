@@ -14,8 +14,8 @@ function CoverImageInput({ children, setCoverImage, coverImage }) {
     console.log(coverPic);
 
     const uploadedCover = await updateCoverImg(coverPic);
-
     if (uploadedCover) {
+      setSelectedCover(uploadedCover?.data?.coverImage?.url);
       setCoverPic(null);
     }
   };

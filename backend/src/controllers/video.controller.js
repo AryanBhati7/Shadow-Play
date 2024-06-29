@@ -137,7 +137,7 @@ const publishAVideo = asyncHandler(async (req, res) => {
     },
     thumbnail: {
       fileId: thumbnailFile.public_id,
-      url: thumbnailFile.url,
+      url: thumbnailFile.secure_url,
     },
     duration: videoFile.duration,
     title,
@@ -404,7 +404,7 @@ const updateVideo = asyncHandler(async (req, res) => {
 
     update.$set.thumbnail = {
       fileId: thumbnailFile.public_id,
-      url: thumbnailFile.url,
+      url: thumbnailFile.secure_url,
     };
   }
 

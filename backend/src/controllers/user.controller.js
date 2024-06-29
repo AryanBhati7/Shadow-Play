@@ -79,11 +79,11 @@ const registerUser = asyncHandler(async (req, res) => {
     fullName,
     avatar: {
       fileId: avatar.public_id,
-      url: avatar.url,
+      url: avatar.secure_url,
     },
     coverImage: {
       fileId: coverImage?.public_id || "",
-      url: coverImage?.url || "",
+      url: coverImage?.secure_url || "",
     },
     email,
     password,
@@ -278,7 +278,8 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
   try {
     const avatar = await uploadOnCloudinary(avatarLocalPath, avatar_upOptions);
 
-    if (!avatar.url) throw new ApiError(501, "Error while uploading Avatar");
+    if (!avatar.secure_url)
+      throw new ApiError(501, "Error while uploading Avatar");
 
     await deleteFromCloudinary(req.user?.avatar.fileId);
 
@@ -288,7 +289,7 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
         $set: {
           avatar: {
             fileId: avatar.public_id,
-            url: avatar.url,
+            url: avatar.secure_url,
           },
         },
       },
@@ -316,7 +317,8 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
       coverImageLocalPath,
       coverImg_upOptions
     );
-    if (!coverImage.url)
+
+    if (!coverImage.secure_url)
       throw new ApiError(501, "Error while uploading Cover Image");
 
     await deleteFromCloudinary(req.user?.coverImage.fileId);
@@ -326,7 +328,7 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
         $set: {
           coverImage: {
             fileId: coverImage.public_id,
-            url: coverImage.url,
+            url: coverImage.secure_url,
           },
         },
       },

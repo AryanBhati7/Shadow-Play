@@ -1,32 +1,43 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
+const App = lazy(() => import("./App.jsx"));
+import { LoadingSpinner } from "./components/index.js";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import {
-  Signup,
-  Home,
-  Login,
-  VideoDetail,
-  LikedVideos,
-  MyChannel,
-  MyStudio,
-  Subscriptions,
-  History,
-  ChannelPlaylist,
-  ChannelSubscribers,
-  ChannelVideos,
-  ChannelTweets,
-  ChannelAbout,
-  EditPersonalInfo,
-  EditChangePassword,
-  EditProfile,
-  EditChannelInfo,
-  Support,
-  Playlist,
-  SearchVideos,
-  Tweets,
-} from "./pages/index.js";
+
+const Signup = lazy(() => import("./pages/Signup.jsx"));
+const Home = lazy(() => import("./pages/Home.jsx"));
+const Login = lazy(() => import("./pages/Login.jsx"));
+const VideoDetail = lazy(() => import("./pages/VideoDetail.jsx"));
+const LikedVideos = lazy(() => import("./pages/LikedVideos.jsx"));
+const MyChannel = lazy(() => import("./pages/MyChannel.jsx"));
+const MyStudio = lazy(() => import("./pages/MyStudio.jsx"));
+const Subscriptions = lazy(() => import("./pages/Subscriptions.jsx"));
+const History = lazy(() => import("./pages/History.jsx"));
+const ChannelPlaylist = lazy(() =>
+  import("./pages/Channel/ChannelPlaylist.jsx")
+);
+const ChannelSubscribers = lazy(() =>
+  import("./pages/Channel/ChannelSubscribers.jsx")
+);
+const ChannelVideos = lazy(() => import("./pages/Channel/ChannelVideos.jsx"));
+const ChannelTweets = lazy(() => import("./pages/Channel/ChannelTweets.jsx"));
+const ChannelAbout = lazy(() => import("./pages/Channel/ChannelAbout.jsx"));
+const EditPersonalInfo = lazy(() =>
+  import("./pages/EditProfile/EditPersonalInfo.jsx")
+);
+const EditChangePassword = lazy(() =>
+  import("./pages/EditProfile/EditChangePassword.jsx")
+);
+const EditProfile = lazy(() => import("./pages/EditProfile.jsx"));
+const EditChannelInfo = lazy(() =>
+  import("./pages/EditProfile/EditChannelInfo.jsx")
+);
+const Support = lazy(() => import("./pages/Support.jsx"));
+const Playlist = lazy(() => import("./pages/Playlist.jsx"));
+const SearchVideos = lazy(() => import("./pages/SearchVideos.jsx"));
+const Tweets = lazy(() => import("./pages/Tweets.jsx"));
+
 import AuthLayout from "./components/AuthLayout.jsx";
 import { Provider } from "react-redux";
 import store from "./store/store.js";
@@ -42,13 +53,19 @@ const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <Suspense fallback={<LoadingSpinner />}>
+        <App />
+      </Suspense>
+    ),
     children: [
       {
         path: "/",
         element: (
           <AuthLayout auth={false}>
-            <Home />
+            <Suspense fallback={<LoadingSpinner />}>
+              <Home />
+            </Suspense>
           </AuthLayout>
         ),
       },
@@ -56,7 +73,9 @@ const router = createBrowserRouter([
         path: "/video/:videoId",
         element: (
           <AuthLayout auth={false}>
-            <VideoDetail />
+            <Suspense fallback={<LoadingSpinner />}>
+              <VideoDetail />
+            </Suspense>
           </AuthLayout>
         ),
       },
@@ -64,7 +83,9 @@ const router = createBrowserRouter([
         path: "/liked-videos",
         element: (
           <AuthLayout auth={true} pageName={"LikedVideos"}>
-            <LikedVideos />
+            <Suspense fallback={<LoadingSpinner />}>
+              <LikedVideos />
+            </Suspense>
           </AuthLayout>
         ),
       },
@@ -72,7 +93,9 @@ const router = createBrowserRouter([
         path: "/history",
         element: (
           <AuthLayout auth={true} pageName={"History"}>
-            <History />
+            <Suspense fallback={<LoadingSpinner />}>
+              <History />
+            </Suspense>
           </AuthLayout>
         ),
       },
@@ -80,7 +103,9 @@ const router = createBrowserRouter([
         path: "/channel/:username",
         element: (
           <AuthLayout auth pageName={"MyChannel"}>
-            <MyChannel />
+            <Suspense fallback={<LoadingSpinner />}>
+              <MyChannel />
+            </Suspense>
           </AuthLayout>
         ),
         children: [
@@ -88,7 +113,9 @@ const router = createBrowserRouter([
             path: "videos",
             element: (
               <AuthLayout auth>
-                <ChannelVideos />
+                <Suspense fallback={<LoadingSpinner />}>
+                  <ChannelVideos />
+                </Suspense>
               </AuthLayout>
             ),
           },
@@ -96,7 +123,9 @@ const router = createBrowserRouter([
             path: "tweets",
             element: (
               <AuthLayout auth>
-                <ChannelTweets />
+                <Suspense fallback={<LoadingSpinner />}>
+                  <ChannelTweets />
+                </Suspense>
               </AuthLayout>
             ),
           },
@@ -104,7 +133,9 @@ const router = createBrowserRouter([
             path: "playlist",
             element: (
               <AuthLayout auth>
-                <ChannelPlaylist />
+                <Suspense fallback={<LoadingSpinner />}>
+                  <ChannelPlaylist />
+                </Suspense>
               </AuthLayout>
             ),
           },
@@ -112,15 +143,19 @@ const router = createBrowserRouter([
             path: "subscribers",
             element: (
               <AuthLayout auth>
-                <ChannelSubscribers />
+                <Suspense fallback={<LoadingSpinner />}>
+                  <ChannelSubscribers />
+                </Suspense>
               </AuthLayout>
             ),
           },
           {
             path: "about",
             element: (
-              <AuthLayout>
-                <ChannelAbout auth />
+              <AuthLayout auth>
+                <Suspense fallback={<LoadingSpinner />}>
+                  <ChannelAbout />
+                </Suspense>
               </AuthLayout>
             ),
           },
@@ -130,7 +165,9 @@ const router = createBrowserRouter([
         path: "/my-studio",
         element: (
           <AuthLayout auth pageName={"MyStudio"}>
-            <MyStudio />
+            <Suspense fallback={<LoadingSpinner />}>
+              <MyStudio />
+            </Suspense>
           </AuthLayout>
         ),
       },
@@ -138,7 +175,9 @@ const router = createBrowserRouter([
         path: "/subscriptions",
         element: (
           <AuthLayout auth pageName={"Subscriptions"}>
-            <Subscriptions />
+            <Suspense fallback={<LoadingSpinner />}>
+              <Subscriptions />
+            </Suspense>
           </AuthLayout>
         ),
       },
@@ -146,7 +185,9 @@ const router = createBrowserRouter([
         path: "/edit-profile",
         element: (
           <AuthLayout auth pageName={"Settings"}>
-            <EditProfile />
+            <Suspense fallback={<LoadingSpinner />}>
+              <EditProfile />
+            </Suspense>
           </AuthLayout>
         ),
         children: [
@@ -154,7 +195,9 @@ const router = createBrowserRouter([
             path: "change-password",
             element: (
               <AuthLayout auth>
-                <EditChangePassword />
+                <Suspense fallback={<LoadingSpinner />}>
+                  <EditChangePassword />
+                </Suspense>
               </AuthLayout>
             ),
           },
@@ -162,7 +205,9 @@ const router = createBrowserRouter([
             path: "channel-info",
             element: (
               <AuthLayout auth>
-                <EditChannelInfo />
+                <Suspense fallback={<LoadingSpinner />}>
+                  <EditChannelInfo />
+                </Suspense>
               </AuthLayout>
             ),
           },
@@ -170,7 +215,9 @@ const router = createBrowserRouter([
             path: "personal-info",
             element: (
               <AuthLayout auth>
-                <EditPersonalInfo />
+                <Suspense fallback={<LoadingSpinner />}>
+                  <EditPersonalInfo />
+                </Suspense>
               </AuthLayout>
             ),
           },
@@ -180,7 +227,9 @@ const router = createBrowserRouter([
         path: "/playlist/:playlistId",
         element: (
           <AuthLayout auth>
-            <Playlist />
+            <Suspense fallback={<LoadingSpinner />}>
+              <Playlist />
+            </Suspense>
           </AuthLayout>
         ),
       },
@@ -188,7 +237,9 @@ const router = createBrowserRouter([
         path: "/support",
         element: (
           <AuthLayout auth={false}>
-            <Support />
+            <Suspense fallback={<LoadingSpinner />}>
+              <Support />
+            </Suspense>
           </AuthLayout>
         ),
       },
@@ -196,7 +247,9 @@ const router = createBrowserRouter([
         path: "/search/:query",
         element: (
           <AuthLayout auth={false}>
-            <SearchVideos />
+            <Suspense fallback={<LoadingSpinner />}>
+              <SearchVideos />
+            </Suspense>
           </AuthLayout>
         ),
       },
@@ -204,7 +257,9 @@ const router = createBrowserRouter([
         path: "/tweets",
         element: (
           <AuthLayout auth={false}>
-            <Tweets />
+            <Suspense fallback={<LoadingSpinner />}>
+              <Tweets />
+            </Suspense>
           </AuthLayout>
         ),
       },
@@ -214,7 +269,9 @@ const router = createBrowserRouter([
     path: "/signup",
     element: (
       <AuthLayout auth={false}>
-        <Signup />
+        <Suspense fallback={<LoadingSpinner />}>
+          <Signup />
+        </Suspense>
       </AuthLayout>
     ),
   },
@@ -222,7 +279,9 @@ const router = createBrowserRouter([
     path: "/login",
     element: (
       <AuthLayout auth={false}>
-        <Login />
+        <Suspense fallback={<LoadingSpinner />}>
+          <Login />
+        </Suspense>
       </AuthLayout>
     ),
   },

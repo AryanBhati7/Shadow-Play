@@ -51,12 +51,17 @@ function MyChannel() {
   return (
     <section className="w-full pb-[70px] sm:ml-[70px] sm:pb-0 lg:ml-0">
       <div className="relative min-h-[150px] w-full pt-[16.28%]">
-        <div className="absolute inset-0 overflow-hidden">
-          <img
-            src={channelInfo?.coverImage?.url || defaultCover}
-            alt="cover-photo object-contain"
-          />
-        </div>
+        <div
+          className="absolute inset-0 overflow-hidden"
+          style={{
+            backgroundImage: `url(${
+              channelInfo?.coverImage?.url || defaultCover
+            })`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        ></div>
       </div>
       <div className="px-4 pb-4">
         <div className="flex flex-wrap gap-4 pb-4 pt-6">

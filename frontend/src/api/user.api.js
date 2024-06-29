@@ -48,7 +48,7 @@ export const updateUserProfile = async (data) => {
 
   try {
     const { data } = await API.patch("/users/avatar", formData);
-    console.log(data);
+
     toast.success(data?.message);
     return data;
   } catch (error) {
