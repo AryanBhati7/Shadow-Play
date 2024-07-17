@@ -11,11 +11,6 @@ import {
 } from "@vidstack/react/player/layouts/plyr";
 
 function VideoPlayer({ src, thumbnail, title, duration, autoPlay = true }) {
-  function onProviderChange(provider, nativeEvent) {
-    if (isHLSProvider(provider)) {
-      provider.library = Hls;
-    }
-  }
   return (
     <MediaPlayer
       title={title}
@@ -26,13 +21,13 @@ function VideoPlayer({ src, thumbnail, title, duration, autoPlay = true }) {
       posterLoad="eager"
       crossOrigin
       storage={`video-player-settings-${title}`}
-      onProviderChange={onProviderChange}
       duration={duration}
       streamType="on-demand"
       className="w-full h-full"
     >
-      <MediaProvider></MediaProvider>
-      <PlyrLayout posterFrame={thumbnail} icons={plyrLayoutIcons} />
+      <MediaProvider>
+        <PlyrLayout posterFrame={thumbnail} icons={plyrLayoutIcons} />
+      </MediaProvider>
     </MediaPlayer>
   );
 }

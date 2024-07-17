@@ -11,6 +11,7 @@ const API = axios.create({
 API.interceptors.response.use(
   (response) => response, // For successful requests, just return the response
   async (error) => {
+    console.log("error occured", error);
     const originalRequest = error.config;
     // Check if the error is due to an expired JWT and we haven't already retried the request
     if (
@@ -20,7 +21,9 @@ API.interceptors.response.use(
       originalRequest._retry = true; // Mark this request as retried
       try {
         console.log("this refresh access token called");
-        const { accessToken } = await refreshAccessToken(); // Assume this function refreshes the token and returns the new one
+        const { accessToken } = await refreshAccessToken();
+        console.log("new access token", accessToken);
+        // Assume this function refreshes the token and returns the new one
         // Update the authorization header with the new token
         API.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
         originalRequest.headers["Authorization"] = `Bearer ${accessToken}`;
@@ -103,8 +106,10 @@ export const changePassword = async (newPassData) => {
 };
 
 export const refreshAccessToken = async () => {
+  console.log("refresh access token called");
   try {
     const { data } = await API.post("/users/refresh-token");
+    console.log(data);
     return data?.data;
   } catch (error) {
     throw error?.response?.data?.error;

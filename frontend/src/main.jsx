@@ -54,7 +54,13 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <Suspense fallback={<LoadingSpinner />}>
+      <Suspense
+        fallback={
+          <div className="w-full">
+            <LoadingSpinner />
+          </div>
+        }
+      >
         <App />
       </Suspense>
     ),
@@ -63,7 +69,13 @@ const router = createBrowserRouter([
         path: "/",
         element: (
           <AuthLayout auth={false}>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense
+              fallback={
+                <div className="w-full">
+                  <LoadingSpinner />
+                </div>
+              }
+            >
               <Home />
             </Suspense>
           </AuthLayout>
@@ -73,7 +85,13 @@ const router = createBrowserRouter([
         path: "/video/:videoId",
         element: (
           <AuthLayout auth={false}>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense
+              fallback={
+                <div className="w-full">
+                  <LoadingSpinner />
+                </div>
+              }
+            >
               <VideoDetail />
             </Suspense>
           </AuthLayout>
@@ -83,7 +101,13 @@ const router = createBrowserRouter([
         path: "/liked-videos",
         element: (
           <AuthLayout auth={true} pageName={"LikedVideos"}>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense
+              fallback={
+                <div className="w-full">
+                  <LoadingSpinner />
+                </div>
+              }
+            >
               <LikedVideos />
             </Suspense>
           </AuthLayout>
@@ -93,7 +117,13 @@ const router = createBrowserRouter([
         path: "/history",
         element: (
           <AuthLayout auth={true} pageName={"History"}>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense
+              fallback={
+                <div className="w-full">
+                  <LoadingSpinner />
+                </div>
+              }
+            >
               <History />
             </Suspense>
           </AuthLayout>
@@ -103,7 +133,13 @@ const router = createBrowserRouter([
         path: "/channel/:username",
         element: (
           <AuthLayout auth pageName={"MyChannel"}>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense
+              fallback={
+                <div className="w-full">
+                  <LoadingSpinner />
+                </div>
+              }
+            >
               <MyChannel />
             </Suspense>
           </AuthLayout>
@@ -113,7 +149,13 @@ const router = createBrowserRouter([
             path: "videos",
             element: (
               <AuthLayout auth>
-                <Suspense fallback={<LoadingSpinner />}>
+                <Suspense
+                  fallback={
+                    <div className="w-full">
+                      <LoadingSpinner />
+                    </div>
+                  }
+                >
                   <ChannelVideos />
                 </Suspense>
               </AuthLayout>
@@ -123,7 +165,13 @@ const router = createBrowserRouter([
             path: "tweets",
             element: (
               <AuthLayout auth>
-                <Suspense fallback={<LoadingSpinner />}>
+                <Suspense
+                  fallback={
+                    <div className="w-full">
+                      <LoadingSpinner />
+                    </div>
+                  }
+                >
                   <ChannelTweets />
                 </Suspense>
               </AuthLayout>
@@ -133,7 +181,13 @@ const router = createBrowserRouter([
             path: "playlist",
             element: (
               <AuthLayout auth>
-                <Suspense fallback={<LoadingSpinner />}>
+                <Suspense
+                  fallback={
+                    <div className="w-full">
+                      <LoadingSpinner />
+                    </div>
+                  }
+                >
                   <ChannelPlaylist />
                 </Suspense>
               </AuthLayout>
@@ -143,7 +197,13 @@ const router = createBrowserRouter([
             path: "subscribers",
             element: (
               <AuthLayout auth>
-                <Suspense fallback={<LoadingSpinner />}>
+                <Suspense
+                  fallback={
+                    <div className="w-full">
+                      <LoadingSpinner />
+                    </div>
+                  }
+                >
                   <ChannelSubscribers />
                 </Suspense>
               </AuthLayout>
@@ -153,7 +213,13 @@ const router = createBrowserRouter([
             path: "about",
             element: (
               <AuthLayout auth>
-                <Suspense fallback={<LoadingSpinner />}>
+                <Suspense
+                  fallback={
+                    <div className="w-full">
+                      <LoadingSpinner />
+                    </div>
+                  }
+                >
                   <ChannelAbout />
                 </Suspense>
               </AuthLayout>
@@ -165,7 +231,13 @@ const router = createBrowserRouter([
         path: "/my-studio",
         element: (
           <AuthLayout auth pageName={"MyStudio"}>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense
+              fallback={
+                <div className="w-full">
+                  <LoadingSpinner />
+                </div>
+              }
+            >
               <MyStudio />
             </Suspense>
           </AuthLayout>
@@ -175,7 +247,13 @@ const router = createBrowserRouter([
         path: "/subscriptions",
         element: (
           <AuthLayout auth pageName={"Subscriptions"}>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense
+              fallback={
+                <div className="w-full">
+                  <LoadingSpinner />
+                </div>
+              }
+            >
               <Subscriptions />
             </Suspense>
           </AuthLayout>
@@ -185,7 +263,13 @@ const router = createBrowserRouter([
         path: "/edit-profile",
         element: (
           <AuthLayout auth pageName={"Settings"}>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense
+              fallback={
+                <div className="w-full">
+                  <LoadingSpinner />
+                </div>
+              }
+            >
               <EditProfile />
             </Suspense>
           </AuthLayout>
@@ -195,7 +279,13 @@ const router = createBrowserRouter([
             path: "change-password",
             element: (
               <AuthLayout auth>
-                <Suspense fallback={<LoadingSpinner />}>
+                <Suspense
+                  fallback={
+                    <div className="w-full">
+                      <LoadingSpinner />
+                    </div>
+                  }
+                >
                   <EditChangePassword />
                 </Suspense>
               </AuthLayout>
@@ -205,7 +295,13 @@ const router = createBrowserRouter([
             path: "channel-info",
             element: (
               <AuthLayout auth>
-                <Suspense fallback={<LoadingSpinner />}>
+                <Suspense
+                  fallback={
+                    <div className="w-full">
+                      <LoadingSpinner />
+                    </div>
+                  }
+                >
                   <EditChannelInfo />
                 </Suspense>
               </AuthLayout>
@@ -215,7 +311,13 @@ const router = createBrowserRouter([
             path: "personal-info",
             element: (
               <AuthLayout auth>
-                <Suspense fallback={<LoadingSpinner />}>
+                <Suspense
+                  fallback={
+                    <div className="w-full">
+                      <LoadingSpinner />
+                    </div>
+                  }
+                >
                   <EditPersonalInfo />
                 </Suspense>
               </AuthLayout>
@@ -227,7 +329,13 @@ const router = createBrowserRouter([
         path: "/playlist/:playlistId",
         element: (
           <AuthLayout auth>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense
+              fallback={
+                <div className="w-full">
+                  <LoadingSpinner />
+                </div>
+              }
+            >
               <Playlist />
             </Suspense>
           </AuthLayout>
@@ -237,7 +345,13 @@ const router = createBrowserRouter([
         path: "/support",
         element: (
           <AuthLayout auth={false}>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense
+              fallback={
+                <div className="w-full">
+                  <LoadingSpinner />
+                </div>
+              }
+            >
               <Support />
             </Suspense>
           </AuthLayout>
@@ -247,7 +361,13 @@ const router = createBrowserRouter([
         path: "/search/:query",
         element: (
           <AuthLayout auth={false}>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense
+              fallback={
+                <div className="w-full">
+                  <LoadingSpinner />
+                </div>
+              }
+            >
               <SearchVideos />
             </Suspense>
           </AuthLayout>
@@ -257,7 +377,13 @@ const router = createBrowserRouter([
         path: "/tweets",
         element: (
           <AuthLayout auth={false}>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense
+              fallback={
+                <div className="w-full">
+                  <LoadingSpinner />
+                </div>
+              }
+            >
               <Tweets />
             </Suspense>
           </AuthLayout>
@@ -269,7 +395,13 @@ const router = createBrowserRouter([
     path: "/signup",
     element: (
       <AuthLayout auth={false}>
-        <Suspense fallback={<LoadingSpinner />}>
+        <Suspense
+          fallback={
+            <div className="w-full">
+              <LoadingSpinner />
+            </div>
+          }
+        >
           <Signup />
         </Suspense>
       </AuthLayout>
@@ -279,7 +411,13 @@ const router = createBrowserRouter([
     path: "/login",
     element: (
       <AuthLayout auth={false}>
-        <Suspense fallback={<LoadingSpinner />}>
+        <Suspense
+          fallback={
+            <div className="w-full">
+              <LoadingSpinner />
+            </div>
+          }
+        >
           <Login />
         </Suspense>
       </AuthLayout>
