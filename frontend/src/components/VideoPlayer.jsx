@@ -15,9 +15,7 @@ function VideoPlayer({ src, thumbnail, title, duration, autoPlay = true }) {
     <MediaPlayer
       title={title}
       src={src}
-      autoPlay={autoPlay}
       playsInline
-      load="eager"
       posterLoad="eager"
       crossOrigin
       storage={`video-player-settings-${title}`}
