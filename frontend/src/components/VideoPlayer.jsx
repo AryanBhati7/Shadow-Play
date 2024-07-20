@@ -16,16 +16,14 @@ function VideoPlayer({ src, thumbnail, title, duration, autoPlay = true }) {
       title={title}
       src={src}
       playsInline
-      posterLoad="eager"
       crossOrigin
+      autoPlay={autoPlay}
       storage={`video-player-settings-${title}`}
       duration={duration}
-      streamType="on-demand"
       className="w-full h-full"
     >
-      <MediaProvider>
-        <PlyrLayout posterFrame={thumbnail} icons={plyrLayoutIcons} />
-      </MediaProvider>
+      <MediaProvider></MediaProvider>
+      <PlyrLayout posterFrame={thumbnail} icons={plyrLayoutIcons} />
     </MediaPlayer>
   );
 }
